@@ -1,0 +1,60 @@
+---
+// Enquiry form -> POST {PUBLIC_API_URL}/contact -> Lambda -> SES email (reply-to = sender).
+interface Props { compact?: boolean; }
+const { compact = false } = Astro.props;
+const id = Math.random().toString(36).slice(2, 7);
+---
+<form class:list={['cf', { compact }]} data-contact novalidate>
+  <div class="two">
+    <div><label for={`n-${id}`}>Name</label><input id={`n-${id}`} name="name" required autocomplete="name" placeholder="Name" /></div>
+    <div><label for={`e-${id}`}>Email</label><input id={`e-${id}`} name="email" type="email" required autocomplete="email" placeholder="Email" /></div>
+  </div>
+  {!compact && (
+    <>
+      <label for={`t-${id}`}>Enquiry</label>
+      <select id={`t-${id}`} name="type"><option>Commission</option><option>Publishing / licensing</option><option>Order question</option><option>Wholesale / press</option><option>Other</option></select>
+      <div class="two">
+        <div><label for={`b-${id}`}>Budget (optional)</label><input id={`b-${id}`} name="budget" /></div>
+        <div><label for={`d-${id}`}>Timeline (optional)</label><input id={`d-${id}`} name="deadline" /></div>
+      </div>
+    </>
+  )}
+  {compact && <input type="hidden" name="type" value="Commission" />}
+  <label for={`m-${id}`}>Message</label>
+  <textarea id={`m-${id}`} name="message" required placeholder="Tell me about the project — scale, timeline, medium."></textarea>
+  <input type="text" name="company" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" />
+  <div class="row">
+    <label class="chk"><input type="checkbox" name="subscribe" /> <span>Add me to the mailing list</span></label>
+    <button class="btn solid" type="submit">Submit</button>
+  </div>
+  <p class="msg" data-msg role="status" aria-live="polite"></p>
+</form>
+<style>
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  .compact label:not(.chk) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .compact input, .compact textarea { margin-top: 12px; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 18px; flex-wrap: wrap; }
+  .chk { display: flex; gap: 10px; align-items: center; margin: 0; text-transform: none; letter-spacing: 0; font-size: 13px; color: var(--fg); }
+  .chk input { width: 16px; height: 16px; accent-color: #111; }
+  .msg { margin: 12px 0 0; font-size: 13px; min-height: 1.3em; }
+  @media (max-width: 520px) { .two { grid-template-columns: 1fr; } .row .btn { width: 100%; } }
+</style>
+<script>
+  const api = import.meta.env.PUBLIC_API_URL;
+  document.querySelectorAll<HTMLFormElement>('[data-contact]').forEach((form) => {
+    const msg = form.querySelector<HTMLElement>('[data-msg]')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      if (!data.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email || '') || !data.message) { msg.textContent = 'Please add your name, a valid email and a message.'; return; }
+      const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!; btn.disabled = true; btn.textContent = 'Sending…';
+      try {
+        if (!api) throw new Error('no api');
+        const r = await fetch(`${api}/contact`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, subscribe: !!data.subscribe }) });
+        if (!r.ok) throw new Error();
+        form.reset(); msg.textContent = 'Thank you — your message has been sent. I’ll reply soon.';
+      } catch { msg.textContent = api ? 'Sorry, something went wrong. Please try again.' : 'Form not connected yet (PUBLIC_API_URL not set).'; }
+      finally { btn.disabled = false; btn.textContent = 'Submit'; }
+    });
+  });
+</script>

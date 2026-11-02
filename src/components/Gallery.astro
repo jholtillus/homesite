@@ -1,0 +1,92 @@
+---
+// Justified-row gallery (as on jordanholt.art): every row fills the column width and each image
+// keeps its proportions. Click opens a lightbox (keyboard + swipe). Optional project filters.
+import type { Img } from '../data/site';
+type Item = Img & { title?: string; project?: string; note?: string };
+interface Props { items: Item[]; filters?: boolean; row?: number; captions?: boolean; }
+const { items, filters = false, row = 250, captions = false } = Astro.props;
+const groups = ['All', ...new Set(items.map((i) => i.project).filter(Boolean) as string[])];
+---
+<div class="gal" data-gal>
+  {filters && (
+    <div class="filters" role="tablist" aria-label="Filter by project">
+      {groups.map((g, i) => <button role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-filter={g}>{g}</button>)}
+    </div>
+  )}
+  <div class="jg" style={`--row:${row}px`}>
+    {items.map((it, i) => {
+      const r = it.w / it.h;
+      return (
+        <figure class="cell" data-project={it.project} style={`flex-grow:${r.toFixed(4)};flex-basis:calc(${r.toFixed(4)} * var(--row))`}>
+          <button class="open" data-lb={i} aria-label={`View ${it.title ?? it.alt}`}>
+            <span class="ratio" style={`aspect-ratio:${it.w}/${it.h}`}><img src={it.src} alt={it.title ?? it.alt} width={it.w} height={it.h} loading={i < 6 ? 'eager' : 'lazy'} decoding="async" /></span>
+            {(it.title || it.alt) && <span class="hover">{it.title ?? it.alt}</span>}
+          </button>
+          {captions && (it.title || it.alt) && <figcaption>{it.title ?? it.alt}</figcaption>}
+        </figure>
+      );
+    })}
+  </div>
+  <div class="lb" data-lightbox hidden role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button class="lb-x" data-lb-close>Close ✕</button>
+    <button class="lb-nav prev" data-lb-prev aria-label="Previous">‹</button>
+    <figure><img data-lb-img alt="" /><figcaption data-lb-cap></figcaption></figure>
+    <button class="lb-nav next" data-lb-next aria-label="Next">›</button>
+  </div>
+  <script type="application/json" data-lb-data set:html={JSON.stringify(items.map((it) => ({ src: it.src, title: it.title ?? it.alt, meta: [it.project, it.note].filter((x) => x && x !== it.title).join(' · ') })))} />
+</div>
+
+<style>
+  .filters { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-bottom: 26px; }
+  .filters button { font-size: 13px; color: var(--muted); padding: 2px 0; border-bottom: 1px solid transparent; }
+  .filters button:hover { color: var(--fg); }
+  .filters button[aria-selected='true'] { color: var(--fg); border-color: var(--fg); font-style: italic; }
+  .jg { display: flex; flex-wrap: wrap; gap: var(--gap); }
+  .jg::after { content: ''; flex-grow: 999999; }
+  .cell { margin: 0; min-width: 0; }
+  .open { display: block; width: 100%; position: relative; cursor: zoom-in; }
+  .ratio { display: block; width: 100%; background: var(--soft); overflow: hidden; }
+  .ratio img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease), filter .4s; }
+  .hover { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 12px 10px; font-size: 12px; font-style: italic; text-align: left; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.55)); opacity: 0; transition: opacity .3s; }
+  .open:hover .hover, .open:focus-visible .hover { opacity: 1; }
+  .open:hover img { transform: scale(1.015); }
+  figcaption { font-size: 12.5px; color: var(--muted); padding-top: 8px; font-style: italic; }
+  @media (hover: none) { .hover { display: none; } }
+  @media (max-width: 700px) { .jg { --row: 150px !important; gap: 8px; } }
+
+  .lb { position: fixed; inset: 0; z-index: 200; background: rgba(250,249,247,.985); display: grid; grid-template-columns: 72px 1fr 72px; align-items: center; }
+  .lb figure { margin: 0; height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 64px 0 28px; gap: 14px; }
+  .lb img { max-height: calc(100dvh - 150px); max-width: 100%; width: auto; object-fit: contain; box-shadow: 0 10px 40px rgba(0,0,0,.12); }
+  .lb figcaption { text-align: center; font-size: 15px; color: var(--fg); font-style: normal; padding: 0 16px; }
+  .lb figcaption small { display: block; font-size: 12px; color: var(--muted); font-style: italic; margin-top: 2px; }
+  .lb-x { position: absolute; top: 18px; right: 22px; font-size: 13px; z-index: 1; }
+  .lb-nav { font-size: 44px; line-height: 1; height: 100%; color: #555; }
+  .lb-nav:hover { color: #000; }
+  @media (max-width: 700px) { .lb { grid-template-columns: 1fr; } .lb-nav { position: absolute; bottom: 10px; height: 52px; width: 64px; } .prev { left: 8px; } .next { right: 8px; } .lb figure { padding: 56px 12px 72px; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gal]').forEach((root) => {
+    const data = JSON.parse(root.querySelector('[data-lb-data]')!.textContent!);
+    const lb = root.querySelector<HTMLElement>('[data-lightbox]')!, img = lb.querySelector<HTMLImageElement>('[data-lb-img]')!, cap = lb.querySelector<HTMLElement>('[data-lb-cap]')!;
+    const cells = [...root.querySelectorAll<HTMLElement>('.cell')];
+    document.body.append(lb); // escape any transformed ancestor
+    let cur = 0;
+    const vis = () => cells.map((c, i) => (c.hidden ? -1 : i)).filter((i) => i >= 0);
+    const show = (i: number) => { cur = i; img.src = data[i].src; img.alt = data[i].title; cap.textContent = data[i].title; if (data[i].meta) { const s = document.createElement('small'); s.textContent = data[i].meta; cap.append(s); } };
+    const step = (d: number) => { const v = vis(); show(v[(v.indexOf(cur) + d + v.length) % v.length]); };
+    const close = () => { lb.hidden = true; document.body.style.overflow = ''; };
+    root.addEventListener('click', (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>('[data-lb]'); if (!b) return; show(+b.dataset.lb!); lb.hidden = false; document.body.style.overflow = 'hidden'; });
+    lb.querySelector('[data-lb-close]')!.addEventListener('click', close);
+    lb.querySelector('[data-lb-prev]')!.addEventListener('click', () => step(-1));
+    lb.querySelector('[data-lb-next]')!.addEventListener('click', () => step(1));
+    lb.addEventListener('click', (e) => { if (e.target === lb || (e.target as HTMLElement).tagName === 'FIGURE') close(); });
+    addEventListener('keydown', (e) => { if (lb.hidden) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
+    let x0 = 0; lb.addEventListener('touchstart', (e) => (x0 = e.touches[0].clientX), { passive: true });
+    lb.addEventListener('touchend', (e) => { const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1); });
+    root.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((b, _, all) => b.addEventListener('click', () => {
+      all.forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+      cells.forEach((c) => (c.hidden = b.dataset.filter !== 'All' && c.dataset.project !== b.dataset.filter));
+    }));
+  });
+</script>

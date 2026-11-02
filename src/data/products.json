@@ -1,0 +1,625 @@
+[
+  {
+    "handle": "all-hallows-print",
+    "title": "All Hallows (Print)",
+    "type": "Print",
+    "price": "26.00",
+    "currency": "USD",
+    "image": "/images/products/all-hallows-print-1.jpg",
+    "images": [
+      "/images/products/all-hallows-print-1.jpg"
+    ],
+    "description": "Autumn hope.\nSigned Color Print on Premium Matte Paper (60lb, 230gsm)\nFree Shipping",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/68113954144441",
+        "title": "8.5x11\"",
+        "price": "26.00",
+        "available": true
+      },
+      {
+        "id": "gid://shopify/ProductVariant/68113954177209",
+        "title": "11x14\"",
+        "price": "36.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "all-hallows-original-artwork",
+    "title": "All Hallows Original Artwork",
+    "type": "Original",
+    "price": "395.00",
+    "currency": "USD",
+    "image": "/images/products/all-hallows-original-artwork-1.jpg",
+    "images": [
+      "/images/products/all-hallows-original-artwork-1.jpg",
+      "/images/products/all-hallows-original-artwork-2.jpg",
+      "/images/products/all-hallows-original-artwork-3.jpg",
+      "/images/products/all-hallows-original-artwork-4.jpg"
+    ],
+    "description": "11x14\" watercolor painting on watercolor paper.\nPumpkin.",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/68113923211449",
+        "title": "Default Title",
+        "price": "395.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "samus-original-artwork",
+    "title": "Samus (Original Artwork)",
+    "type": "Original",
+    "price": "240.00",
+    "currency": "USD",
+    "image": "/images/products/samus-original-artwork-1.jpg",
+    "images": [
+      "/images/products/samus-original-artwork-1.jpg",
+      "/images/products/samus-original-artwork-2.jpg",
+      "/images/products/samus-original-artwork-3.jpg"
+    ],
+    "description": "A woman in an awesome spacesuit.\n9x12\" Watercolor & ink on watercolor paper.",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/67747021815993",
+        "title": "Default Title",
+        "price": "240.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "panomachea-deluxe",
+    "title": "Panomachea Deluxe",
+    "type": "Game",
+    "price": "35.00",
+    "currency": "USD",
+    "image": "/images/products/panomachea-deluxe-1.jpg",
+    "images": [
+      "/images/products/panomachea-deluxe-1.jpg",
+      "/images/products/panomachea-deluxe-2.jpg",
+      "/images/products/panomachea-deluxe-3.jpg",
+      "/images/products/panomachea-deluxe-4.jpg",
+      "/images/products/panomachea-deluxe-5.jpg"
+    ],
+    "description": "The Panomachea deck plus 4 unique holographic cards, a deluxe box to hold the deck, and the Panomachea coin which can be used to indicate the vanguard player in each round.\nAn original card game of mythical battle. This 84 card deck is a self-contained game for 2-5 players. There are 67 unique illustrations (all done by me, the illustrator/game creator).\nIt's a straightforward battle game. Highest card wins the hand. But there are so, so many ways to pull the rug out of someone and change the hand in your favor (and for someone to do that to you).\nAges 10+. 2-5 players. EMFH or Teams.\nFor more info on the game, go to panomachea.com .\nOr for the full game rules/manual, head over to playpanomachea.com .\nDomestic shipping (US) is FREE.",
+    "tags": [
+      "panomachea"
+    ],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/67746983575737",
+        "title": "Default Title",
+        "price": "35.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "theseus-vol-1-hardcover-light-cover-damage",
+    "title": "Theseus Vol. 1 Hardcover (Light Cover Damage)",
+    "type": "Book",
+    "price": "19.00",
+    "currency": "USD",
+    "image": "/images/products/theseus-vol-1-hardcover-light-cover-damage-1.jpg",
+    "images": [
+      "/images/products/theseus-vol-1-hardcover-light-cover-damage-1.jpg",
+      "/images/products/theseus-vol-1-hardcover-light-cover-damage-2.jpg",
+      "/images/products/theseus-vol-1-hardcover-light-cover-damage-3.jpg"
+    ],
+    "description": "All the pristine Vol. 1 copies are set aside for the full collection, but I do have some of the Volume 1 hardcovers with light cover damage. This is where the cover was scratched or a corner dented, but the book itself is in good structural condition.\n148 pages\nHardcover\nFull Color\nFree Shipping\nNOTE: the photos show the \"level\" of damage on these copies, not the specific damage for every copy available.",
+    "tags": [
+      "theseus"
+    ],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/50511660646585",
+        "title": "Unsigned",
+        "price": "19.00",
+        "available": true
+      },
+      {
+        "id": "gid://shopify/ProductVariant/50511660679353",
+        "title": "Signed",
+        "price": "29.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "theseus-the-full-collection",
+    "title": "Theseus: The Full Collection",
+    "type": "Book",
+    "price": "69.00",
+    "currency": "USD",
+    "image": "/images/products/theseus-the-full-collection-1.jpg",
+    "images": [
+      "/images/products/theseus-the-full-collection-1.jpg",
+      "/images/products/theseus-the-full-collection-2.jpg",
+      "/images/products/theseus-the-full-collection-3.jpg",
+      "/images/products/theseus-the-full-collection-4.jpg",
+      "/images/products/theseus-the-full-collection-5.jpg",
+      "/images/products/theseus-the-full-collection-6.jpg"
+    ],
+    "description": "The full, three volume hardcover collection of Theseus. An action-adventure retelling of the myth of Theseus, from his journey to Athens through bandits and beasts to his ultimate confrontation with the legendary minotaur. Told with humor and heart, this epic spans 470+ full color pages.\nSewn-bound, hardcover books in a high quality slipcase.\nFree Shipping (US)",
+    "tags": [
+      "theseus"
+    ],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48605899587769",
+        "title": "Unsigned",
+        "price": "69.00",
+        "available": true
+      },
+      {
+        "id": "gid://shopify/ProductVariant/48605899620537",
+        "title": "Signed",
+        "price": "84.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "theseus-vol-3-hardcover",
+    "title": "Theseus Vol. 3 - Hardcover",
+    "type": "Book",
+    "price": "32.00",
+    "currency": "USD",
+    "image": "/images/products/theseus-vol-3-hardcover-1.jpg",
+    "images": [
+      "/images/products/theseus-vol-3-hardcover-1.jpg"
+    ],
+    "description": "For those who have already collected volumes 1 & 2, the series conclusion is now available.\nTheseus travels to Crete to confront King Minos' minotaur in the legendary labyrinth.\n168 page full color graphic novel.\nRated 12+.\nFree Shipping (US)",
+    "tags": [
+      "theseus"
+    ],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48605894279353",
+        "title": "Unsigned",
+        "price": "32.00",
+        "available": true
+      },
+      {
+        "id": "gid://shopify/ProductVariant/48605894312121",
+        "title": "Signed",
+        "price": "42.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "the-green-knight",
+    "title": "The Green Knight",
+    "type": "Original",
+    "price": "800.00",
+    "currency": "USD",
+    "image": "/images/products/the-green-knight-1.jpg",
+    "images": [
+      "/images/products/the-green-knight-1.jpg",
+      "/images/products/the-green-knight-2.jpg",
+      "/images/products/the-green-knight-3.jpg",
+      "/images/products/the-green-knight-4.jpg"
+    ],
+    "description": "Gawain meets the Green Knight in the Green Chapel.\n16x20\"\nInk on Watercolor Paper\nFree Shipping",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48424325677241",
+        "title": "Default Title",
+        "price": "800.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "like-kings-of-old-print",
+    "title": "Like Kings of Old (Print)",
+    "type": "Print",
+    "price": "26.00",
+    "currency": "USD",
+    "image": "/images/products/like-kings-of-old-print-1.jpg",
+    "images": [
+      "/images/products/like-kings-of-old-print-1.jpg"
+    ],
+    "description": "Son of Minas Tirith.\nSigned Color Print on Premium Matte Paper (61lb, 230gsm)\nFree Shipping",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48446820057273",
+        "title": "8.5x11\"",
+        "price": "26.00",
+        "available": true
+      },
+      {
+        "id": "gid://shopify/ProductVariant/48446820090041",
+        "title": "11x14\"",
+        "price": "36.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "like-kings-of-old",
+    "title": "Like Kings of Old",
+    "type": "Original",
+    "price": "200.00",
+    "currency": "USD",
+    "image": "/images/products/like-kings-of-old-1.jpg",
+    "images": [
+      "/images/products/like-kings-of-old-1.jpg",
+      "/images/products/like-kings-of-old-2.jpg",
+      "/images/products/like-kings-of-old-3.jpg"
+    ],
+    "description": "Son of Minas Tirith.\n12x18\" watercolor paper\nGouache, Watercolor and Colored Pencil\nFree shipping",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48424308637881",
+        "title": "Default Title",
+        "price": "200.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "mithrandir",
+    "title": "Mithrandir",
+    "type": "Original",
+    "price": "150.00",
+    "currency": "USD",
+    "image": "/images/products/mithrandir-1.jpg",
+    "images": [
+      "/images/products/mithrandir-1.jpg",
+      "/images/products/mithrandir-2.jpg",
+      "/images/products/mithrandir-3.jpg"
+    ],
+    "description": "The Grey Wanderer.\n7x10.25\"\nInk and natural pigment watercolors.\nFree shipping.",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48424289665209",
+        "title": "Default Title",
+        "price": "150.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "good-manners-print",
+    "title": "Good Manners (Print)",
+    "type": "Print",
+    "price": "26.00",
+    "currency": "USD",
+    "image": "/images/products/good-manners-print-1.jpg",
+    "images": [
+      "/images/products/good-manners-print-1.jpg"
+    ],
+    "description": "Legendary meeting between Smaug and Bilbo captured in this watercolor illustration.\nSigned Color Print on Premium Matte Paper (60lb, 230gsm)\nFree Shipping",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48446827790521",
+        "title": "8.5x11\"",
+        "price": "26.00",
+        "available": true
+      },
+      {
+        "id": "gid://shopify/ProductVariant/48446827823289",
+        "title": "11x14\"",
+        "price": "36.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "the-green-knight-print",
+    "title": "The Green Knight (Print)",
+    "type": "Print",
+    "price": "26.00",
+    "currency": "USD",
+    "image": "/images/products/the-green-knight-print-1.jpg",
+    "images": [
+      "/images/products/the-green-knight-print-1.jpg"
+    ],
+    "description": "Gawain enters the Green Chapel and finds himself face to face with the Green Knight.\nSigned (Slight) Color Print on Premium Matte Paper (60lb, 230gsm)\nFree Shipping",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48446836375737",
+        "title": "8.5x11\"",
+        "price": "26.00",
+        "available": true
+      },
+      {
+        "id": "gid://shopify/ProductVariant/48446836408505",
+        "title": "11x14\"",
+        "price": "36.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "thunor-benedictus-print",
+    "title": "Thunor Benedictus (Print)",
+    "type": "Print",
+    "price": "26.00",
+    "currency": "USD",
+    "image": "/images/products/thunor-benedictus-print-1.jpg",
+    "images": [
+      "/images/products/thunor-benedictus-print-1.jpg"
+    ],
+    "description": "The noble thegn traverses the forests and fens of Mercia.\nSigned Color Print on Premium Matte Paper (60lb, 230gsm)\nFree Shipping",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48446845157561",
+        "title": "8.5x11\"",
+        "price": "26.00",
+        "available": true
+      },
+      {
+        "id": "gid://shopify/ProductVariant/48446845190329",
+        "title": "11x14\"",
+        "price": "36.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "old-gods-print",
+    "title": "Old Gods (Print)",
+    "type": "Print",
+    "price": "26.00",
+    "currency": "USD",
+    "image": "/images/products/old-gods-print-1.jpg",
+    "images": [
+      "/images/products/old-gods-print-1.jpg"
+    ],
+    "description": "Anglo-Saxon on horseback stands over the remnants of Roman sculptures.\nSigned B&W Print on Premium Matte Paper (60lb, 230gsm)\nFree Shipping",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48446852235449",
+        "title": "8.5x11\"",
+        "price": "26.00",
+        "available": true
+      },
+      {
+        "id": "gid://shopify/ProductVariant/48446852268217",
+        "title": "11x14\"",
+        "price": "36.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "follow-me-print",
+    "title": "Follow Me (Print)",
+    "type": "Print",
+    "price": "26.00",
+    "currency": "USD",
+    "image": "/images/products/follow-me-print-1.jpg",
+    "images": [
+      "/images/products/follow-me-print-1.jpg"
+    ],
+    "description": "Through the gate into the mystical Celtic world.\nSigned Color Print on Premium Matte Paper (60lb, 230gsm)\nFree Shipping",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48446858494137",
+        "title": "8.5x11\"",
+        "price": "26.00",
+        "available": true
+      },
+      {
+        "id": "gid://shopify/ProductVariant/48446858526905",
+        "title": "11x14\"",
+        "price": "36.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "good-manners-for-a-thief",
+    "title": "Good Manners for a Thief",
+    "type": "Original",
+    "price": "300.00",
+    "currency": "USD",
+    "image": "/images/products/good-manners-for-a-thief-1.jpg",
+    "images": [
+      "/images/products/good-manners-for-a-thief-1.jpg",
+      "/images/products/good-manners-for-a-thief-2.jpg",
+      "/images/products/good-manners-for-a-thief-3.jpg"
+    ],
+    "description": "Legendary meeting between Smaug and Bilbo captured in this watercolor illustration.\n11x14 Watercolor Paper\nWatercolor and Ink\nFree Shipping",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48423388217529",
+        "title": "Default Title",
+        "price": "300.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "woden",
+    "title": "Woden",
+    "type": "Original",
+    "price": "120.00",
+    "currency": "USD",
+    "image": "/images/products/woden-1.jpg",
+    "images": [
+      "/images/products/woden-1.jpg",
+      "/images/products/woden-2.jpg",
+      "/images/products/woden-3.jpg"
+    ],
+    "description": "Original artwork of the legendary all-father of Germanic cultures, including the Norse and Saxon. Elder Futhark runes spell out his name.\n11x14\" Watercolor paper\nNatural pigment watercolor and ink\nFree Shipping",
+    "tags": [],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48423165198521",
+        "title": "Default Title",
+        "price": "120.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "wandering-thane",
+    "title": "Wandering Thane",
+    "type": "Original",
+    "price": "195.00",
+    "currency": "USD",
+    "image": "/images/products/wandering-thane-1.jpg",
+    "images": [
+      "/images/products/wandering-thane-1.jpg",
+      "/images/products/wandering-thane-2.jpg",
+      "/images/products/wandering-thane-3.jpg"
+    ],
+    "description": "Concept art from the upcoming graphic novel  PetraCor . The Anglo-Saxon protagonist wanders through the forests of Mercia.\n11x14\"\nInk and natural pigment watercolors.\nFree shipping.\nIllustrated by Jordan Holt ( jordanholt.art )",
+    "tags": [
+      "petracor"
+    ],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48423008960697",
+        "title": "Default Title",
+        "price": "195.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "theseus-vol-2-digital",
+    "title": "Theseus Vol. 2 (Digital)",
+    "type": "Digital",
+    "price": "10.00",
+    "currency": "USD",
+    "image": "/images/products/theseus-vol-2-digital-1.jpg",
+    "images": [
+      "/images/products/theseus-vol-2-digital-1.jpg"
+    ],
+    "description": "Vol. 2 of Theseus: the Graphic Novel.",
+    "tags": [
+      "theseus"
+    ],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48416327303353",
+        "title": "Default Title",
+        "price": "10.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "panomachea-battle-with-gods-heroes-monsters",
+    "title": "Panomachea - Battle with Gods, Heroes & Monsters",
+    "type": "Game",
+    "price": "18.00",
+    "currency": "USD",
+    "image": "/images/products/panomachea-battle-with-gods-heroes-monsters-1.jpg",
+    "images": [
+      "/images/products/panomachea-battle-with-gods-heroes-monsters-1.jpg",
+      "/images/products/panomachea-battle-with-gods-heroes-monsters-2.jpg",
+      "/images/products/panomachea-battle-with-gods-heroes-monsters-3.jpg",
+      "/images/products/panomachea-battle-with-gods-heroes-monsters-4.jpg",
+      "/images/products/panomachea-battle-with-gods-heroes-monsters-5.jpg",
+      "/images/products/panomachea-battle-with-gods-heroes-monsters-6.jpg",
+      "/images/products/panomachea-battle-with-gods-heroes-monsters-7.jpg",
+      "/images/products/panomachea-battle-with-gods-heroes-monsters-8.jpg",
+      "/images/products/panomachea-battle-with-gods-heroes-monsters-9.jpg",
+      "/images/products/panomachea-battle-with-gods-heroes-monsters-10.jpg",
+      "/images/products/panomachea-battle-with-gods-heroes-monsters-11.jpg"
+    ],
+    "description": "An original card game of mythical battle. This 84 card deck is a self-contained game for 2-5 players. There are 67 unique illustrations (all done by me, the illustrator/game creator).\nIt's a straightforward battle game. Highest card wins the hand. But there are so, so many ways to pull the rug out of someone and change the hand in your favor (and for someone to do that to you).\nAges 10+. 2-5 players. EMFH or Teams.\nFor more info on the game, go to panomachea.com .\nOr for the full game rules/manual, head over to playpanomachea.com .\nDomestic shipping (US) is FREE.\nBASIC MECHANICS\nDealer deals out 8 Fighter Cards and 4 Tyche Cards to each player. A \"World Card\" (which gives a location that boosts one of the 4 suits) is randomly chosen and laid at the center. Each player then plays clockwise from the Dealer, laying down a Fighter Card to either win the hand or escape with the least damage incurred.\nTyche Cards alter the landscape in your favor. They can change the World Card at the center (Worlds Away), hide your card (Deception), boost your Fighter's power (Ambrosia), etc. Each player has the option to play a Tyche card (max of 2) prior to playing their Fighter. Fighters also have abilities (written at the bottom of the card) that can unexpectantly turn the tide against more powerful cards (e.g. Diomedes will always steal the victory from Ares).\nAt the end of the hand, the winner takes the Fighter Cards of the other players and a new hand begins, and the player who goes first rotates to the next clockwise.\nAt the end, all cards that have been won are worth points. Points are tallied and a winner declared.",
+    "tags": [
+      "panomachea"
+    ],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48404349878457",
+        "title": "Default Title",
+        "price": "18.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "theseus-vol-3-digital",
+    "title": "Theseus Vol. 3 (Digital)",
+    "type": "Digital",
+    "price": "10.00",
+    "currency": "USD",
+    "image": "/images/products/theseus-vol-3-digital-1.jpg",
+    "images": [
+      "/images/products/theseus-vol-3-digital-1.jpg"
+    ],
+    "description": "",
+    "tags": [
+      "theseus"
+    ],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48402762891449",
+        "title": "Default Title",
+        "price": "10.00",
+        "available": true
+      }
+    ]
+  },
+  {
+    "handle": "theseus-the-full-collection-digital",
+    "title": "Theseus: The Full Collection (Digital)",
+    "type": "Digital",
+    "price": "20.00",
+    "currency": "USD",
+    "image": "/images/products/theseus-the-full-collection-digital-1.jpg",
+    "images": [
+      "/images/products/theseus-the-full-collection-digital-1.jpg"
+    ],
+    "description": "Digital PDF with the full, three volume collection of the Theseus graphic novel.",
+    "tags": [
+      "theseus"
+    ],
+    "available": true,
+    "variants": [
+      {
+        "id": "gid://shopify/ProductVariant/48402732810425",
+        "title": "Default Title",
+        "price": "20.00",
+        "available": true
+      }
+    ]
+  }
+]

@@ -6,13 +6,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "placeholders": "node scripts/make-placeholders.mjs",
     "pull-images": "node scripts/pull-images.mjs",
     "deploy": "bash scripts/deploy.sh"
   },
   "dependencies": {
-    "@fontsource/cormorant-garamond": "^5.2.0",
-    "@fontsource/inter": "^5.2.0",
+    "@fontsource/libre-baskerville": "^5.3.0",
     "astro": "^5.18.2"
   }
 }

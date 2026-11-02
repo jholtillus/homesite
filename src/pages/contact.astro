@@ -1,70 +1,36 @@
 ---
 import Base from '../layouts/Base.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
 import { site, social } from '../data/site';
 ---
-<Base title="Contact" description="Commissions, licensing and general enquiries.">
-  <section class="wrap contact">
+<Base title="Commissions & Contact" description="Commission an illustration project, or get in touch about publishing, licensing and orders.">
+  <div class="page contact">
     <div>
-      <p class="eyebrow">Contact</p>
-      <h1>Let’s work<br />together.</h1>
-      <p class="lede muted">For commissions, licensing, wholesale and press. Replies within two working days.</p>
+      <h1>Commissions</h1>
+      <p class="lede">If you’re interested in having a project illustrated, you can start the conversation here.</p>
+      <p>Commissioned work prices depend on scale, timeline, medium, and many more variables. Let’s discuss.</p>
+      <p>I illustrate books, games, comics and graphic novels — primarily historical, mythological, religious and literary work — and work with publishers as well as private clients.</p>
       <dl>
-        <div><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
-        <div><dt>Orders</dt><dd>Questions about an order? Include your order number below.</dd></div>
-        <div><dt>Elsewhere</dt><dd>{social.map((s, i) => <>{i > 0 && ' · '}<a href={s.href} target="_blank" rel="noopener">{s.label}</a></>)}</dd></div>
+        <div><dt>Orders</dt><dd>Questions about an order from Carthage Workshop? Choose “Order question”.</dd></div>
+        {site.email && <div><dt>Email</dt><dd><a href={`mailto:${site.email}`} class="u">{site.email}</a></dd></div>}
+        <div><dt>Elsewhere</dt><dd class="icons">{social.map((s) => <a href={s.href} target="_blank" rel="noopener" aria-label={s.label} title={s.label}><Icon name={s.key} /></a>)}</dd></div>
       </dl>
+      <img class="art" src="/images/art/witch-of-hobomock-pass-cover.jpg" alt="The Witch of Hobomock Pass cover" width="1747" height="1390" loading="lazy" />
     </div>
-    <form data-contact novalidate>
-      <div class="two">
-        <div><label for="c-name">Name</label><input id="c-name" name="name" required autocomplete="name" /></div>
-        <div><label for="c-email">Email</label><input id="c-email" name="email" type="email" required autocomplete="email" /></div>
-      </div>
-      <label for="c-type">Enquiry</label>
-      <select id="c-type" name="type">
-        <option>Commission</option><option>Licensing</option><option>Order question</option><option>Wholesale / press</option><option>Other</option>
-      </select>
-      <div class="two">
-        <div><label for="c-budget">Budget (optional)</label><input id="c-budget" name="budget" /></div>
-        <div><label for="c-date">Deadline (optional)</label><input id="c-date" name="deadline" /></div>
-      </div>
-      <label for="c-msg">Message</label>
-      <textarea id="c-msg" name="message" required></textarea>
-      <input type="text" name="company" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" />
-      <label class="chk"><input type="checkbox" name="subscribe" /> <span>Also add me to the mailing list</span></label>
-      <button class="btn solid" type="submit">Send message</button>
-      <p class="msg" data-msg role="status" aria-live="polite"></p>
-    </form>
-  </section>
+    <div class="formcol"><ContactForm /></div>
+  </div>
 </Base>
 <style>
-  .contact { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(40px, 8vw, 128px); padding-top: clamp(48px, 8vw, 112px); padding-bottom: 120px; }
-  h1 { margin: 16px 0 24px; }
-  dl { margin: 48px 0 0; border-top: 1px solid var(--line); }
-  dl div { display: grid; grid-template-columns: 100px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
-  dt { color: var(--muted); } dd { margin: 0; } dd a { border-bottom: 1px solid var(--line); }
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  select { appearance: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6' fill='none' stroke='%23141414'/%3E%3C/svg%3E") no-repeat right 4px center; }
-  .hp { position: absolute; left: -9999px; }
-  .chk { display: flex; gap: 12px; align-items: center; text-transform: none; letter-spacing: 0; font: 300 14px var(--sans); color: var(--fg); margin: 28px 0 32px; }
-  .chk input { width: 16px; height: 16px; accent-color: var(--fg); }
-  .msg { margin-top: 16px; font-size: 14px; min-height: 1.4em; }
-  @media (max-width: 860px) { .contact { grid-template-columns: 1fr; } }
-  @media (max-width: 520px) { .two { grid-template-columns: 1fr; gap: 0; } }
+  .contact { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(28px, 6vw, 88px); align-items: start; }
+  h1 { margin-bottom: 10px; }
+  .contact p:not(.lede) { font-size: 14px; }
+  dl { margin: 28px 0 0; border-top: 1px solid var(--line); }
+  dl div { display: grid; grid-template-columns: 90px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+  dt { color: var(--muted); } dd { margin: 0; }
+  .icons { display: flex; gap: 16px; align-items: center; }
+  .art { margin-top: 32px; }
+  .formcol { background: var(--soft); padding: clamp(20px, 3vw, 36px); }
+  .formcol :global(label:first-of-type) { margin-top: 0; }
+  @media (max-width: 960px) { .contact { grid-template-columns: 1fr; } .art { display: none; } }
 </style>
-<script>
-  const api = import.meta.env.PUBLIC_API_URL;
-  const form = document.querySelector<HTMLFormElement>('[data-contact]')!, msg = form.querySelector<HTMLElement>('[data-msg]')!;
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
-    if (!data.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email || '') || !data.message) { msg.textContent = 'Please complete name, a valid email, and a message.'; return; }
-    const btn = form.querySelector('button')!; btn.disabled = true; btn.textContent = 'Sending…';
-    try {
-      if (!api) throw new Error('no api');
-      const r = await fetch(`${api}/contact`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, subscribe: !!data.subscribe }) });
-      if (!r.ok) throw new Error();
-      form.reset(); msg.textContent = 'Thank you — your message has been sent.';
-    } catch { msg.textContent = api ? 'Sorry, something went wrong. Please email directly.' : 'Form not connected yet (PUBLIC_API_URL not set).'; }
-    finally { btn.disabled = false; btn.textContent = 'Send message'; }
-  });
-</script>

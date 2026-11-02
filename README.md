@@ -18,11 +18,16 @@ npm run dev        # http://localhost:4321
 ```
 
 ## Content
-- **All copy and portfolio entries:** `src/data/site.ts`. Anything marked `PLACEHOLDER` needs to be replaced.
-- **Real imagery and products:** run `npm run pull-images` from a machine that can reach the four existing sites.
-  - Writes `src/data/products.json` from `carthageworkshop.com/products.json`, which gives real products and variant IDs, so checkout works without a token.
-  - Downloads images from jordanholt.art, theseuscomic.com and panomachea.com into `public/images/source/`, along with a `manifest.json`. Point the image paths in `site.ts` at those files.
-- **Placeholder SVGs:** regenerate with `npm run placeholders`.
+- **Copy, portfolio and projects:** `src/data/site.ts`. Text and imagery come from jordanholt.art, panomachea.com and carthageworkshop.com.
+- **Products:** `src/data/products.json`, with images in `public/images/products/`. Refresh both with:
+  ```bash
+  NODE_USE_ENV_PROXY=1 npm run pull-images
+  python3 scripts/image-sizes.py
+  ```
+  The proxy variable is only needed behind a proxy. The pull also saves the original site images to `source-images/`, which git ignores.
+- **Adding artwork:** put images in `public/images/art/`, run `python3 scripts/image-sizes.py`, then add an entry to `artwork` in `site.ts`.
+- **Adding a project:** add an entry to `projects` in `site.ts`. Its page is built from `blocks` (text, image, gallery). Shop products whose title mentions the project are linked to it automatically.
+- **News:** pinned items are in `studioNews`. Substack posts (jholtillus.substack.com) and YouTube videos (@jholtillus) are pulled in at build time. Set `PUBLIC_YOUTUBE_CHANNEL_ID` if the handle lookup fails.
 
 ## Shopify checkout
 - **Without a token:** the cart redirects to `https://carthageworkshop.com/cart/<variant>:<qty>,…`, Shopify's cart permalink.

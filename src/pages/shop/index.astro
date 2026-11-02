@@ -3,31 +3,34 @@ import Base from '../../layouts/Base.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import { getProducts } from '../../data/shopify';
 const products = await getProducts();
-const types = ['All', 'Original', 'Print', 'Book'].filter((t) => t === 'All' || products.some((p) => p.type === t));
-const label: Record<string, string> = { All: 'All', Original: 'Originals', Print: 'Prints', Book: 'Books' };
+const order = ['Book', 'Game', 'Original', 'Print', 'Digital'] as const;
+const label: Record<string, string> = { All: 'All', Book: 'Books', Game: 'Games', Original: 'Originals', Print: 'Prints', Digital: 'Digital' };
+const types = ['All', ...order.filter((t) => products.some((p) => p.type === t))];
+const sorted = [...products].sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type));
 ---
-<Base title="Shop" description="Original art, giclée prints and books by Jordan Holt.">
-  <section class="wrap head">
-    <div><p class="eyebrow">Carthage Workshop</p><h1>Shop</h1></div>
-    <p class="muted">Original artwork, archival prints and books. Secure checkout is handled by Shopify at carthageworkshop.com.</p>
-  </section>
-  <section class="wrap">
+<Base title="Shop" description="Original artwork, signed prints, graphic novels and card games by Jordan Holt — Carthage Workshop.">
+  <div class="page">
+    <header class="head">
+      <div><p class="eyebrow">Carthage Workshop</p><h1>Works of Myth, Fable & History</h1></div>
+      <p class="muted">Original artwork, signed prints, graphic novels and games. Free domestic shipping. Secure checkout through Shopify at carthageworkshop.com.</p>
+    </header>
     <div class="filters" role="tablist" aria-label="Filter products">
-      {types.map((t, i) => <button role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-f={t}>{label[t]}</button>)}
+      {types.map((t, i) => <button role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-f={t}>{label[t]} <span>{t === 'All' ? products.length : products.filter((p) => p.type === t).length}</span></button>)}
     </div>
-    <div class="grid" data-products>{products.map((p) => <ProductCard product={p} />)}</div>
-  </section>
+    <div class="grid" data-products>{sorted.map((p) => <ProductCard product={p} />)}</div>
+  </div>
 </Base>
 <style>
-  .head { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: end; padding-top: clamp(48px, 8vw, 112px); padding-bottom: clamp(32px, 5vw, 56px); }
-  .head h1 { margin-top: 16px; } .head p.muted { max-width: 44ch; justify-self: end; }
-  .filters { display: flex; gap: 28px; border-bottom: 1px solid var(--line); margin-bottom: 40px; overflow-x: auto; }
-  .filters button { font: 400 13px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 14px 0; border-bottom: 1px solid transparent; margin-bottom: -1px; white-space: nowrap; }
-  .filters button[aria-selected='true'] { color: var(--fg); border-color: var(--fg); }
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px clamp(16px, 2.4vw, 32px); padding-bottom: 120px; }
-  .grid :global(.pc[hidden]) { display: none; }
-  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } .head { grid-template-columns: 1fr; } .head p.muted { justify-self: start; } }
-  @media (max-width: 480px) { .grid { gap: 40px 12px; } }
+  .head { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px 48px; align-items: end; margin-bottom: 32px; }
+  .head h1 { margin-top: 8px; }
+  .head p.muted { font-size: 14px; margin: 0; }
+  .filters { display: flex; gap: 24px; border-bottom: 1px solid var(--line); margin-bottom: 32px; overflow-x: auto; scrollbar-width: none; }
+  .filters button { font-size: 13.5px; color: var(--muted); padding: 10px 0; border-bottom: 1px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+  .filters button span { font-size: 10px; vertical-align: super; }
+  .filters button[aria-selected='true'] { color: var(--fg); border-color: var(--fg); font-style: italic; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 44px 24px; }
+  @media (max-width: 860px) { .head { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 32px 14px; } }
 </style>
 <script>
   const cards = [...document.querySelectorAll<HTMLElement>('[data-products] .pc')];

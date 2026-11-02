@@ -1,10 +1,10 @@
 // Pulls real imagery and catalogue data from the existing sites. Run where those hosts are reachable:
-//   npm run pull-images
+//   NODE_USE_ENV_PROXY=1 npm run pull-images   (the env var is only needed behind a proxy)
 // 1. carthageworkshop.com/products.json (public Shopify endpoint) -> src/data/products.json
 //    (used automatically as the catalogue when no Storefront token is set; real variant IDs,
 //     so cart -> checkout works immediately via cart permalinks)
-// 2. Images from jordanholt.art, theseuscomic.com, panomachea.com -> public/images/source/<site>/
-//    plus public/images/source/manifest.json listing every file with its source URL and alt text,
+// 2. Images from jordanholt.art, theseuscomic.com, panomachea.com -> source-images/<site>/
+//    plus source-images/manifest.json listing every file with its source URL and alt text,
 //    for mapping into src/data/site.ts.
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { extname } from 'node:path';
@@ -20,7 +20,17 @@ async function download(url, file) {
 }
 const largest = (srcset) => srcset.split(',').map((s) => s.trim().split(/\s+/)).sort((a, b) => parseInt(b[1] || 0) - parseInt(a[1] || 0))[0]?.[0];
 
-// 1. Shopify catalogue
+// 1. Shopify catalogue (images are saved locally so the site has no runtime dependency on the store)
+const typeOf = (p) => {
+  const s = `${p.product_type} ${p.tags.join(' ')} ${p.title}`.toLowerCase();
+  if (s.includes('digital')) return 'Digital';
+  if (s.includes('original')) return 'Original';
+  if (s.includes('print')) return 'Print';
+  if (/deck|card game|panomachea/.test(s)) return 'Game';
+  if (/book|comic|volume|vol\.|collection|hardcover|novel/.test(s)) return 'Book';
+  return 'Print';
+};
+const projectTags = (p) => ['theseus', 'panomachea', 'petracor'].filter((t) => `${p.title} ${p.body_html}`.toLowerCase().includes(t));
 try {
   const all = [];
   for (let page = 1; page < 20; page++) {
@@ -28,16 +38,26 @@ try {
     if (!products.length) break;
     all.push(...products);
   }
-  const mapType = (p) => { const s = `${p.product_type} ${p.tags.join(' ')} ${p.title}`.toLowerCase(); return s.includes('original') ? 'Original' : /book|comic|volume|novel/.test(s) ? 'Book' : 'Print'; };
-  const strip = (h) => (h || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-  const out = all.map((p) => ({
-    handle: p.handle, title: p.title, type: mapType(p),
-    price: p.variants[0]?.price ?? '0', currency: 'USD',
-    image: p.images[0]?.src ?? '/images/products/print-1.svg', images: p.images.map((i) => i.src),
-    description: strip(p.body_html), tags: p.tags.map((t) => t.toLowerCase()),
-    available: p.variants.some((v) => v.available),
-    variants: p.variants.map((v) => ({ id: `gid://shopify/ProductVariant/${v.id}`, title: v.title, price: v.price, available: v.available })),
-  }));
+  mkdirSync('public/images/products', { recursive: true });
+  const strip = (h) => (h || '').replace(/<\/(p|li|div|h\d)>|<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').replace(/[ \t]+/g, ' ').replace(/\s*\n\s*/g, '\n').trim();
+  const out = [];
+  for (const p of all) {
+    const images = [];
+    for (const [i, img] of p.images.entries()) {
+      const path = new URL(img.src).pathname, file = path.slice(path.lastIndexOf('/files/') + 7);
+      const local = `/images/products/${p.handle}-${i + 1}.jpg`;
+      try { await download(`https://${SHOP}/cdn/shop/files/${file}?width=1600`, `public${local}`); images.push({ src: local, w: img.width, h: img.height }); }
+      catch (e) { console.warn(' image skip', e.message); }
+    }
+    out.push({
+      handle: p.handle, title: p.title.replace(/\s+/g, ' ').trim(), type: typeOf(p),
+      price: p.variants[0]?.price ?? '0', currency: 'USD',
+      image: images[0]?.src ?? '', images: images.map((i) => i.src),
+      description: strip(p.body_html), tags: [...new Set([...p.tags.map((t) => t.toLowerCase()), ...projectTags(p)])],
+      available: p.variants.some((v) => v.available),
+      variants: p.variants.map((v) => ({ id: `gid://shopify/ProductVariant/${v.id}`, title: v.title, price: v.price, available: v.available })),
+    });
+  }
   writeFileSync('src/data/products.json', JSON.stringify(out, null, 2));
   console.log(`shop: ${out.length} products -> src/data/products.json`);
 } catch (e) { console.warn('shop: failed —', e.message); }
@@ -45,7 +65,7 @@ try {
 // 2. Site imagery
 const manifest = [];
 for (const site of SITES) {
-  const dir = `public/images/source/${site}`; mkdirSync(dir, { recursive: true });
+  const dir = `source-images/${site}`; mkdirSync(dir, { recursive: true });
   try {
     const html = await (await fetch(`https://${site}/`, { headers: UA })).text();
     const urls = new Map();
@@ -60,10 +80,10 @@ for (const site of SITES) {
       const url = new URL(raw.replace(/&amp;/g, '&'), `https://${site}/`).href;
       const ext = (extname(new URL(url).pathname) || '.jpg').split('?')[0].slice(0, 5);
       const file = `${dir}/${String(++i).padStart(2, '0')}${ext}`;
-      try { await download(url, file); manifest.push({ site, file: file.replace('public', ''), url, alt }); } catch (e) { console.warn(' skip', e.message); }
+      try { await download(url, file); manifest.push({ site, file: file, url, alt }); } catch (e) { console.warn(' skip', e.message); }
     }
     console.log(`${site}: ${i} images`);
   } catch (e) { console.warn(`${site}: failed —`, e.message); }
 }
-writeFileSync('public/images/source/manifest.json', JSON.stringify(manifest, null, 2));
-console.log('manifest -> public/images/source/manifest.json');
+writeFileSync('source-images/manifest.json', JSON.stringify(manifest, null, 2));
+console.log('manifest -> source-images/manifest.json');

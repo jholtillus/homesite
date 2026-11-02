@@ -23,10 +23,13 @@ query Products($cursor: String) {
   }
 }`;
 
-function mapType(t: string, tags: string[]): Product['type'] {
-  const s = (t + ' ' + tags.join(' ')).toLowerCase();
+function mapType(t: string, tags: string[], title: string): Product['type'] {
+  const s = `${t} ${tags.join(' ')} ${title}`.toLowerCase();
+  if (s.includes('digital')) return 'Digital';
   if (s.includes('original')) return 'Original';
-  if (s.includes('book') || s.includes('comic')) return 'Book';
+  if (s.includes('print')) return 'Print';
+  if (/deck|card game|panomachea/.test(s)) return 'Game';
+  if (/book|comic|volume|vol\.|collection|hardcover|novel/.test(s)) return 'Book';
   return 'Print';
 }
 
@@ -47,14 +50,14 @@ export async function getProducts(): Promise<Product[]> {
       const json: any = await res.json();
       const p = json.data.products;
       for (const n of p.nodes) {
-        const tags = n.tags.map((t: string) => t.toLowerCase());
+        const tags = [...n.tags.map((t: string) => t.toLowerCase()), ...['theseus', 'panomachea', 'petracor'].filter((k) => `${n.title} ${n.description}`.toLowerCase().includes(k))];
         out.push({
           handle: n.handle,
           title: n.title,
-          type: mapType(n.productType, tags),
+          type: mapType(n.productType, tags, n.title),
           price: n.priceRange.minVariantPrice.amount,
           currency: n.priceRange.minVariantPrice.currencyCode,
-          image: n.images.nodes[0]?.url ?? '/images/products/print-1.svg',
+          image: n.images.nodes[0]?.url ?? '',
           images: n.images.nodes.map((i: any) => i.url),
           description: n.description,
           tags,

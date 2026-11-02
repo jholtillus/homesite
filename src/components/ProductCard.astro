@@ -3,18 +3,19 @@ import type { Product } from '../data/site';
 import { formatPrice } from '../data/shopify';
 interface Props { product: Product; }
 const { product: p } = Astro.props;
+const from = new Set(p.variants.map((v) => v.price)).size > 1;
 ---
-<a href={`/shop/${p.handle}/`} class="pc reveal" data-type={p.type}>
-  <div class="img-frame"><img src={p.image} alt={p.title} loading="lazy" width="600" height="750" /></div>
-  <div class="meta">
-    <div><p class="eyebrow">{p.type}</p><h3>{p.title}</h3></div>
-    <span class="price">{p.available ? formatPrice(p.price, p.currency) : 'Sold'}</span>
-  </div>
+<a href={`/shop/${p.handle}/`} class="pc" data-type={p.type}>
+  <div class="frame"><img src={p.image} alt={p.title} loading="lazy" decoding="async" width="800" height="800" /></div>
+  <p class="eyebrow">{p.type}</p>
+  <h3>{p.title}</h3>
+  <p class="price">{p.available ? `${from ? 'From ' : ''}${formatPrice(p.price, p.currency)}` : 'Sold'}</p>
 </a>
 <style>
   .pc { display: block; }
-  .img-frame { aspect-ratio: 4 / 5; }
-  .meta { display: flex; justify-content: space-between; gap: 16px; padding-top: 16px; align-items: start; }
-  h3 { font-size: 1.3rem; margin-top: 8px; }
-  .price { font-size: 14px; white-space: nowrap; padding-top: 22px; }
+  .frame { aspect-ratio: 1; }
+  .eyebrow { margin: 14px 0 4px; }
+  h3 { font-size: 1rem; line-height: 1.45; }
+  .price { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+  .pc:hover h3 { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 </style>

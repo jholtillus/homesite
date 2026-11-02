@@ -1,0 +1,90 @@
+---
+// Desktop: fixed left column modelled on jordanholt.art (name, tagline, banner, nav, icons).
+// Mobile/tablet: compact top bar with a full-screen menu.
+import Icon from './Icon.astro';
+import { site, nav, social } from '../data/site';
+const path = Astro.url.pathname;
+const on = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+<aside class="side" aria-label="Site">
+  <div class="side-inner">
+    <a href="/" class="name">{site.name}</a>
+    <p class="tag">{site.tagline}</p>
+    <a href="/" class="banner" tabindex="-1" aria-hidden="true"><img src="/images/art/fox-banner.jpg" alt="" width="960" height="412" /></a>
+    <p class="intro">{site.intro}</p>
+    <nav class="snav" aria-label="Primary">
+      {nav.map((n) => <a href={n.href} class:list={{ on: on(n.href) }}>{n.label}</a>)}
+    </nav>
+    <div class="icons">
+      {social.map((s) => <a href={s.href} target="_blank" rel="noopener" aria-label={s.label} title={s.label}><Icon name={s.key} /></a>)}
+      <button data-cart-open aria-label="Open cart" title="Cart" class="cartbtn"><Icon name="cart" /><span class="count" data-cart-count>0</span></button>
+    </div>
+  </div>
+</aside>
+
+<header class="top" data-top>
+  <a href="/" class="name">{site.name}</a>
+  <div class="tools">
+    <button data-cart-open aria-label="Open cart" class="cartbtn"><Icon name="cart" size={20} /><span class="count" data-cart-count>0</span></button>
+    <button class="burger" data-menu-toggle aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button>
+  </div>
+</header>
+<div class="mmenu" id="mobile-menu" data-menu hidden>
+  <p class="tag">{site.tagline}</p>
+  <nav aria-label="Mobile">{nav.map((n, i) => <a href={n.href} style={`--i:${i}`} class:list={{ on: on(n.href) }}>{n.label}</a>)}</nav>
+  <div class="icons">{social.map((s) => <a href={s.href} target="_blank" rel="noopener" aria-label={s.label}><Icon name={s.key} size={22} /></a>)}</div>
+</div>
+
+<style>
+  .side { position: fixed; inset: 0 auto 0 0; width: var(--side); overflow-y: auto; z-index: 40; background: var(--bg); }
+  .side-inner { min-height: 100%; padding: 56px 36px 40px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .name { font-size: 1.45rem; letter-spacing: -.01em; line-height: 1.2; }
+  .tag { margin: 20px 0 20px; font-size: 1rem; line-height: 1.65; }
+  .banner { display: block; width: 100%; margin-bottom: 22px; }
+  .intro { font-size: 12.5px; line-height: 1.85; font-style: italic; color: #444; margin: 0 0 26px; }
+  .snav { display: flex; flex-direction: column; gap: 4px; width: 100%; padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .snav a { font-size: 14px; padding: 4px 0; color: var(--muted); transition: color .2s; }
+  .snav a:hover { color: var(--fg); }
+  .snav a.on { color: var(--fg); font-style: italic; }
+  .icons { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 16px; margin-top: 26px; color: #2b2b2b; }
+  .icons a:hover, .icons button:hover { color: var(--muted); }
+  .cartbtn { position: relative; display: inline-flex; }
+  .count { position: absolute; top: -7px; right: -10px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: #111; color: #fff; font: 700 9px/16px var(--serif); text-align: center; }
+  .count[data-empty] { display: none; }
+
+  .top { display: none; }
+  .mmenu { display: none; }
+
+  @media (max-width: 1099px) {
+    .side { display: none; }
+    .top { display: flex; position: sticky; top: 0; z-index: 60; height: var(--header); align-items: center; justify-content: space-between; padding: 0 var(--pad); background: rgba(255,255,255,.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid transparent; transition: border-color .3s; }
+    .top.scrolled { border-color: var(--line); }
+    .top .name { font-size: 1.25rem; }
+    .tools { display: flex; align-items: center; gap: 22px; }
+    .burger { width: 26px; height: 26px; position: relative; }
+    .burger span { position: absolute; left: 1px; right: 1px; height: 1.5px; background: var(--fg); transition: transform .3s var(--ease), top .3s var(--ease); }
+    .burger span:first-child { top: 9px; } .burger span:last-child { top: 16px; }
+    .burger[aria-expanded='true'] span:first-child { top: 12.5px; transform: rotate(45deg); }
+    .burger[aria-expanded='true'] span:last-child { top: 12.5px; transform: rotate(-45deg); }
+    .mmenu { display: block; position: fixed; inset: var(--header) 0 0 0; z-index: 55; background: var(--bg); padding: 24px var(--pad) 48px; overflow-y: auto; }
+    .mmenu .tag { margin: 0 0 20px; color: var(--muted); font-style: italic; font-size: 14px; }
+    .mmenu nav { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+    .mmenu nav a { font-size: 1.5rem; padding: 14px 0; border-bottom: 1px solid var(--line); opacity: 0; transform: translateY(8px); animation: in .45s var(--ease) forwards; animation-delay: calc(var(--i) * 40ms); }
+    .mmenu nav a.on { font-style: italic; }
+    .mmenu .icons { justify-content: flex-start; gap: 24px; margin-top: 32px; }
+  }
+  @keyframes in { to { opacity: 1; transform: none; } }
+</style>
+
+<script>
+  import { cart } from '../scripts/cart';
+  const top = document.querySelector('[data-top]')!;
+  const onScroll = () => top.classList.toggle('scrolled', scrollY > 4);
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]')!, menu = document.querySelector<HTMLElement>('[data-menu]')!;
+  const set = (open: boolean) => { toggle.setAttribute('aria-expanded', String(open)); toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); menu.hidden = !open; document.body.style.overflow = open ? 'hidden' : ''; };
+  toggle.addEventListener('click', () => set(toggle.getAttribute('aria-expanded') !== 'true'));
+  matchMedia('(min-width: 1100px)').addEventListener('change', (e) => e.matches && set(false));
+  const render = () => { const n = cart.count(); document.querySelectorAll<HTMLElement>('[data-cart-count]').forEach((c) => { c.textContent = String(n); c.toggleAttribute('data-empty', n === 0); }); };
+  document.addEventListener('cart:change', render); render();
+</script>

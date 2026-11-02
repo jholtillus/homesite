@@ -1,59 +1,68 @@
 ---
 import Base from '../layouts/Base.astro';
 import NewsList from '../components/NewsList.astro';
-import Newsletter from '../components/Newsletter.astro';
-import { studioNews, site, social } from '../data/site';
-import { getYouTube } from '../data/youtube';
-const videos = await getYouTube(site.youtubeChannelId, 6);
-const items = [...videos, ...studioNews].sort((a, b) => b.date.localeCompare(a.date));
-const latestId = videos[0]?.href.split('v=')[1];
+import Icon from '../components/Icon.astro';
+import { site, social } from '../data/site';
+import { getNews, getYouTube } from '../data/feeds';
+const items = await getNews(30);
+const latest = (await getYouTube(1))[0];
+const latestId = latest?.href.split('v=')[1];
 ---
-<Base title="News" description="Studio updates, new releases, YouTube videos and posts.">
-  <section class="wrap head">
-    <p class="eyebrow">News &amp; updates</p>
-    <h1>From the studio</h1>
-    <div class="subs">
-      {social.map((s) => <a href={s.href} target="_blank" rel="noopener" class="btn">{s.label}</a>)}
-      <a href="/rss.xml" class="btn">RSS</a>
-    </div>
-  </section>
+<Base title="News" description="Studio news, new releases, Substack posts and YouTube videos from Jordan Holt.">
+  <div class="page">
+    <header class="head">
+      <h1>News</h1>
+      <p class="lede">New releases, process videos and the Newsletter of Illustration and Myth.</p>
+      <div class="follow">
+        {social.map((s) => <a href={s.href} target="_blank" rel="noopener" class="btn"><Icon name={s.key} size={16} />{s.label}</a>)}
+        <a href="/rss.xml" class="btn">RSS</a>
+      </div>
+    </header>
 
-  <section class="wrap video">
-    <div class="vframe">
-      {latestId
-        ? <iframe src={`https://www.youtube-nocookie.com/embed/${latestId}`} title="Latest video" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>
-        : <div class="vph"><p class="eyebrow">YouTube</p><p class="lede">Latest video appears here once PUBLIC_YOUTUBE_CHANNEL_ID is set.</p></div>}
-    </div>
-    <div class="vside">
-      <p class="eyebrow">Latest on YouTube</p>
-      <h2>{videos[0]?.title ?? 'Process & studio videos'}</h2>
-      <a href={social.find((s) => s.key === 'youtube')!.href} target="_blank" rel="noopener" class="link-arrow">Subscribe on YouTube</a>
-    </div>
-  </section>
-
-  <section class="section wrap cols">
-    <div><NewsList items={items} /></div>
-    <aside class="x">
-      <p class="eyebrow">On X</p>
-      {site.twitterHandle
-        ? <a class="twitter-timeline" data-height="640" data-chrome="noheader nofooter noborders transparent" href={`https://twitter.com/${site.twitterHandle}`}>Posts by @{site.twitterHandle}</a>
-        : <p class="muted" style="margin-top:16px">Timeline appears here once PUBLIC_TWITTER_HANDLE is set.</p>}
-      {site.twitterHandle && <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>}
-    </aside>
-  </section>
-  <Newsletter heading="Never miss a launch." />
+    <section class="cols">
+      <div>
+        <div class="section-head"><h2>Latest</h2></div>
+        <NewsList items={items} />
+        <p class="note muted">Substack posts and YouTube videos appear here automatically on each site rebuild.</p>
+      </div>
+      <aside>
+        <div class="card">
+          <p class="eyebrow">YouTube</p>
+          {latestId
+            ? <div class="v"><iframe src={`https://www.youtube-nocookie.com/embed/${latestId}`} title={latest!.title} loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+            : <a href={`https://youtube.com/@${site.youtubeHandle}`} target="_blank" rel="noopener" class="v ph"><Icon name="youtube" size={44} /></a>}
+          <h3>{latest?.title ?? 'Process videos & studio updates'}</h3>
+          <a href={`https://youtube.com/@${site.youtubeHandle}`} target="_blank" rel="noopener" class="link">Subscribe @{site.youtubeHandle}</a>
+        </div>
+        <div class="card">
+          <p class="eyebrow">Substack</p>
+          <h3>J. Holt’s Newsletter of Illustration and Myth</h3>
+          <p class="muted">Long-form posts on the making of the books and games.</p>
+          <a href="https://jholtillus.substack.com/" target="_blank" rel="noopener" class="link">Read on Substack</a>
+        </div>
+        <div class="card">
+          <p class="eyebrow">X</p>
+          <h3>@{site.twitterHandle}</h3>
+          <p class="muted">Sketches, works in progress and announcements.</p>
+          <a href={`https://x.com/${site.twitterHandle}`} target="_blank" rel="noopener" class="link">Follow on X</a>
+        </div>
+      </aside>
+    </section>
+  </div>
 </Base>
 <style>
-  .head { padding-top: clamp(48px, 8vw, 112px); padding-bottom: clamp(32px, 5vw, 56px); }
-  .head h1 { margin: 16px 0 28px; }
-  .subs { display: flex; flex-wrap: wrap; gap: 10px; }
-  .video { display: grid; grid-template-columns: 2fr 1fr; gap: clamp(24px, 4vw, 64px); align-items: end; padding-bottom: 96px; }
-  .vframe { aspect-ratio: 16/9; background: var(--soft); }
-  .vframe iframe { width: 100%; height: 100%; border: 0; }
-  .vph { height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 40px; gap: 12px; }
-  .vside h2 { margin: 14px 0 24px; }
-  .cols { display: grid; grid-template-columns: 2fr 1fr; gap: clamp(32px, 6vw, 96px); }
-  .video > *, .cols > * { min-width: 0; }
-  .x { border-top: 1px solid var(--line); padding-top: 22px; }
-  @media (max-width: 900px) { .video, .cols { grid-template-columns: 1fr; } }
+  .head { margin-bottom: 40px; } .head h1 { margin-bottom: 8px; }
+  .follow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .follow .btn { min-height: 38px; padding: 0 14px; font-size: 12.5px; }
+  .cols { display: grid; grid-template-columns: 1.7fr 1fr; gap: clamp(28px, 5vw, 72px); }
+  .cols > * { min-width: 0; }
+  .note { font-size: 12.5px; font-style: italic; margin-top: 14px; }
+  aside { display: flex; flex-direction: column; gap: 20px; }
+  .card { background: var(--soft); padding: 24px; }
+  .card h3 { margin: 8px 0 8px; font-size: 1.05rem; }
+  .card .muted { font-size: 13px; }
+  .v { display: block; aspect-ratio: 16/9; margin-top: 12px; background: #111; }
+  .v iframe { width: 100%; height: 100%; border: 0; }
+  .v.ph { display: grid; place-items: center; color: #fff; }
+  @media (max-width: 960px) { .cols { grid-template-columns: 1fr; } }
 </style>
