@@ -105,7 +105,8 @@ export type Project = {
   blocks: Block[];
   featured?: boolean; // shown in the home page "Projects" section
   // Projects page case study. Paragraphs default to placeholders until written.
-  caseStudy?: { images?: Img[]; paras?: string[]; feature?: Img; featureCaption?: string };
+  // images pair with paras 1–4 (alternating sides); closing is the full-width final paragraph.
+  caseStudy?: { images?: Img[]; paras?: string[]; closing?: string; feature?: Img; featureCaption?: string };
 };
 
 export const caseStudyPlaceholders = (title: string) => [
@@ -114,6 +115,8 @@ export const caseStudyPlaceholders = (title: string) => [
   `PLACEHOLDER — Process. Thumbnails to finished art: pencils, inks, watercolor, color flats and lettering, and how long each stage took.`,
   `PLACEHOLDER — Result. How ${title} was published or released, how readers and players responded, and what came next.`,
 ];
+export const caseStudyClosing = (title: string) =>
+  `PLACEHOLDER — Closing. A final word on ${title}: what you learned, what you would do differently, and where the story goes from here.`;
 
 const P = '/images/projects/panomachea/';
 const prod = (f: string, alt: string) => img(`/images/products/${f}.jpg`, alt);
@@ -283,9 +286,10 @@ export const projects: Project[] = [
 // Hero carousel. The heading stays fixed; each slide swaps the image, text and buttons.
 // To put a new project "on deck", edit or reorder these entries.
 export const heroHeading = { line1: 'Pictures for', em: 'old stories', line2: '& new ones.' };
-export type HeroSlide = { image: Img; eyebrow: string; text: string; caption: string; primary: { label: string; href: string }; secondary?: { label: string; href: string } };
+export type HeroSlide = { label: string; image: Img; eyebrow: string; text: string; caption: string; primary: { label: string; href: string }; secondary?: { label: string; href: string } };
 export const heroSlides: HeroSlide[] = [
   {
+    label: 'Theseus Vol. 3',
     image: prod('theseus-vol-3-digital-1', 'Theseus, Volume Three cover art'),
     eyebrow: 'On deck · Graphic novel',
     text: 'Theseus Vol. 3 is here — the series conclusion. Theseus travels to Crete to confront King Minos’ minotaur in the legendary labyrinth.',
@@ -294,6 +298,7 @@ export const heroSlides: HeroSlide[] = [
     secondary: { label: 'Buy', href: '/shop/theseus-vol-3-hardcover/' },
   },
   {
+    label: 'Panomachea',
     image: prod('panomachea-battle-with-gods-heroes-monsters-1', 'Panomachea deck'),
     eyebrow: 'Card game',
     text: 'Panomachea — all-out mythological war in a competitive card-capture game. Fight with the gods, heroes and monsters of Ancient Greek myth.',
@@ -302,6 +307,7 @@ export const heroSlides: HeroSlide[] = [
     secondary: { label: 'Buy', href: '/shop/panomachea-battle-with-gods-heroes-monsters/' },
   },
   {
+    label: 'Commissions',
     image: img('/images/art/all-hallows.jpg', 'All Hallows’, watercolor'),
     eyebrow: 'Commissions open',
     text: 'Illustration for books, games, comics and graphic novels — historical, mythological, religious and literary work.',
