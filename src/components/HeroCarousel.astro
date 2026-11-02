@@ -1,0 +1,111 @@
+---
+// Home hero: fixed heading, three slides (image + text + buttons) that cross-fade.
+// Autoplays every 6 s; pauses on hover/focus, when the tab is hidden, and for reduced motion.
+import { heroHeading as H, heroSlides as slides } from '../data/site';
+const INTERVAL = 6000;
+---
+<section class="hero wrap" data-hero data-interval={INTERVAL} aria-roledescription="carousel" aria-label="Featured">
+  <div class="intro">
+    <h1>{H.line1}<br /><em>{H.em}</em> {H.line2}</h1>
+    <div class="stack" aria-live="polite">
+      {slides.map((s, i) => (
+        <div class="slide-txt" data-slide={i} aria-hidden={i === 0 ? 'false' : 'true'} class:list={{ on: i === 0 }}>
+          <p class="eyebrow">{s.eyebrow}</p>
+          <p class="lede muted">{s.text}</p>
+          <div class="ctas">
+            <a href={s.primary.href} class="btn solid" tabindex={i === 0 ? 0 : -1}>{s.primary.label}</a>
+            {s.secondary && <a href={s.secondary.href} class="btn" tabindex={i === 0 ? 0 : -1}>{s.secondary.label}</a>}
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="controls">
+      <button data-prev aria-label="Previous slide">←</button>
+      <div class="dots" role="tablist">
+        {slides.map((s, i) => <button role="tab" data-dot={i} aria-label={`Slide ${i + 1}: ${s.caption}`} aria-selected={i === 0 ? 'true' : 'false'}><span></span></button>)}
+      </div>
+      <button data-next aria-label="Next slide">→</button>
+    </div>
+  </div>
+  <div class="media">
+    <div class="frames">
+      {slides.map((s, i) => (
+        <a href={s.primary.href} class:list={['frm', { on: i === 0 }]} data-slide={i} tabindex="-1" aria-hidden={i === 0 ? 'false' : 'true'}>
+          <img src={s.image.src} alt={s.image.alt} width={s.image.w} height={s.image.h} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} />
+        </a>
+      ))}
+    </div>
+    <div class="cap"><span data-cap>{slides[0].caption}</span><span class="muted"><span data-num>01</span> / {String(slides.length).padStart(2, '0')}</span></div>
+  </div>
+  <script type="application/json" data-caps set:html={JSON.stringify(slides.map((s) => s.caption))} />
+</section>
+
+<style>
+  .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: center; padding-top: clamp(40px, 7vw, 96px); padding-bottom: clamp(56px, 8vw, 120px); }
+  h1 { margin-bottom: 28px; }
+  h1 em { font-style: italic; }
+  .stack { display: grid; }
+  .slide-txt { grid-area: 1 / 1; opacity: 0; transform: translateY(8px); transition: opacity .7s var(--ease), transform .7s var(--ease); pointer-events: none; }
+  .slide-txt.on { opacity: 1; transform: none; pointer-events: auto; }
+  .slide-txt .lede { margin: 14px 0 0; }
+  .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+  .controls { display: flex; align-items: center; gap: 18px; margin-top: 40px; }
+  .controls > button { font-size: 18px; width: 32px; height: 32px; color: var(--muted); }
+  .controls > button:hover { color: var(--fg); }
+  .dots { display: flex; gap: 6px; }
+  .dots button { width: 44px; height: 24px; display: grid; align-items: center; }
+  .dots span { display: block; height: 2px; background: var(--line); position: relative; overflow: hidden; }
+  .dots span::after { content: ''; position: absolute; inset: 0; background: var(--fg); transform: scaleX(0); transform-origin: left; }
+  .dots [aria-selected='true'] span::after { animation: fill var(--dur, 6000ms) linear forwards; }
+  [data-hero].paused .dots [aria-selected='true'] span::after { animation-play-state: paused; }
+  [data-hero].static .dots [aria-selected='true'] span::after { animation: none; transform: none; }
+  @keyframes fill { to { transform: scaleX(1); } }
+  .frames { display: grid; aspect-ratio: 4 / 5; background: var(--soft); overflow: hidden; }
+  .frm { grid-area: 1 / 1; opacity: 0; transition: opacity 1s var(--ease); pointer-events: none; }
+  .frm.on { opacity: 1; pointer-events: auto; }
+  .frm img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); transition: transform 6.5s linear; }
+  .frm.on img { transform: none; }
+  .cap { display: flex; justify-content: space-between; padding-top: 12px; font-size: 14px; }
+  @media (max-width: 820px) {
+    .hero { grid-template-columns: 1fr; }
+    .media { order: -1; }
+    .frames { aspect-ratio: 4 / 4.2; }
+  }
+  @media (prefers-reduced-motion: reduce) { .frm img { transform: none !important; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-hero]').forEach((root) => {
+    const caps: string[] = JSON.parse(root.querySelector('[data-caps]')!.textContent!);
+    const txt = [...root.querySelectorAll<HTMLElement>('.slide-txt')], frm = [...root.querySelectorAll<HTMLElement>('.frm')];
+    const dots = [...root.querySelectorAll<HTMLButtonElement>('[data-dot]')];
+    const n = caps.length, ms = Number(root.dataset.interval) || 6000;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    root.style.setProperty('--dur', `${ms}ms`);
+    let cur = 0, timer = 0, hover = false;
+    const go = (i: number) => {
+      cur = (i + n) % n;
+      [txt, frm].forEach((list) => list.forEach((el, k) => { el.classList.toggle('on', k === cur); el.setAttribute('aria-hidden', String(k !== cur)); }));
+      txt.forEach((el, k) => el.querySelectorAll('a').forEach((a) => (a.tabIndex = k === cur ? 0 : -1)));
+      dots.forEach((d, k) => { d.setAttribute('aria-selected', String(k === cur)); const s = d.firstElementChild as HTMLElement; s.style.animation = 'none'; void s.offsetWidth; s.style.animation = ''; });
+      root.querySelector('[data-cap]')!.textContent = caps[cur];
+      root.querySelector('[data-num]')!.textContent = String(cur + 1).padStart(2, '0');
+      schedule();
+    };
+    const schedule = () => { clearTimeout(timer); if (!reduced && !hover && !document.hidden) timer = window.setTimeout(() => go(cur + 1), ms); };
+    if (reduced) root.classList.add('static');
+    const pause = (p: boolean) => { hover = p; root.classList.toggle('paused', p); if (p) clearTimeout(timer); else go(cur); };
+    root.addEventListener('mouseenter', () => pause(true));
+    root.addEventListener('mouseleave', () => pause(false));
+    root.addEventListener('focusin', () => pause(true));
+    root.addEventListener('focusout', (e) => { if (!root.contains(e.relatedTarget as Node)) pause(false); });
+    document.addEventListener('visibilitychange', schedule);
+    root.querySelector('[data-prev]')!.addEventListener('click', () => go(cur - 1));
+    root.querySelector('[data-next]')!.addEventListener('click', () => go(cur + 1));
+    dots.forEach((d, k) => d.addEventListener('click', () => go(k)));
+    let x0 = 0; const media = root.querySelector<HTMLElement>('.media')!;
+    media.addEventListener('touchstart', (e) => (x0 = e.touches[0].clientX), { passive: true });
+    media.addEventListener('touchend', (e) => { const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1)); });
+    schedule();
+  });
+</script>

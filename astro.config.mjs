@@ -5,5 +5,10 @@ export default defineConfig({
   site: process.env.SITE_URL || 'https://jordanholt.art',
   output: 'static',
   trailingSlash: 'ignore',
-  build: { format: 'directory' },
+  build: {
+    format: 'directory',
+    // The artifact preview export (scripts/export-artifact.mjs) needs CSS inlined into each page.
+    inlineStylesheets: process.env.ARTIFACT ? 'always' : 'auto',
+  },
+  outDir: process.env.ARTIFACT ? './dist-artifact' : './dist',
 });

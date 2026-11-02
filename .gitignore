@@ -4,3 +4,5 @@ dist
 .astro
 infra/.aws-sam
 source-images
+dist-artifact
+artifact-preview

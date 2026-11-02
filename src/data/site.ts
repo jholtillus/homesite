@@ -92,6 +92,7 @@ export type Project = {
   links: { label: string; href: string }[];
   productTags: string[];
   blocks: Block[];
+  featured?: boolean; // shown in the home page "Projects" section
 };
 
 const P = '/images/projects/panomachea/';
@@ -101,6 +102,7 @@ const art = (s: string) => artwork.find((x) => x.slug === s)!;
 export const projects: Project[] = [
   {
     slug: 'theseus',
+    featured: true,
     title: 'Theseus',
     kicker: 'Graphic novel',
     status: 'Available',
@@ -133,6 +135,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'panomachea',
+    featured: true,
     title: 'Panomachea',
     kicker: 'Card game',
     status: 'Available',
@@ -249,6 +252,58 @@ export const projects: Project[] = [
     ],
   },
 ];
+
+// ---------------------------------------------------------------- Home page
+// Hero carousel. The heading stays fixed; each slide swaps the image, text and buttons.
+// To put a new project "on deck", edit or reorder these entries.
+export const heroHeading = { line1: 'Pictures for', em: 'old stories', line2: '& new ones.' };
+export type HeroSlide = { image: Img; eyebrow: string; text: string; caption: string; primary: { label: string; href: string }; secondary?: { label: string; href: string } };
+export const heroSlides: HeroSlide[] = [
+  {
+    image: prod('theseus-vol-3-digital-1', 'Theseus, Volume Three cover art'),
+    eyebrow: 'On deck · Graphic novel',
+    text: 'Theseus Vol. 3 is here — the series conclusion. Theseus travels to Crete to confront King Minos’ minotaur in the legendary labyrinth.',
+    caption: 'Theseus, Vol. 3',
+    primary: { label: 'See the project', href: '/projects/theseus/' },
+    secondary: { label: 'Buy', href: '/shop/theseus-vol-3-hardcover/' },
+  },
+  {
+    image: prod('panomachea-battle-with-gods-heroes-monsters-1', 'Panomachea deck'),
+    eyebrow: 'Card game',
+    text: 'Panomachea — all-out mythological war in a competitive card-capture game. Fight with the gods, heroes and monsters of Ancient Greek myth.',
+    caption: 'Panomachea',
+    primary: { label: 'See the project', href: '/projects/panomachea/' },
+    secondary: { label: 'Buy', href: '/shop/panomachea-battle-with-gods-heroes-monsters/' },
+  },
+  {
+    image: img('/images/art/all-hallows.jpg', 'All Hallows’, watercolor'),
+    eyebrow: 'Commissions open',
+    text: 'Illustration for books, games, comics and graphic novels — historical, mythological, religious and literary work.',
+    caption: 'All Hallows’',
+    primary: { label: 'Commission', href: '/contact/' },
+    secondary: { label: 'View work', href: '/work/' },
+  },
+];
+
+// Portfolio grid on the home page (max 9, shown 3 × 3). Captions are placeholders.
+// Hover buttons: "See the project" (project slug), "Prints" (print product handle),
+// "For sale" (original product handle). Sold state comes from Shopify availability;
+// set sold: true to force it.
+export type FeaturedWork = { art: string; caption: string; project?: string; print?: string; original?: string; sold?: boolean };
+export const featuredWork: FeaturedWork[] = [
+  { art: 'all-hallows', caption: 'Artwork Title', print: 'all-hallows-print', original: 'all-hallows-original-artwork' },
+  { art: 'nice-manners-for-a-thief', caption: 'Artwork Title', print: 'good-manners-print', original: 'good-manners-for-a-thief' },
+  { art: 'wanderer', caption: 'Artwork Title', original: 'mithrandir' },
+  { art: 'theseus-vol3-page-1', caption: 'Artwork Title', project: 'theseus' },
+  { art: 'panomachea-card-back', caption: 'Artwork Title', project: 'panomachea' },
+  { art: 'blood-and-water-cover', caption: 'Artwork Title', project: 'blood-and-water' },
+  { art: 'petracor-concept-1', caption: 'Artwork Title', project: 'petracor' },
+  { art: 'in-desert-wilderness-5', caption: 'Artwork Title', project: 'in-desert-and-wilderness' },
+  { art: 'hobomock-hellhound', caption: 'Artwork Title', project: 'witch-of-hobomock-pass' },
+];
+
+// "Recent work" slider on the home page (shows four at a time).
+export const recentWork = ['witch-of-hobomock-pass', 'petracor', 'theseus', 'panomachea', 'blood-and-water', 'in-desert-and-wilderness'];
 
 export const upcoming = ['PetraCor — Anglo-Saxon graphic novel', 'TBA Card Game', 'TBA Book'];
 

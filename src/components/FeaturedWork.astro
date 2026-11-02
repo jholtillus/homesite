@@ -1,0 +1,88 @@
+---
+// Home portfolio: up to 9 works in a 3 × 3 grid. Click enlarges; hover reveals
+// "See the project" / "Prints" / "For sale" (greyed "Sold" when unavailable).
+import { featuredWork, artwork, projects } from '../data/site';
+import { getProducts } from '../data/shopify';
+const products = await getProducts();
+const items = featuredWork.slice(0, 9).map((f) => {
+  const a = artwork.find((x) => x.slug === f.art)!;
+  const print = f.print ? products.find((p) => p.handle === f.print) : undefined;
+  const orig = f.original ? products.find((p) => p.handle === f.original) : undefined;
+  const proj = f.project ? projects.find((p) => p.slug === f.project) : undefined;
+  const actions: { label: string; href?: string; sold?: boolean }[] = [];
+  if (proj) actions.push({ label: 'See the project', href: `/projects/${proj.slug}/` });
+  if (print) actions.push(print.available ? { label: 'Prints', href: `/shop/${print.handle}/` } : { label: 'Prints sold out', sold: true });
+  if (orig) actions.push(orig.available && !f.sold ? { label: 'For sale', href: `/shop/${orig.handle}/` } : { label: 'Sold', sold: true });
+  return { ...a, caption: f.caption, actions };
+});
+---
+<div class="fw" data-fw>
+  {items.map((it, i) => (
+    <figure class="item reveal">
+      <div class="pic">
+        <button class="zoom" data-i={i} aria-label={`Enlarge ${it.caption}`}><img src={it.src} alt={it.alt} width={it.w} height={it.h} loading="lazy" decoding="async" /></button>
+        {it.actions.length > 0 && (
+          <div class="acts">
+            {it.actions.map((a) => a.sold
+              ? <span class="act sold" aria-disabled="true">{a.label}</span>
+              : <a class="act" href={a.href}>{a.label}</a>)}
+          </div>
+        )}
+      </div>
+      <figcaption>{it.caption}</figcaption>
+    </figure>
+  ))}
+</div>
+<div class="lb" data-fw-lb hidden role="dialog" aria-modal="true" aria-label="Artwork viewer">
+  <button class="lb-x" data-x>Close</button>
+  <button class="lb-nav prev" data-p aria-label="Previous">←</button>
+  <figure><img data-img alt="" /><figcaption data-cap></figcaption></figure>
+  <button class="lb-nav next" data-n aria-label="Next">→</button>
+</div>
+<script type="application/json" data-fw-data set:html={JSON.stringify(items.map((i) => ({ src: i.src, alt: i.alt, cap: i.caption })))} />
+
+<style>
+  .fw { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(28px, 3.4vw, 48px) clamp(16px, 2.4vw, 32px); }
+  .item { margin: 0; }
+  .pic { position: relative; aspect-ratio: 4 / 5; background: var(--soft); overflow: hidden; }
+  .zoom { display: block; width: 100%; height: 100%; cursor: zoom-in; }
+  .zoom img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease), filter .4s; }
+  .pic:hover .zoom img { transform: scale(1.03); filter: brightness(.82); }
+  .acts { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 16px; opacity: 0; transform: translateY(8px); transition: opacity .35s var(--ease), transform .35s var(--ease); pointer-events: none; }
+  .pic:hover .acts, .pic:focus-within .acts { opacity: 1; transform: none; pointer-events: auto; }
+  .act { display: inline-flex; align-items: center; min-height: 36px; padding: 0 16px; background: rgba(255,255,255,.95); color: var(--fg); font: 400 11px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; transition: background .2s, color .2s; }
+  a.act:hover { background: var(--fg); color: #fff; }
+  .act.sold { background: rgba(235,235,235,.92); color: #9a9a9a; cursor: not-allowed; text-decoration: line-through; }
+  figcaption { padding-top: 12px; font-size: 14px; }
+  @media (hover: none) {
+    .acts { position: static; opacity: 1; transform: none; pointer-events: auto; justify-content: flex-start; padding: 10px 0 0; gap: 6px; }
+    .pic { overflow: visible; aspect-ratio: auto; background: none; }
+    .zoom { aspect-ratio: 4 / 5; background: var(--soft); overflow: hidden; }
+    .act { background: none; border: 1px solid var(--line); min-height: 30px; padding: 0 10px; font-size: 10px; }
+    .act.sold { background: var(--soft); }
+  }
+  @media (max-width: 700px) { .fw { grid-template-columns: repeat(2, 1fr); gap: 28px 12px; } .item:last-child:nth-child(odd) { grid-column: 1 / -1; } .item:last-child:nth-child(odd) .zoom, .item:last-child:nth-child(odd) .pic { aspect-ratio: 3 / 2; } }
+
+  .lb { position: fixed; inset: 0; z-index: 200; background: rgba(255,255,255,.98); display: grid; grid-template-columns: 64px 1fr 64px; align-items: center; }
+  .lb figure { margin: 0; height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 72px 0 32px; gap: 14px; }
+  .lb img { max-height: calc(100dvh - 160px); max-width: 100%; width: auto; object-fit: contain; }
+  .lb figcaption { font-family: var(--serif); font-size: 1.2rem; padding: 0; }
+  .lb-x { position: absolute; top: 24px; right: var(--gutter); font: 400 12px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; z-index: 1; }
+  .lb-nav { font-size: 24px; height: 100%; }
+  @media (max-width: 700px) { .lb { grid-template-columns: 1fr; } .lb-nav { position: absolute; bottom: 16px; height: 48px; width: 48px; } .prev { left: 16px; } .next { right: 16px; } .lb figure { padding: 64px 16px 80px; } }
+</style>
+<script>
+  const data = JSON.parse(document.querySelector('[data-fw-data]')!.textContent!);
+  const lb = document.querySelector<HTMLElement>('[data-fw-lb]')!, img = lb.querySelector<HTMLImageElement>('[data-img]')!, cap = lb.querySelector<HTMLElement>('[data-cap]')!;
+  let cur = 0;
+  const show = (i: number) => { cur = (i + data.length) % data.length; img.src = data[cur].src; img.alt = data[cur].alt; cap.textContent = data[cur].cap; };
+  const close = () => { lb.hidden = true; document.body.style.overflow = ''; };
+  document.querySelector('[data-fw]')!.addEventListener('click', (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>('[data-i]'); if (!b) return; show(+b.dataset.i!); lb.hidden = false; document.body.style.overflow = 'hidden'; });
+  lb.querySelector('[data-x]')!.addEventListener('click', close);
+  lb.querySelector('[data-p]')!.addEventListener('click', () => show(cur - 1));
+  lb.querySelector('[data-n]')!.addEventListener('click', () => show(cur + 1));
+  lb.addEventListener('click', (e) => { if ((e.target as HTMLElement).tagName === 'FIGURE') close(); });
+  addEventListener('keydown', (e) => { if (lb.hidden) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
+  let x0 = 0; lb.addEventListener('touchstart', (e) => (x0 = e.touches[0].clientX), { passive: true });
+  lb.addEventListener('touchend', (e) => { const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); });
+</script>

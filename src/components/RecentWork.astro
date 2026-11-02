@@ -1,0 +1,65 @@
+---
+// "Recent work" slider: four projects visible on desktop, slides horizontally.
+import { recentWork, projects } from '../data/site';
+import { getProducts } from '../data/shopify';
+const products = await getProducts();
+const items = recentWork.map((s) => projects.find((p) => p.slug === s)!).filter(Boolean);
+const hasShop = (tags: string[]) => tags.length > 0 && products.some((x) => x.tags.some((t) => tags.includes(t)));
+---
+<div class="rw" data-rw>
+  <div class="track" data-track>
+    {items.map((p) => (
+      <article class="card">
+        <a href={`/projects/${p.slug}/`} class="img-frame" tabindex="-1" aria-hidden="true"><img src={p.cover.src} alt="" loading="lazy" decoding="async" width={p.cover.w} height={p.cover.h} /></a>
+        <p class="eyebrow">{p.kicker}{p.status === 'Upcoming' ? ' · Upcoming' : ''}</p>
+        <h3><a href={`/projects/${p.slug}/`}>{p.title}</a></h3>
+        {p.partner && <p class="partner">{p.partner}</p>}
+        <div class="acts">
+          <a href={`/projects/${p.slug}/`} class="btn sm">See more</a>
+          <a href={`/projects/${p.slug}/${hasShop(p.productTags) ? '#shop' : ''}`} class="btn solid sm">Buy</a>
+        </div>
+      </article>
+    ))}
+  </div>
+  <div class="nav">
+    <div class="bar"><span data-bar></span></div>
+    <button data-prev aria-label="Previous projects">←</button>
+    <button data-next aria-label="Next projects">→</button>
+  </div>
+</div>
+<style>
+  .rw { --g: clamp(16px, 2.4vw, 32px); }
+  .track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3 * var(--g)) / 4); gap: var(--g); overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .track::-webkit-scrollbar { display: none; }
+  .card { scroll-snap-align: start; display: flex; flex-direction: column; min-width: 0; }
+  .img-frame { aspect-ratio: 4 / 5; display: block; }
+  .eyebrow { margin: 16px 0 8px; }
+  h3 { font-size: 1.45rem; }
+  h3 a:hover { font-style: italic; }
+  .partner { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+  .acts { display: flex; gap: 8px; margin-top: auto; padding-top: 18px; }
+  .btn.sm { min-height: 40px; padding: 0 18px; font-size: 11px; flex: 1; }
+  .nav { display: flex; align-items: center; gap: 16px; margin-top: 32px; }
+  .bar { flex: 1; height: 1px; background: var(--line); position: relative; }
+  .bar span { position: absolute; top: -0.5px; height: 2px; background: var(--fg); left: 0; width: 25%; transition: left .3s var(--ease), width .3s; }
+  .nav button { width: 44px; height: 44px; border: 1px solid var(--line); font-size: 16px; transition: border-color .2s; }
+  .nav button:hover:not(:disabled) { border-color: var(--fg); }
+  .nav button:disabled { opacity: .3; cursor: default; }
+  @media (max-width: 1000px) { .track { grid-auto-columns: calc((100% - 1 * var(--g)) / 2.2); } }
+  @media (max-width: 560px) { .track { grid-auto-columns: 78%; } }
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-rw]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-track]')!, bar = root.querySelector<HTMLElement>('[data-bar]')!;
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]')!, next = root.querySelector<HTMLButtonElement>('[data-next]')!;
+    const step = () => { const c = track.querySelector<HTMLElement>('.card')!; return c.offsetWidth + parseFloat(getComputedStyle(track).columnGap || '0'); };
+    const update = () => {
+      const max = track.scrollWidth - track.clientWidth, frac = track.clientWidth / track.scrollWidth;
+      bar.style.width = `${frac * 100}%`; bar.style.left = `${max > 0 ? (track.scrollLeft / max) * (1 - frac) * 100 : 0}%`;
+      prev.disabled = track.scrollLeft <= 2; next.disabled = track.scrollLeft >= max - 2;
+    };
+    prev.addEventListener('click', () => track.scrollBy({ left: -step() }));
+    next.addEventListener('click', () => track.scrollBy({ left: step() }));
+    track.addEventListener('scroll', update, { passive: true }); addEventListener('resize', update); update();
+  });
+</script>

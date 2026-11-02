@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import Sidebar from '../components/Sidebar.astro';
+import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CartDrawer from '../components/CartDrawer.astro';
 import { site } from '../data/site';
@@ -16,33 +16,26 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{fullTitle}</title>
-  <meta name="description" content={description.slice(0, 300)} />
+  <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title={`${site.name} — News`} href="/rss.xml" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content={fullTitle} />
-  <meta property="og:description" content={description.slice(0, 300)} />
+  <meta property="og:description" content={description} />
   <meta property="og:image" content={new URL(image, Astro.site)} />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content={`@${site.twitterHandle}`} />
+  {site.twitterHandle && <meta name="twitter:site" content={`@${site.twitterHandle}`} />}
 </head>
 <body>
   <a href="#main" class="sr-only">Skip to content</a>
-  <Sidebar />
-  <div class="main">
-    <main id="main"><slot /></main>
-    <Footer />
-  </div>
+  <Header />
+  <main id="main"><slot /></main>
+  <Footer />
   <CartDrawer />
   <script>
-    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -6% 0px' });
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
     document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   </script>
 </body>
 </html>
-<style>
-  .main { margin-left: var(--side); min-height: 100vh; display: flex; flex-direction: column; }
-  main { flex: 1; }
-  @media (max-width: 1099px) { .main { margin-left: 0; } }
-</style>

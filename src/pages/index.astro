@@ -1,72 +1,51 @@
 ---
 import Base from '../layouts/Base.astro';
-import Gallery from '../components/Gallery.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import ProductCard from '../components/ProductCard.astro';
-import NewsList from '../components/NewsList.astro';
-import ContactForm from '../components/ContactForm.astro';
-import { artwork, projects, site } from '../data/site';
-import { getProducts } from '../data/shopify';
-import { getNews } from '../data/feeds';
-
-const all = await getProducts();
-const featured = ['theseus-the-full-collection', 'panomachea-deluxe', 'theseus-vol-3-hardcover', 'panomachea-battle-with-gods-heroes-monsters']
-  .map((h) => all.find((p) => p.handle === h)).filter(Boolean) as typeof all;
-const shop = featured.length ? featured : all.slice(0, 4);
-const news = await getNews(3);
+import HeroCarousel from '../components/HeroCarousel.astro';
+import FeaturedWork from '../components/FeaturedWork.astro';
+import RecentWork from '../components/RecentWork.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { projects } from '../data/site';
+const featured = projects.filter((p) => p.featured);
 ---
 <Base>
-  <div class="page">
-    <section class="m-intro">
-      <p class="tag">{site.tagline}</p>
-      <p class="intro">{site.intro}</p>
-    </section>
+  <HeroCarousel />
 
-    <Gallery items={artwork} />
+  <section class="section wrap">
+    <div class="section-head"><h2>Portfolio</h2><a href="/work/" class="link-arrow">All work</a></div>
+    <FeaturedWork />
+  </section>
 
-    <hr class="rule" />
+  <section class="section">
+    <div class="wrap section-head"><h2>Projects</h2><a href="/projects/" class="link-arrow">All projects</a></div>
+    <div class="wrap projects">
+      {featured.map((p) => (
+        <a href={`/projects/${p.slug}/`} class="proj reveal">
+          <div class="img-frame"><img src={p.hero.src} alt={p.hero.alt} loading="lazy" width={p.hero.w} height={p.hero.h} /></div>
+          <div class="pmeta"><p class="eyebrow">{p.kicker} · {p.status}</p><h3>{p.title}</h3><p class="muted">{p.summary}</p><span class="link-arrow">Explore</span></div>
+        </a>
+      ))}
+    </div>
+  </section>
 
-    <section class="commission">
-      <div>
-        <h2>Commissions</h2>
-        <p class="muted">If you’re interested in having a project illustrated, you can start the conversation here. Commissioned work prices depend on scale, timeline, medium, and many more variables. Let’s discuss.</p>
-        <a href="/contact/" class="link">More about working together</a>
-      </div>
-      <ContactForm compact />
-    </section>
+  <section class="section wrap">
+    <div class="section-head"><h2>Recent work</h2><a href="/projects/" class="link-arrow">All projects</a></div>
+    <RecentWork />
+  </section>
 
-    <section class="section">
-      <div class="section-head"><h2>Projects</h2><a href="/projects/" class="link">All projects</a></div>
-      <div class="pgrid">{projects.map((p) => <ProjectCard project={p} />)}</div>
-    </section>
-
-    <section class="section">
-      <div class="section-head"><h2>From Carthage Workshop</h2><a href="/shop/" class="link">Visit the shop</a></div>
-      <div class="sgrid">{shop.map((p) => <ProductCard product={p} />)}</div>
-    </section>
-
-    {news.length > 0 && (
-      <section class="section">
-        <div class="section-head"><h2>News</h2><a href="/news/" class="link">All updates</a></div>
-        <NewsList items={news} />
-      </section>
-    )}
-  </div>
+  <Newsletter />
 </Base>
 
 <style>
-  .m-intro { display: none; }
-  .commission { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(24px, 5vw, 72px); align-items: start; }
-  .commission h2 { margin-bottom: 14px; }
-  .commission .muted { font-size: 14px; }
-  .pgrid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px; }
-  .sgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
-  @media (max-width: 1400px) { .pgrid { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 1099px) {
-    .m-intro { display: block; margin-bottom: 24px; }
-    .m-intro .tag { font-size: 1.15rem; line-height: 1.55; margin-bottom: 10px; }
-    .m-intro .intro { font-size: 13.5px; font-style: italic; color: var(--muted); max-width: 60ch; }
+  .projects { display: grid; gap: clamp(48px, 7vw, 96px); }
+  .proj { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(24px, 4vw, 64px); align-items: end; }
+  .proj:nth-child(even) { grid-template-columns: 1fr 1.6fr; }
+  .proj:nth-child(even) .img-frame { order: 2; }
+  .proj .img-frame { aspect-ratio: 2 / 1; }
+  .pmeta h3 { font-size: clamp(2.2rem, 4vw, 3.4rem); margin: 14px 0 16px; }
+  .pmeta .muted { max-width: 38ch; margin-bottom: 24px; }
+  @media (max-width: 820px) {
+    .proj, .proj:nth-child(even) { grid-template-columns: 1fr; }
+    .proj:nth-child(even) .img-frame { order: 0; }
+    .proj .img-frame { aspect-ratio: 3 / 2; }
   }
-  @media (max-width: 860px) { .commission { grid-template-columns: 1fr; } .sgrid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .pgrid { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; } .sgrid { gap: 22px 14px; } }
 </style>

@@ -1,39 +1,42 @@
 ---
-// Mailing list. Posts to the /subscribe Lambda (infra/), which adds the address to Shopify
-// customers with email-marketing consent so launches go out through Shopify Email.
-interface Props { heading?: string; text?: string; }
-const { heading = 'New books, games & prints', text = 'Join the mailing list to hear when a new project launches. One email per launch.' } = Astro.props;
-const id = `nl-${Math.random().toString(36).slice(2, 7)}`;
+// Email list sign-up. Posts to the /subscribe Lambda (infra/), which adds the address to
+// Shopify customers with email-marketing consent so launches can be sent via Shopify Email.
+interface Props { variant?: 'band' | 'inline'; heading?: string; text?: string; }
+const { variant = 'band', heading = 'Be first to know.', text = 'Join the list for new books, prints and original work — one email per launch, nothing more.' } = Astro.props;
 ---
-<section class="nl">
-  <div>
-    <h2>{heading}</h2>
-    <p class="muted">{text}</p>
-  </div>
-  <div>
-    <form class="f" data-subscribe novalidate>
-      <label for={id} class="sr-only">Email address</label>
-      <input id={id} type="email" name="email" placeholder="Email address" required autocomplete="email" />
-      <input type="text" name="company" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" />
-      <button class="btn solid" type="submit">Subscribe</button>
-    </form>
-    <p class="msg" data-msg role="status" aria-live="polite"></p>
+<section class:list={['nl', variant]}>
+  <div class="wrap grid">
+    <div>
+      <p class="eyebrow">Mailing list</p>
+      <h2>{heading}</h2>
+    </div>
+    <div>
+      <p class="muted">{text}</p>
+      <form class="f" data-subscribe novalidate>
+        <label for={`nl-${variant}`} class="sr-only">Email address</label>
+        <input id={`nl-${variant}`} type="email" name="email" placeholder="Email address" required autocomplete="email" />
+        <input type="text" name="company" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" />
+        <button class="btn solid" type="submit">Subscribe</button>
+      </form>
+      <p class="msg" data-msg role="status" aria-live="polite"></p>
+    </div>
   </div>
 </section>
+
 <style>
-  .nl { display: grid; grid-template-columns: 1fr 1fr; gap: 16px clamp(24px, 5vw, 72px); align-items: center; padding: 40px 0 36px; border-top: 1px solid #bdb8b1; margin-top: clamp(64px, 9vw, 112px); }
-  h2 { font-size: 1.3rem; margin-bottom: 8px; }
-  .nl p.muted { margin: 0; font-size: 14px; }
-  .f { display: flex; gap: 10px; }
+  .nl.band { background: var(--soft); padding: clamp(56px, 8vw, 104px) 0; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 80px); align-items: end; }
+  h2 { margin-top: 14px; }
+  .f { display: flex; gap: 16px; align-items: end; margin-top: 8px; }
   .f input { flex: 1; }
-  .msg { font-size: 13px; margin: 8px 0 0; min-height: 1.3em; }
-  @media (max-width: 760px) { .nl { grid-template-columns: 1fr; } }
-  @media (max-width: 420px) { .f { flex-direction: column; } }
+  .hp { position: absolute; left: -9999px; }
+  .msg { font-size: 14px; margin-top: 12px; min-height: 1.4em; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } .f { flex-direction: column; align-items: stretch; } }
 </style>
+
 <script>
   const api = import.meta.env.PUBLIC_API_URL;
   document.querySelectorAll<HTMLFormElement>('[data-subscribe]').forEach((form) => {
-    if (form.dataset.bound) return; form.dataset.bound = '1';
     const msg = form.parentElement!.querySelector<HTMLElement>('[data-msg]')!;
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
