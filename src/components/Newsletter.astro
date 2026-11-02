@@ -1,0 +1,55 @@
+---
+// Email list sign-up. Posts to the /subscribe Lambda (infra/), which adds the address to
+// Shopify customers with email-marketing consent so launches can be sent via Shopify Email.
+interface Props { variant?: 'band' | 'inline'; heading?: string; text?: string; }
+const { variant = 'band', heading = 'Be first to know.', text = 'Join the list for new books, prints and original work — one email per launch, nothing more.' } = Astro.props;
+---
+<section class:list={['nl', variant]}>
+  <div class="wrap grid">
+    <div>
+      <p class="eyebrow">Mailing list</p>
+      <h2>{heading}</h2>
+    </div>
+    <div>
+      <p class="muted">{text}</p>
+      <form class="f" data-subscribe novalidate>
+        <label for={`nl-${variant}`} class="sr-only">Email address</label>
+        <input id={`nl-${variant}`} type="email" name="email" placeholder="Email address" required autocomplete="email" />
+        <input type="text" name="company" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" />
+        <button class="btn solid" type="submit">Subscribe</button>
+      </form>
+      <p class="msg" data-msg role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .nl.band { background: var(--soft); padding: clamp(56px, 8vw, 104px) 0; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 80px); align-items: end; }
+  h2 { margin-top: 14px; }
+  .f { display: flex; gap: 16px; align-items: end; margin-top: 8px; }
+  .f input { flex: 1; }
+  .hp { position: absolute; left: -9999px; }
+  .msg { font-size: 14px; margin-top: 12px; min-height: 1.4em; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } .f { flex-direction: column; align-items: stretch; } }
+</style>
+
+<script>
+  const api = import.meta.env.PUBLIC_API_URL;
+  document.querySelectorAll<HTMLFormElement>('[data-subscribe]').forEach((form) => {
+    const msg = form.parentElement!.querySelector<HTMLElement>('[data-msg]')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form), email = String(fd.get('email') || '').trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Please enter a valid email address.'; return; }
+      const btn = form.querySelector('button')!; btn.disabled = true;
+      try {
+        if (!api) throw new Error('API not configured');
+        const r = await fetch(`${api}/subscribe`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, company: fd.get('company') }) });
+        if (!r.ok) throw new Error();
+        form.reset(); msg.textContent = 'Thank you — you’re on the list.';
+      } catch { msg.textContent = api ? 'Something went wrong. Please try again.' : 'Sign-up is not connected yet (PUBLIC_API_URL not set).'; }
+      finally { btn.disabled = false; }
+    });
+  });
+</script>

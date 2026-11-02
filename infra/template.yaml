@@ -1,0 +1,148 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: jordanholt.art — static site (S3 + CloudFront) and form API (API Gateway + Lambda + SES)
+
+Parameters:
+  DomainName:
+    Type: String
+    Default: jordanholt.art
+  CertificateArn:
+    Type: String
+    Default: ''
+    Description: ACM certificate in us-east-1 for DomainName and www.DomainName. Leave blank to use the CloudFront domain only.
+  ContactTo:
+    Type: String
+    Description: Address that receives contact-form enquiries
+  ContactFrom:
+    Type: String
+    Description: SES-verified sender address, e.g. no-reply@jordanholt.art
+  ShopifyAdminDomain:
+    Type: String
+    Default: carthageworkshop.myshopify.com
+  ShopifyAdminToken:
+    Type: String
+    NoEcho: true
+    Description: Shopify Admin API token with write_customers scope
+
+Conditions:
+  HasCert: !Not [!Equals [!Ref CertificateArn, '']]
+
+Resources:
+  SiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      PublicAccessBlockConfiguration: { BlockPublicAcls: true, BlockPublicPolicy: true, IgnorePublicAcls: true, RestrictPublicBuckets: true }
+      BucketEncryption: { ServerSideEncryptionConfiguration: [{ ServerSideEncryptionByDefault: { SSEAlgorithm: AES256 } }] }
+
+  OAC:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig: { Name: !Sub '${AWS::StackName}-oac', OriginAccessControlOriginType: s3, SigningBehavior: always, SigningProtocol: sigv4 }
+
+  # Rewrites /work/ -> /work/index.html and redirects www -> apex.
+  IndexRewrite:
+    Type: AWS::CloudFront::Function
+    Properties:
+      Name: !Sub '${AWS::StackName}-index'
+      AutoPublish: true
+      FunctionConfig: { Comment: index rewrite, Runtime: cloudfront-js-2.0 }
+      FunctionCode: !Sub |
+        function handler(event) {
+          var r = event.request, host = r.headers.host && r.headers.host.value;
+          if (host && host.indexOf('www.') === 0) {
+            return { statusCode: 301, statusDescription: 'Moved', headers: { location: { value: 'https://${DomainName}' + r.uri } } };
+          }
+          if (r.uri.endsWith('/')) r.uri += 'index.html';
+          else if (r.uri.indexOf('.') === -1) r.uri += '/index.html';
+          return r;
+        }
+
+  Headers:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig:
+        Name: !Sub '${AWS::StackName}-headers'
+        SecurityHeadersConfig:
+          StrictTransportSecurity: { AccessControlMaxAgeSec: 63072000, IncludeSubdomains: true, Override: true }
+          ContentTypeOptions: { Override: true }
+          FrameOptions: { FrameOption: SAMEORIGIN, Override: true }
+          ReferrerPolicy: { ReferrerPolicy: strict-origin-when-cross-origin, Override: true }
+
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        HttpVersion: http2and3
+        DefaultRootObject: index.html
+        Aliases: !If [HasCert, [!Ref DomainName, !Sub 'www.${DomainName}'], !Ref 'AWS::NoValue']
+        ViewerCertificate: !If
+          - HasCert
+          - { AcmCertificateArn: !Ref CertificateArn, SslSupportMethod: sni-only, MinimumProtocolVersion: TLSv1.2_2021 }
+          - { CloudFrontDefaultCertificate: true }
+        Origins:
+          - Id: s3
+            DomainName: !GetAtt SiteBucket.RegionalDomainName
+            OriginAccessControlId: !GetAtt OAC.Id
+            S3OriginConfig: { OriginAccessIdentity: '' }
+        DefaultCacheBehavior:
+          TargetOriginId: s3
+          ViewerProtocolPolicy: redirect-to-https
+          Compress: true
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6 # Managed-CachingOptimized
+          ResponseHeadersPolicyId: !Ref Headers
+          FunctionAssociations: [{ EventType: viewer-request, FunctionARN: !GetAtt IndexRewrite.FunctionARN }]
+        CustomErrorResponses:
+          - { ErrorCode: 403, ResponseCode: 404, ResponsePagePath: /404.html }
+          - { ErrorCode: 404, ResponseCode: 404, ResponsePagePath: /404.html }
+
+  SiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref SiteBucket
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal: { Service: cloudfront.amazonaws.com }
+            Action: s3:GetObject
+            Resource: !Sub '${SiteBucket.Arn}/*'
+            Condition: { StringEquals: { 'AWS:SourceArn': !Sub 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${Distribution}' } }
+
+  Api:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins: [!Sub 'https://${DomainName}', !Sub 'https://${Distribution.DomainName}', 'http://localhost:4321']
+        AllowMethods: [POST, OPTIONS]
+        AllowHeaders: [content-type]
+      DefaultRouteSettings: { ThrottlingBurstLimit: 20, ThrottlingRateLimit: 5 }
+
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/api/
+      Handler: index.handler
+      Runtime: nodejs20.x
+      Architectures: [arm64]
+      Timeout: 10
+      MemorySize: 256
+      Environment:
+        Variables:
+          CONTACT_TO: !Ref ContactTo
+          CONTACT_FROM: !Ref ContactFrom
+          SHOPIFY_ADMIN_DOMAIN: !Ref ShopifyAdminDomain
+          SHOPIFY_ADMIN_TOKEN: !Ref ShopifyAdminToken
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: ses:SendEmail
+              Resource: '*'
+      Events:
+        Contact: { Type: HttpApi, Properties: { ApiId: !Ref Api, Path: /contact, Method: POST } }
+        Subscribe: { Type: HttpApi, Properties: { ApiId: !Ref Api, Path: /subscribe, Method: POST } }
+
+Outputs:
+  BucketName: { Value: !Ref SiteBucket }
+  DistributionId: { Value: !Ref Distribution }
+  CloudFrontUrl: { Value: !Sub 'https://${Distribution.DomainName}' }
+  ApiUrl: { Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com' }

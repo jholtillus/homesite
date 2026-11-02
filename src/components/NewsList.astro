@@ -1,0 +1,37 @@
+---
+import type { NewsItem } from '../data/site';
+interface Props { items: NewsItem[]; }
+const { items } = Astro.props;
+const fmt = (d: string) => new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+---
+<ul class="news">
+  {items.map((n) => {
+    const ext = n.href.startsWith('http');
+    return (
+      <li class="reveal">
+        <a href={n.href} target={ext ? '_blank' : undefined} rel={ext ? 'noopener' : undefined}>
+          <span class="date">{fmt(n.date)}</span>
+          <span class="src eyebrow">{n.source}</span>
+          <span class="body"><span class="t">{n.title}</span><span class="s muted">{n.summary}</span></span>
+          {n.image ? <span class="thumb img-frame"><img src={n.image} alt="" loading="lazy" /></span> : <span class="thumb" />}
+        </a>
+      </li>
+    );
+  })}
+</ul>
+<style>
+  .news { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  li { border-bottom: 1px solid var(--line); }
+  a { display: grid; grid-template-columns: 120px 90px 1fr 120px; gap: 24px; align-items: center; padding: 22px 0; transition: background .3s; }
+  a:hover .t { font-style: italic; }
+  .date { font-size: 13px; color: var(--muted); }
+  .body { display: flex; flex-direction: column; gap: 4px; }
+  .t { font: 400 1.45rem/1.2 var(--serif); }
+  .s { font-size: 14px; }
+  .thumb { width: 120px; aspect-ratio: 16/10; }
+  @media (max-width: 760px) {
+    a { grid-template-columns: 1fr 96px; gap: 6px 16px; }
+    .date, .src { grid-column: 1; } .src { display: none; }
+    .body { grid-column: 1; } .thumb { grid-column: 2; grid-row: 1 / span 2; width: 96px; }
+  }
+</style>

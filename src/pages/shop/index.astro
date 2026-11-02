@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { getProducts } from '../../data/shopify';
+const products = await getProducts();
+const types = ['All', 'Original', 'Print', 'Book'].filter((t) => t === 'All' || products.some((p) => p.type === t));
+const label: Record<string, string> = { All: 'All', Original: 'Originals', Print: 'Prints', Book: 'Books' };
+---
+<Base title="Shop" description="Original art, giclée prints and books by Jordan Holt.">
+  <section class="wrap head">
+    <div><p class="eyebrow">Carthage Workshop</p><h1>Shop</h1></div>
+    <p class="muted">Original artwork, archival prints and books. Secure checkout is handled by Shopify at carthageworkshop.com.</p>
+  </section>
+  <section class="wrap">
+    <div class="filters" role="tablist" aria-label="Filter products">
+      {types.map((t, i) => <button role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-f={t}>{label[t]}</button>)}
+    </div>
+    <div class="grid" data-products>{products.map((p) => <ProductCard product={p} />)}</div>
+  </section>
+</Base>
+<style>
+  .head { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: end; padding-top: clamp(48px, 8vw, 112px); padding-bottom: clamp(32px, 5vw, 56px); }
+  .head h1 { margin-top: 16px; } .head p.muted { max-width: 44ch; justify-self: end; }
+  .filters { display: flex; gap: 28px; border-bottom: 1px solid var(--line); margin-bottom: 40px; overflow-x: auto; }
+  .filters button { font: 400 13px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 14px 0; border-bottom: 1px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+  .filters button[aria-selected='true'] { color: var(--fg); border-color: var(--fg); }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px clamp(16px, 2.4vw, 32px); padding-bottom: 120px; }
+  .grid :global(.pc[hidden]) { display: none; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } .head { grid-template-columns: 1fr; } .head p.muted { justify-self: start; } }
+  @media (max-width: 480px) { .grid { gap: 40px 12px; } }
+</style>
+<script>
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-products] .pc')];
+  document.querySelectorAll<HTMLButtonElement>('[data-f]').forEach((b, _, all) => b.addEventListener('click', () => {
+    all.forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+    cards.forEach((c) => (c.hidden = b.dataset.f !== 'All' && c.dataset.type !== b.dataset.f));
+  }));
+</script>

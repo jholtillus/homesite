@@ -1,0 +1,84 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { getProducts, formatPrice } from '../../data/shopify';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const all = await getProducts();
+  return all.map((p) => ({ params: { handle: p.handle }, props: { product: p, all } }));
+}
+const { product: p, all } = Astro.props;
+const related = all.filter((x) => x.handle !== p.handle && x.tags.some((t) => p.tags.includes(t))).slice(0, 3);
+const payload = { handle: p.handle, title: p.title, image: p.image, currency: p.currency, variants: p.variants };
+---
+<Base title={p.title} description={p.description.slice(0, 155)} image={p.image}>
+  <nav class="wrap crumbs" aria-label="Breadcrumb"><a href="/shop/">Shop</a> <span>/</span> <span>{p.type}</span></nav>
+  <section class="wrap pdp">
+    <div class="media">
+      {p.images.map((src, i) => <div class="img-frame"><img src={src} alt={`${p.title}${i ? `, view ${i + 1}` : ''}`} width="1200" height="1500" loading={i ? 'lazy' : 'eager'} /></div>)}
+    </div>
+    <div class="info">
+      <div class="sticky">
+        <p class="eyebrow">{p.type}{p.type === 'Original' ? ' · One of a kind' : ''}</p>
+        <h1>{p.title}</h1>
+        <p class="price" data-price>{p.available ? formatPrice(p.price, p.currency) : 'Sold'}</p>
+        {p.variants.length > 1 && (
+          <>
+            <label for="variant">Option</label>
+            <select id="variant" data-variant>
+              {p.variants.map((v) => <option value={v.id} disabled={!v.available}>{v.title}{v.available ? '' : ' — sold out'}</option>)}
+            </select>
+          </>
+        )}
+        <button class="btn solid block add" data-add disabled={!p.available}>{p.available ? 'Add to cart' : 'Sold'}</button>
+        <div class="desc"><p>{p.description}</p></div>
+        <ul class="assure">
+          <li>Secure checkout via Shopify at {site.shopDomain}</li>
+          {p.type === 'Original' && <li>Ships with certificate of authenticity</li>}
+          {p.type === 'Print' && <li>Archival pigment inks on fine-art paper</li>}
+          <li>Questions? <a href="/contact/">Get in touch</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  {related.length > 0 && (
+    <section class="section wrap">
+      <div class="section-head"><h2>You may also like</h2></div>
+      <div class="rel">{related.map((r) => <ProductCard product={r} />)}</div>
+    </section>
+  )}
+  <script type="application/json" id="product-data" set:html={JSON.stringify(payload)} />
+</Base>
+<style>
+  .crumbs { padding-top: 28px; padding-bottom: 28px; font-size: 13px; color: var(--muted); display: flex; gap: 8px; }
+  .crumbs a:hover { color: var(--fg); }
+  .pdp { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(32px, 6vw, 96px); padding-bottom: 96px; }
+  .media { display: grid; gap: 16px; }
+  .media .img-frame { aspect-ratio: 4/5; }
+  .sticky { position: sticky; top: calc(var(--header) + 32px); }
+  h1 { font-size: clamp(2.2rem, 4vw, 3.4rem); margin: 16px 0 12px; }
+  .price { font-size: 1.1rem; margin-bottom: 8px; }
+  select { appearance: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6' fill='none' stroke='%23141414'/%3E%3C/svg%3E") no-repeat right 4px center; }
+  .add { margin-top: 32px; }
+  .desc { margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .assure { list-style: none; padding: 0; margin: 24px 0 0; font-size: 13px; color: var(--muted); display: grid; gap: 8px; }
+  .assure a { text-decoration: underline; text-underline-offset: 3px; }
+  .rel { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2.4vw, 32px); }
+  @media (max-width: 860px) { .pdp { grid-template-columns: 1fr; } .media { grid-auto-flow: column; grid-auto-columns: 88%; overflow-x: auto; scroll-snap-type: x mandatory; } .media .img-frame { scroll-snap-align: start; } .rel { grid-template-columns: repeat(2, 1fr); } }
+</style>
+<script>
+  import { cart, money } from '../../scripts/cart';
+  const data = JSON.parse(document.getElementById('product-data')!.textContent!);
+  const sel = document.querySelector<HTMLSelectElement>('[data-variant]');
+  const priceEl = document.querySelector<HTMLElement>('[data-price]')!;
+  const current = () => data.variants.find((v: any) => v.id === (sel?.value ?? data.variants[0].id));
+  sel?.addEventListener('change', () => (priceEl.textContent = money(current().price, data.currency)));
+  const btn = document.querySelector<HTMLButtonElement>('[data-add]')!;
+  btn.addEventListener('click', () => {
+    const v = current();
+    cart.add({ variantId: v.id, title: data.title, variantTitle: v.title, price: v.price, currency: data.currency, image: data.image, handle: data.handle });
+    btn.textContent = 'Added'; setTimeout(() => (btn.textContent = 'Add to cart'), 1600);
+    document.dispatchEvent(new CustomEvent('cart:open'));
+  });
+</script>

@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import WorkGrid from '../components/WorkGrid.astro';
+import { artwork } from '../data/site';
+---
+<Base title="Work" description="Selected illustration, comics, fine art and commissioned work.">
+  <section class="wrap head">
+    <p class="eyebrow">Portfolio</p>
+    <h1>Work</h1>
+    <p class="lede muted">Illustration, comics, fine art and commissions. Select any piece to view it larger.</p>
+  </section>
+  <section class="wrap" style="padding-bottom:96px"><WorkGrid items={artwork} filters /></section>
+  <section class="cta wrap">
+    <h2>Have a project in mind?</h2>
+    <a href="/contact/" class="btn solid">Start a commission</a>
+  </section>
+</Base>
+<style>
+  .head { padding: clamp(48px, 8vw, 112px) var(--gutter) clamp(32px, 5vw, 64px); }
+  .head h1 { margin: 16px 0 20px; }
+  .cta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; padding-top: 56px; padding-bottom: 96px; border-top: 1px solid var(--line); }
+</style>

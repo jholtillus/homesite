@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import Newsletter from '../../components/Newsletter.astro';
+import { projects } from '../../data/site';
+import { getProducts } from '../../data/shopify';
+
+export function getStaticPaths() { return projects.map((p) => ({ params: { slug: p.slug }, props: { project: p } })); }
+const { project: p } = Astro.props;
+const related = (await getProducts()).filter((x) => x.tags.some((t) => p.productTags.includes(t)));
+const others = projects.filter((x) => x.slug !== p.slug);
+---
+<Base title={p.title} description={p.summary} image={p.hero}>
+  <section class="hero">
+    <div class="img-frame"><img src={p.hero} alt={p.title} width="2400" height="1200" fetchpriority="high" /></div>
+  </section>
+  <section class="wrap intro">
+    <div>
+      <p class="eyebrow">{p.kicker}</p>
+      <h1>{p.title}</h1>
+      <p class="lede">{p.summary}</p>
+    </div>
+    <dl class="facts">
+      {p.facts.map((f) => <div><dt>{f.label}</dt><dd>{f.value}</dd></div>)}
+      <div><dt>Status</dt><dd>{p.status}</dd></div>
+    </dl>
+  </section>
+  <section class="wrap body">
+    <div class="copy">{p.body.map((para) => <p>{para}</p>)}</div>
+  </section>
+  <section class="wrap gallery">
+    {p.gallery.map((g, i) => <div class="img-frame reveal"><img src={g} alt={`${p.title}, image ${i + 1}`} loading="lazy" width="1200" height="1500" /></div>)}
+  </section>
+  {related.length > 0 && (
+    <section class="section wrap">
+      <div class="section-head"><h2>From the shop</h2><a href="/shop/" class="link-arrow">Shop all</a></div>
+      <div class="shop-grid">{related.map((x) => <ProductCard product={x} />)}</div>
+    </section>
+  )}
+  <Newsletter heading={`Follow ${p.title}.`} text={`Get an email when new ${p.title} volumes, prints or originals are released.`} />
+  {others.length > 0 && (
+    <section class="wrap next">
+      {others.map((o) => <a href={`/projects/${o.slug}/`}><span class="eyebrow">Next project</span><span class="t">{o.title} →</span></a>)}
+    </section>
+  )}
+</Base>
+<style>
+  .hero .img-frame { aspect-ratio: 2.4 / 1; max-height: 78vh; }
+  .intro { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(32px, 6vw, 96px); padding-top: clamp(48px, 7vw, 96px); padding-bottom: 48px; }
+  .intro h1 { margin: 16px 0 24px; }
+  .facts { margin: 0; border-top: 1px solid var(--line); align-self: end; }
+  .facts div { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+  dt { color: var(--muted); } dd { margin: 0; text-align: right; }
+  .copy { max-width: 64ch; font-size: 1.05rem; column-gap: 64px; padding-bottom: 72px; }
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(16px, 2.4vw, 32px); }
+  .gallery .img-frame { aspect-ratio: 4/5; }
+  .shop-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(16px, 2.4vw, 32px); }
+  .next a { display: flex; justify-content: space-between; align-items: center; padding: 56px 0; gap: 16px; }
+  .next .t { font: 400 clamp(2rem, 4vw, 3.2rem)/1 var(--serif); }
+  .next a:hover .t { font-style: italic; }
+  @media (max-width: 1000px) { .shop-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 820px) { .intro { grid-template-columns: 1fr; } .hero .img-frame { aspect-ratio: 3/2; } }
+  @media (max-width: 560px) { .gallery { grid-template-columns: 1fr; } .next a { flex-direction: column; align-items: start; } }
+</style>
