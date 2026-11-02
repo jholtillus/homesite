@@ -11,12 +11,12 @@ const featured = projects.filter((p) => p.featured);
   <HeroCarousel />
 
   <section class="section wrap">
-    <div class="section-head"><h2>Portfolio</h2><a href="/work/" class="link-arrow">All work</a></div>
+    <div class="section-head"><div><h2>Portfolio</h2><p class="sub">Some of my individual art pieces. I work mostly in watercolor and ink.</p></div><a href="/work/" class="link-arrow">All work</a></div>
     <FeaturedWork />
   </section>
 
   <section class="section">
-    <div class="wrap section-head"><h2>Projects</h2><a href="/projects/" class="link-arrow">All projects</a></div>
+    <div class="wrap section-head"><div><h2>Projects</h2><p class="sub">The major works I’ve produced.</p></div><a href="/projects/" class="link-arrow">All projects</a></div>
     <div class="wrap projects">
       {featured.map((p) => (
         <a href={`/projects/${p.slug}/`} class="proj reveal">
@@ -36,6 +36,7 @@ const featured = projects.filter((p) => p.featured);
 </Base>
 
 <style>
+  .sub { font: italic 400 clamp(1.1rem, 1.6vw, 1.3rem)/1.4 var(--serif); color: var(--muted); margin: 10px 0 0; }
   .projects { display: grid; gap: clamp(48px, 7vw, 96px); }
   .proj { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(24px, 4vw, 64px); align-items: end; }
   .proj:nth-child(even) { grid-template-columns: 1fr 1.6fr; }

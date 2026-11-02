@@ -71,6 +71,17 @@ export const artwork: Artwork[] = [
   a('hobomock-grandfathers', 'A View of the Grandfathers', 'The Witch of Hobomock Pass', 'Ink on watercolor paper'),
 ];
 
+// Shop products for each artwork (handles), used by the Work page lightbox.
+export const artworkProducts: Record<string, string[]> = {
+  'all-hallows': ['all-hallows-print', 'all-hallows-original-artwork'],
+  'nice-manners-for-a-thief': ['good-manners-print', 'good-manners-for-a-thief'],
+  'wanderer': ['mithrandir'],
+  'panomachea-card-back': ['panomachea-battle-with-gods-heroes-monsters'],
+  'theseus-vol3-page-1': ['theseus-vol-3-hardcover'],
+  'theseus-vol3-page-2': ['theseus-vol-3-hardcover'],
+  'theseus-vol3-page-3': ['theseus-vol-3-hardcover'],
+};
+
 // ---------------------------------------------------------------- Projects
 export type Block =
   | { kind: 'text'; heading?: string; paras: string[] }
@@ -93,7 +104,16 @@ export type Project = {
   productTags: string[];
   blocks: Block[];
   featured?: boolean; // shown in the home page "Projects" section
+  // Projects page case study. Paragraphs default to placeholders until written.
+  caseStudy?: { images?: Img[]; paras?: string[]; feature?: Img; featureCaption?: string };
 };
+
+export const caseStudyPlaceholders = (title: string) => [
+  `PLACEHOLDER — Origin. How ${title} began: the idea, the source material, and who it was made for.`,
+  `PLACEHOLDER — Research. The references behind ${title}: history, myth, museum pieces, period costume and architecture.`,
+  `PLACEHOLDER — Process. Thumbnails to finished art: pencils, inks, watercolor, color flats and lettering, and how long each stage took.`,
+  `PLACEHOLDER — Result. How ${title} was published or released, how readers and players responded, and what came next.`,
+];
 
 const P = '/images/projects/panomachea/';
 const prod = (f: string, alt: string) => img(`/images/products/${f}.jpg`, alt);
@@ -102,6 +122,7 @@ const art = (s: string) => artwork.find((x) => x.slug === s)!;
 export const projects: Project[] = [
   {
     slug: 'theseus',
+    caseStudy: { feature: prod('theseus-the-full-collection-1', 'Theseus: the full collection in its slipcase'), featureCaption: 'Theseus: The Full Collection — three sewn-bound hardcovers in a slipcase.' },
     featured: true,
     title: 'Theseus',
     kicker: 'Graphic novel',
@@ -135,6 +156,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'panomachea',
+    caseStudy: { feature: img(P + 'three-cards.jpg', 'Hades, Centaur and Odysseus cards'), featureCaption: 'Fighter Cards: Hades, Centaur and Odysseus.' },
     featured: true,
     title: 'Panomachea',
     kicker: 'Card game',
@@ -183,6 +205,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'blood-and-water',
+    caseStudy: { feature: art('blood-and-water-page-2'), featureCaption: 'Page from Blood & Water.' },
     title: 'Blood & Water',
     kicker: 'YA graphic novel',
     partner: 'Ignatius Press',
@@ -200,6 +223,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'in-desert-and-wilderness',
+    caseStudy: { feature: art('in-desert-wilderness-7'), featureCaption: 'In Desert & Wilderness #7.' },
     title: 'In Desert & Wilderness',
     kicker: 'Illustrated novel',
     partner: 'Old Sovereign Publishing',
@@ -217,6 +241,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'witch-of-hobomock-pass',
+    caseStudy: { feature: art('hobomock-grandfathers'), featureCaption: 'A View of the Grandfathers. Ink on watercolor paper.' },
     title: 'The Witch of Hobomock Pass',
     kicker: 'Frontier fantasy novel',
     partner: 'Written by Michael F. Kane',
@@ -236,6 +261,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'petracor',
+    caseStudy: { feature: art('petracor-page-section'), featureCaption: 'PetraCor page section.' },
     title: 'PetraCor',
     kicker: 'Anglo-Saxon graphic novel',
     status: 'Upcoming',

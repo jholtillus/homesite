@@ -113,7 +113,7 @@ Resources:
     Properties:
       CorsConfiguration:
         AllowOrigins: [!Sub 'https://${DomainName}', !Sub 'https://${Distribution.DomainName}', 'http://localhost:4321']
-        AllowMethods: [POST, OPTIONS]
+        AllowMethods: [GET, POST, OPTIONS]
         AllowHeaders: [content-type]
       DefaultRouteSettings: { ThrottlingBurstLimit: 20, ThrottlingRateLimit: 5 }
 
@@ -124,7 +124,7 @@ Resources:
       Handler: index.handler
       Runtime: nodejs20.x
       Architectures: [arm64]
-      Timeout: 10
+      Timeout: 15
       MemorySize: 256
       Environment:
         Variables:
@@ -140,6 +140,7 @@ Resources:
       Events:
         Contact: { Type: HttpApi, Properties: { ApiId: !Ref Api, Path: /contact, Method: POST } }
         Subscribe: { Type: HttpApi, Properties: { ApiId: !Ref Api, Path: /subscribe, Method: POST } }
+        Feeds: { Type: HttpApi, Properties: { ApiId: !Ref Api, Path: /feeds, Method: GET } }
 
 Outputs:
   BucketName: { Value: !Ref SiteBucket }

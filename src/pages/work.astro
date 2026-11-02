@@ -1,20 +1,38 @@
 ---
 import Base from '../layouts/Base.astro';
 import Gallery from '../components/Gallery.astro';
-import { artwork } from '../data/site';
+import { artwork, artworkProducts, projects } from '../data/site';
+import { getProducts } from '../data/shopify';
+
+const products = await getProducts();
+const buyLabel: Record<string, string> = { Print: 'Buy print', Original: 'Buy original', Book: 'Buy the book', Game: 'Buy the game', Digital: 'Buy digital' };
+const items = artwork.map((a) => {
+  const links: { label: string; href: string }[] = [];
+  const proj = projects.find((p) => p.title === a.project);
+  if (proj) links.push({ label: 'See the project', href: `/projects/${proj.slug}/` });
+  for (const h of artworkProducts[a.slug] ?? []) {
+    const p = products.find((x) => x.handle === h);
+    if (p?.available) links.push({ label: buyLabel[p.type] ?? 'Buy', href: `/shop/${p.handle}/` });
+  }
+  return { ...a, links };
+});
 ---
 <Base title="Work" description="Illustration for books, games, comics and graphic novels: historical, mythological, religious and literary work.">
   <div class="page">
     <header class="head">
+      <p class="eyebrow">Portfolio</p>
       <h1>Work</h1>
-      <p class="lede">Historical, mythological, religious and literary work — books, games, comics & graphic novels.</p>
+      <p class="lede muted">Historical, mythological, religious and literary work — books, games, comics and graphic novels. Select any piece to view it larger.</p>
     </header>
-    <Gallery items={artwork} filters row={280} />
-    <hr class="rule" />
-    <div class="cta"><h2>Have a project in mind?</h2><a href="/contact/" class="btn solid">Start a commission</a></div>
+    <Gallery items={items} filters row={300} />
   </div>
+  <section class="cta wrap">
+    <h2>Have a project in mind?</h2>
+    <a href="/contact/" class="btn solid">Start a commission</a>
+  </section>
 </Base>
 <style>
-  .head { margin-bottom: 28px; } .head h1 { margin-bottom: 8px; }
-  .cta { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .head { margin-bottom: clamp(32px, 4vw, 48px); }
+  .head h1 { margin: 16px 0 20px; }
+  .cta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: clamp(64px, 8vw, 104px); padding-top: 56px; padding-bottom: 96px; border-top: 1px solid var(--line); }
 </style>
