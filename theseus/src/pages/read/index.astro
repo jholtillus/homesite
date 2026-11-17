@@ -2,14 +2,12 @@
 import T from '../../layouts/T.astro';
 import { readerPages, chapters, links } from '../../data/theseus';
 ---
-<T title="Read online" description="Read Theseus online, page by page.">
+<T title="Read">
   <section class="band dark arch">
     <div class="wrap">
-      <p class="eyebrow">Read online</p>
-      <h1>Theseus, page by page.</h1>
-      <p class="lede">Start at the beginning, or pick up where you left off. New pages are added over time; the complete story is in the books.</p>
+      <h1>Theseus</h1>
       <div class="ctas">
-        <a href="/read/1/" class="btn flame" data-continue>Start at page 1</a>
+        <a href="/read/1/" class="btn flame" data-continue>Start reading</a>
         <a href={links.webtoon} target="_blank" rel="noopener" class="btn">Read on Webtoon ↗</a>
       </div>
     </div>

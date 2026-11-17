@@ -1,109 +1,93 @@
 ---
+// All prose on this page is taken verbatim from the three Theseus Kickstarter campaigns.
 import T from '../layouts/T.astro';
-import { volumes, samples, links, MAIN_URL, shopUrl, priceRange, readerPages } from '../data/theseus';
-const collection = { handle: 'theseus-the-full-collection', digital: 'theseus-the-full-collection-digital' };
+import { volumes, samples, links, MAIN_URL, shopUrl, priceRange, product } from '../data/theseus';
+const options = ['theseus-the-full-collection', 'theseus-vol-3-hardcover', 'theseus-the-full-collection-digital'].map((h) => ({ h, title: product(h)?.title ?? h }));
 ---
 <T>
-  <!-- Hero -->
   <section class="hero dark">
     <div class="wrap hero-grid">
       <div class="hero-txt">
-        <p class="eyebrow">A graphic novel in three volumes · Jordan Holt</p>
+        <p class="eyebrow">Jordan Holt</p>
         <h1>Theseus</h1>
-        <p class="lede">The life of the Ancient Greek hero, taken from the writings of Plutarch and spun into a colorful, fully illustrated coming-of-age adventure, both sincere and humorous.</p>
+        <p class="lede">I’ve taken the narrative of his life directly from the ancient writings of Plutarch and spun it into a colorful, fully-illustrated, coming-of-age adventure both sincere and humorous.</p>
         <div class="ctas">
           <a href="/read/1/" class="btn flame" data-continue>Start reading</a>
           <a href="#buy" class="btn">Get the books</a>
         </div>
-        <ul class="facts">
-          <li><b>3</b><span>hardcover volumes</span></li>
-          <li><b>12</b><span>chapters</span></li>
-          <li><b>488</b><span>pages, complete</span></li>
-        </ul>
       </div>
       <figure class="hero-art">
-        <img src="/images/cover-vol3.jpg" alt="Theseus, Volume Three cover: Theseus holds a torch in the labyrinth" width="1600" height="1600" fetchpriority="high" />
+        <img src="/images/cover-vol3.jpg" alt="Theseus Vol. 3" width="1600" height="1600" fetchpriority="high" />
       </figure>
     </div>
   </section>
 
-  <!-- The story -->
   <section class="band" id="story">
     <div class="wrap story">
       <div class="story-head">
-        <p class="eyebrow">The story</p>
-        <h2>Not the true story. <em>Thankfully.</em></h2>
+        <p class="eyebrow">More About Theseus</p>
+        <h2>This is most definitely not it.</h2>
       </div>
       <div class="story-copy">
-        <p class="lede">Theseus is known in mythology for defeating bandits, killing the Minotaur, and eventually ruling over Athens. The story is a fable, but there’s probably a true story underneath the legend. This isn’t it.</p>
-        <p>This is what happens when someone loves Greek mythology very much, studies it in depth along with the culture, language and history of the period, is fascinated by the idea of a true story behind the myth, but is simply not a serious person.</p>
-        <p>It’s a lovingly faithful retelling of the myth according to Plutarch, crafted into a coming-of-age story garnished with ample humor and an unusually high number of interfering deities.</p>
+        <p class="lede">Theseus is a well-known figure in mythology for defeating bandits, killing the minotaur, and ruling over Athens. While the story itself is a fable, there is likely a true story that undergirds the legend.</p>
+        <p>This is more like what happens if someone loves Greek mythology very much, studies it in-depth along with the culture, language and history of that period, is fascinated by the idea of a true story behind the myth, but is simply not a serious person.</p>
+        <p>This is a lovingly faithful retelling of the myth’s broader story according to Plutarch, but crafted into a compelling coming-of-age story garnished with ample humor and an unusually high number of interfering deities.</p>
       </div>
     </div>
 
     <div class="wrap hero2">
-      <figure class="frame"><img src="/images/art-vol1.jpg" alt="Theseus with his spear, from the Volume One cover" width="1600" height="1600" loading="lazy" /></figure>
+      <figure class="frame"><img src="/images/art-vol1.jpg" alt="Theseus Vol. 1" width="1600" height="1600" loading="lazy" /></figure>
       <div>
-        <p class="eyebrow">Our hero</p>
-        <h3>A teenager burdened with responsibility. Naturally, he avoids it.</h3>
-        <p>Rather than the powerful hero of the myth, this Theseus is neither very strong nor particularly smart. He is swept up in a tide of accidental fortunes, and in the schemes and mischief of a host of bored gods.</p>
-        <p>But as he meets vicious bandits, each with their own brand of villainy, and the monsters of myth, he starts down the path toward a better and more capable version of himself, while still leaving room for humor.</p>
+        <h3>Young Theseus starts off like any teenager burdened with responsibility: he avoids it.</h3>
+        <p>And rather than powerful hero from the myth, Theseus is neither very strong nor particularly smart, and is simply swept up in a tide of accidental fortunes as well as the schemes and mischief of a host of bored gods.</p>
+        <p>But while encountering vicious bandits (each with their own brand of villainy) and mythological monsters, he begins the path towards a better and more capable version of himself...while still leaving room for humor.</p>
+        <p>With his own legend outgrowing him, he’s forced to reckon with the man he aspires to be.</p>
       </div>
     </div>
   </section>
 
-  <!-- The books -->
   <section class="band books-band" id="books">
     <div class="wrap">
       <div class="head-row">
-        <div><p class="eyebrow">The books</p><h2>Three volumes. One hero’s whole life.</h2></div>
-        <p class="muted">Each chapter behaves like an independent episode, with its own story, while leading further down the path of the overarching tale.</p>
+        <h2>This is the complete Theseus collection, spanning nearly 500 pages.</h2>
+        <p class="muted">Each chapter behaves like an independent episode, containing its own story but leading us further down the path of the over-arching tale.</p>
       </div>
       <div class="vols">
         {volumes.map((v) => (
           <article class="vol">
-            <div class="frame cover"><img src={v.cover} alt={`Theseus, ${v.title}`} width={v.coverW} height={v.coverH} loading="lazy" /></div>
+            <div class="frame cover"><img src={v.cover} alt={`Theseus ${v.title}`} width={v.coverW} height={v.coverH} loading="lazy" /></div>
             <p class="eyebrow">{v.title} · {v.pages} pages</p>
             <h3>{v.hook}</h3>
             <p>{v.text}</p>
-            <p class="muted small">{v.extras}</p>
+            {v.extras && <p class="muted small">{v.extras}</p>}
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Myth & comedy -->
   <section class="band dark">
     <div class="wrap tone">
       <blockquote>
         <p>“When you stand before a god of Olympus, it must feel like it.”</p>
       </blockquote>
       <div class="tone-copy">
-        <p class="eyebrow">Myth and comedy</p>
-        <p>The series is marked by its merger of mythology and comedy. Humor in the vein of <em>Avatar: The Last Airbender</em> and <em>Futurama</em> is balanced with sincere drama. It isn’t an attempt at subversion; it’s solid storytelling.</p>
-        <p>The humor is never held at the expense of stakes, scale, and the wonder of meeting the beauty and strangeness of Greek myth. Along the way Theseus encounters the Immortals of the Greek pantheon, clashing or cooperating with gods and goddesses each given a unique spin in the role they play.</p>
-        <p>And there’s a colorful cast of characters, creatures and monsters, which give every chapter its own feel, with surprises and discoveries for those who know their Greek mythology. If you don’t, there’s still humor, growth and soul to be found.</p>
+        <p>This series is marked by its merger of mythology and comedy. Even with high dramatic stakes of Vol. 3, humor reminiscent of <em>Avatar: The Last Airbender</em> and even shows like <em>Futurama</em> is balanced with sincere drama. It’s not an attempt at subversion, but of solid storytelling.</p>
+        <p>But this humor is never held at the expense of stakes, scale, and the wonder of encountering the beauty and strangeness of Greek myth.</p>
+        <p>Along the way, Theseus also encounters the Immortals of the Greek Pantheon, clashing with, or cooperating with, the gods and goddesses of myth, each given a unique spin in his or her role to play in the tale.</p>
+        <p>Along the way Theseus meets a colorful cast of characters, creatures and monsters, which give every chapter its own unique feel and provide ample surprises and discoveries for those who know Greek mythology. But even if you don’t, there’s humor, growth and soul to be found.</p>
       </div>
     </div>
     <div class="wrap influences">
-      <div>
-        <p class="eyebrow">On the shelf beside it</p>
-        <p><em>Futurama</em> · P. G. Wodehouse · <em>Avatar: The Last Airbender</em> · <em>The Emperor’s New Groove</em> · <em>The Legend of Zelda</em></p>
-      </div>
-      <div>
-        <p class="eyebrow">And the ancients</p>
-        <p>Homer · Ovid · Plutarch · Babrius and Phaedrus · Virgil · Aeschylus · Herodotus</p>
-      </div>
+      <p>Major inspirations for this project were things like <em>Futurama</em>, P.G. Wodehouse, <em>Avatar: The Last Airbender</em>, <em>The Emperor’s New Groove</em>, <em>Legend of Zelda</em> and of course all of my favorite works of antiquity by Homer, Ovid, Plutarch, Babrius and Phaedrus, Virgil, Aeschylus and Herodotus.</p>
     </div>
   </section>
 
-  <!-- Pages -->
   <section class="band" id="pages">
     <div class="wrap">
       <div class="head-row">
-        <div><p class="eyebrow">Pages</p><h2>Have a few pages.</h2></div>
-        <p class="muted">Written, meticulously hand-drawn and colored by one person. Volume One alone took about a thousand very pleasant hours. Select a page to see it larger.</p>
+        <h2>Here, have a couple of pages.</h2>
+        <p class="muted">I enjoy the humor, but I also love trying to inject visually striking illustration and vibrant color into every spread.</p>
       </div>
       <div class="samples" data-gal>
         {samples.map((s, i) => (
@@ -111,67 +95,58 @@ const collection = { handle: 'theseus-the-full-collection', digital: 'theseus-th
         ))}
       </div>
       <div class="read-cta">
-        <div>
-          <h3>Read the first chapter here, free.</h3>
-          <p class="muted">Page by page, the way it was drawn. {readerPages.length} pages online so far, with more to come.</p>
-        </div>
-        <div class="ctas">
-          <a href="/read/1/" class="btn flame" data-continue>Start reading</a>
-          <a href={links.webtoon} target="_blank" rel="noopener" class="btn">Read on Webtoon ↗</a>
-        </div>
+        <a href="/read/1/" class="btn flame" data-continue>Start reading</a>
+        <a href={links.webtoon} target="_blank" rel="noopener" class="btn">Read on Webtoon ↗</a>
       </div>
     </div>
   </section>
 
-  <!-- Buy -->
   <section class="band buy" id="buy">
     <div class="wrap buy-grid">
       <div class="buy-imgs">
-        <figure class="frame"><img src="/images/slipcase-front.jpg" alt="The full collection: three hardcovers in a slipcase" width="1600" height="1600" loading="lazy" /></figure>
-        <figure class="frame"><img src="/images/slipcase-back.jpg" alt="The slipcase, reverse" width="1600" height="1600" loading="lazy" /></figure>
+        <figure class="frame"><img src="/images/slipcase-front.jpg" alt="Theseus: The Full Collection" width="1600" height="1600" loading="lazy" /></figure>
+        <figure class="frame"><img src="/images/slipcase-back.jpg" alt="Theseus: The Full Collection" width="1600" height="1600" loading="lazy" /></figure>
       </div>
       <div class="buy-txt">
-        <p class="eyebrow">The full collection</p>
-        <h2>All of Theseus, in one slipcase.</h2>
-        <p>All three hardcover volumes, sewn-bound, in a rigid slipcase adorned with Theseus artwork. Nearly 500 full-color pages, complete. Available signed or unsigned, with free shipping in the US.</p>
+        <h2>All of Theseus</h2>
+        <p>For the first time since I began in 2020 the entire series is available to readers. For those who already have Vol. 1 &amp; 2, the final volume is here. For new readers and mythology lovers, you can get the full hardcover series here too.</p>
         <ul class="options">
-          <li><a href={shopUrl(collection.handle)}><span><b>The full collection</b><small>Three hardcovers in a slipcase</small></span><span class="price">{priceRange(collection.handle)}</span></a></li>
-          <li><a href={shopUrl('theseus-vol-3-hardcover')}><span><b>Volume Three only</b><small>For those finishing the set</small></span><span class="price">{priceRange('theseus-vol-3-hardcover')}</span></a></li>
-          <li><a href={shopUrl(collection.digital)}><span><b>Digital collection</b><small>PDF of all three volumes</small></span><span class="price">{priceRange(collection.digital)}</span></a></li>
+          {options.map((o) => <li><a href={shopUrl(o.h)}><b>{o.title}</b><span class="price">{priceRange(o.h)}</span></a></li>)}
         </ul>
-        <p class="muted small">Checkout through Carthage Workshop, Jordan Holt’s shop.</p>
       </div>
     </div>
   </section>
 
-  <!-- Who it's for -->
   <section class="band for">
     <div class="wrap for-grid">
       <div>
-        <p class="eyebrow">Who it’s for</p>
-        <h2>For anyone who loves Greek myth and doesn’t take themselves too seriously.</h2>
+        <p class="lede">I know the temptation for creators is to say their work is for everyone. And as much as I hope it will be, here’s my best estimation of the core audience that this is written for:</p>
+        <ul class="aud">
+          <li>Those who love Greek mythology and don’t take themselves too seriously</li>
+          <li>Those who enjoy endless humor, a good (or bad) pun and share my philosophy that there’s no such thing as a plot-hole, just an opportunity for a joke.</li>
+        </ul>
       </div>
       <div>
-        <p>And for those who enjoy endless humor, a good (or bad) pun, and share the philosophy that there’s no such thing as a plot hole, just an opportunity for a joke.</p>
-        <p><b>Is it for kids?</b> It reads beautifully with readers 10 and up, and Volume Three is rated 12+. Younger readers may not catch every word of the vocabulary. Comics and Greek mythology were two of the things I loved most as a kid, so if you pick up a copy for a young reader, that makes me very happy.</p>
+        <h3>Is it for kids?</h3>
+        <p>Safe for all ages! Younger kids may not pick up every word of the vocabulary, but in my experience this comic plays beautifully with those aged 10 and up. I would rate its content at PG. Two things I loved as a kid were comics and Greek mythology, so if you pick up a copy for one of the young people, that makes me very happy.</p>
       </div>
     </div>
   </section>
 
-  <!-- Creator -->
   <section class="band dark" id="creator">
     <div class="wrap creator">
-      <figure class="frame"><img src="/images/sample-2.jpg" alt="Page from Volume Three: “Aegeus? Come inside.”" width="679" height="1050" loading="lazy" /></figure>
+      <figure class="frame"><img src="/images/sample-2.jpg" alt="Theseus Vol. 3" width="679" height="1050" loading="lazy" /></figure>
       <div>
-        <p class="eyebrow">The creator</p>
+        <p class="eyebrow">About the Author</p>
         <h2>Jordan Holt</h2>
-        <p class="lede">I draw primarily historical, mythological, religious and literary works. I publish my own and work with other publishers.</p>
-        <p>I’ve worked in media, advertising and commercial illustration, and have held a faculty position at a university for over ten years. In 2020, at the start of the pandemic lockdown, I launched into my own comic work with Theseus. Six years later, it’s complete.</p>
-        <p>Theseus is published by Carthage, my little company. It’s just me and the help my wife generously gives: truly an indie operation. Every page is written, hand-drawn and colored by me. I don’t use AI in any form.</p>
-        <p>Next up is <em>PetraCor</em>, an Anglo-Saxon penance fable.</p>
+        <p class="lede">I draw primarily historical, mythological, religious, and literary works. I publish my own works and work with other publishers.</p>
+        <p>I’ve worked in media, advertising, commercial illustration and held a faculty position at a university now for over 10 years.</p>
+        <p>Theseus is a long-standing passion project for me. I started this project in 2020 at the start of the pandemic lockdown. These graphic novels are written, meticulously hand-drawn and colored by me, Jordan Holt. I don’t use AI in any form. I’ve spent about 1000 very pleasant hours writing and illustrating Volume 1.</p>
+        <p>My little company, Carthage, is not big. It’s just me and the help my wife generously gives. We are truly an indie operation.</p>
+        <p>My next book after Theseus will be an Anglo-Saxon penance fable called PetraCor.</p>
         <div class="ctas">
-          <a href={MAIN_URL} class="btn">See all my work ↗</a>
-          <a href={links.substack} target="_blank" rel="noopener" class="btn">Join the newsletter ↗</a>
+          <a href={MAIN_URL} class="btn">Portfolio ↗</a>
+          <a href={links.substack} target="_blank" rel="noopener" class="btn">Substack ↗</a>
         </div>
       </div>
     </div>
@@ -211,11 +186,11 @@ const collection = { handle: 'theseus-the-full-collection', digital: 'theseus-th
 
   .books-band { background: var(--parch); }
   .head-row { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px 64px; align-items: end; margin-bottom: clamp(36px, 5vw, 64px); }
-  .head-row h2 { margin-top: 14px; }
+  .head-row h2 { font-size: clamp(2rem, 3.6vw, 3.1rem); }
   .head-row p.muted { margin: 0; max-width: 46ch; }
   .vols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 44px); }
   .vol .cover { aspect-ratio: 3 / 4; margin-bottom: 20px; box-shadow: 0 14px 40px rgba(36, 26, 44, .18); }
-  .vol h3 { font-size: 1.75rem; margin: 10px 0 12px; }
+  .vol h3 { font-size: 1.45rem; line-height: 1.2; margin: 10px 0 12px; }
   .small { font-size: 13.5px; }
 
   .tone { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(28px, 6vw, 96px); align-items: start; }
@@ -223,14 +198,14 @@ const collection = { handle: 'theseus-the-full-collection', digital: 'theseus-th
   blockquote p { font: italic 400 clamp(2rem, 4.2vw, 3.6rem)/1.15 var(--serif); color: var(--gold); }
   .tone-copy p:not(.eyebrow) { font-size: 1.05rem; }
   .tone-copy .eyebrow { margin-bottom: 18px; }
-  .influences { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: clamp(48px, 6vw, 80px); padding-top: 28px; border-top: 1px solid rgba(255,255,255,.14); }
-  .influences p:not(.eyebrow) { font: 400 1.3rem/1.5 var(--serif); margin-top: 10px; }
+  .influences { margin-top: clamp(48px, 6vw, 80px); padding-top: 28px; border-top: 1px solid rgba(255,255,255,.14); }
+  .influences p { font: 400 clamp(1.2rem, 1.8vw, 1.45rem)/1.55 var(--serif); max-width: 70ch; margin: 0; }
 
   .samples { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 20px); }
   .sample { aspect-ratio: 11 / 16; cursor: zoom-in; }
   .sample img { transition: transform .8s var(--ease); }
   .sample:hover img { transform: scale(1.03); }
-  .read-cta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: clamp(40px, 5vw, 64px); padding: clamp(24px, 3vw, 40px); background: var(--night); color: var(--on-night); }
+  .read-cta { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: clamp(40px, 5vw, 64px); padding: clamp(24px, 3vw, 40px); background: var(--night); color: var(--on-night); }
   .read-cta h3 { font-size: clamp(1.6rem, 2.6vw, 2.2rem); margin-bottom: 6px; }
   .read-cta p { margin: 0; color: var(--on-night-muted); }
   .read-cta .ctas { margin: 0; }
@@ -241,6 +216,7 @@ const collection = { handle: 'theseus-the-full-collection', digital: 'theseus-th
   .buy-imgs figure { margin: 0; aspect-ratio: 4 / 5; background: #0d0b0f; }
   .buy-txt h2 { margin: 14px 0 18px; }
   .options { list-style: none; padding: 0; margin: 28px 0 14px; border-top: 1px solid var(--line); }
+  .options b { font: 500 1.35rem/1.2 var(--serif); }
   .options a { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 4px; border-bottom: 1px solid var(--line); transition: background .2s, padding .2s; }
   .options a:hover { background: var(--paper); padding-inline: 12px; }
   .options b { display: block; font: 500 1.35rem/1.2 var(--serif); }
@@ -248,7 +224,8 @@ const collection = { handle: 'theseus-the-full-collection', digital: 'theseus-th
   .price { font: 500 1.2rem/1 var(--serif); white-space: nowrap; color: var(--flame); }
 
   .for-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 6vw, 96px); }
-  .for-grid h2 { margin-top: 14px; font-size: clamp(2rem, 3.4vw, 2.9rem); }
+  .for-grid h3 { margin-bottom: 14px; }
+  .aud { margin: 20px 0 0; padding-left: 1.2em; font-size: 1.05rem; display: grid; gap: 10px; }
   .for-grid p:not(.eyebrow) { font-size: 1.05rem; }
 
   .creator { display: grid; grid-template-columns: minmax(220px, .8fr) 1.4fr; gap: clamp(28px, 6vw, 96px); align-items: center; }

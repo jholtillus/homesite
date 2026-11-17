@@ -1,5 +1,5 @@
-// Content for the Theseus site. Text is edited from the three Kickstarter campaigns
-// (Volume 1, 2021; Volume 2, 2022; the Final Volume, 2026).
+// Content for the Theseus site. All prose is taken verbatim from the three Kickstarter
+// campaigns (Volume 1, Volume 2, the Final Volume): sentences may be rearranged or left out, not added.
 import products from '../../../src/data/products.json';
 
 export const MAIN_URL = (import.meta.env.PUBLIC_MAIN_URL || 'https://jordanholt.art').replace(/\/$/, '');
@@ -23,37 +23,35 @@ export const links = {
   instagram: 'https://instagram.com/jholtillus',
 };
 
+// Volume text is taken verbatim from the Kickstarter campaigns.
 export const volumes = [
   {
-    n: 'I', title: 'Volume One', pages: 148, cover: '/images/cover-vol1.jpg', coverW: 1096, coverH: 1600,
-    hook: 'The road to Athens.',
-    text: 'After learning that his father is the king of Athens, Theseus sets out on foot to meet him, running into bandits and beasts across the landscape of Ancient Greece. His first four adventures on the road.',
-    extras: '129 full-color comic pages, plus Letters from Readers (which aren’t real), a tutorial for drawing comic pages (which is thoroughly unhelpful) and behind-the-scenes artwork from development (which is legitimate).',
-    handle: 'theseus-vol-1-hardcover-light-cover-damage', buyNote: 'Volume One is sold as part of the full collection; a few copies with light cover damage are available on their own.',
+    title: 'Volume 1', pages: 148, cover: '/images/cover-vol1.jpg', coverW: 1096, coverH: 1600,
+    hook: 'A satirical retelling of Theseus’ first four adventures along his path to Athens.',
+    text: 'After learning that his father is king of Athens, Theseus sets out on foot to meet him, encountering bandits and beasts across the landscape of Ancient Greece.',
+    extras: 'Volume 1 is a hardcover with a total of 148 pages. 129 full color comic pages, 4 pages of Letters from Readers (which aren’t real), a tutorial for drawing comic pages (which is thoroughly unhelpful) and behind the scenes and unpublished artwork from development (which is legitimate).',
   },
   {
-    n: 'II', title: 'Volume Two', pages: 172, cover: '/images/art-vol2.jpg', coverW: 1600, coverH: 1600,
-    hook: 'A complicated homecoming.',
-    text: 'Picking up right where Volume One ends: Theseus accosts more bandits, arrives in Athens, and deals with a homecoming far more complicated than he expected. With his own legend outgrowing him, he’s forced to reckon with the man he aspires to be.',
-    extras: '172 pages of full-color comic, four more adventures from his storied tale.',
-    handle: 'theseus-vol-2-digital', buyNote: 'In print as part of the full collection, or as a digital copy.',
+    title: 'Volume 2', pages: 172, cover: '/images/art-vol2.jpg', coverW: 1600, coverH: 1600,
+    hook: 'Theseus: Volume 2 covers four of Theseus’ adventures from his storied tale.',
+    text: 'The story immediately follows Volume 1 with Theseus accosting bandits, arriving in Athens, and dealing with a homecoming that much more complicated than he expected.',
+    extras: 'Theseus, Vol. 2 has 172 pages of full color comic goodness.',
   },
   {
-    n: 'III', title: 'Volume Three', pages: 168, cover: '/images/cover-vol3.jpg', coverW: 1600, coverH: 1600,
-    hook: 'Black sails on the horizon.',
-    text: 'Ships with black sails appear in Athens’ port, and the people know Minos has come to collect his tribute: fourteen young Athenians to be fed to the Minotaur. Four chapters, knit together by Theseus’ journey to Crete, his meeting with the Princess Ariadne, and his confrontation with the most famous and menacing beast of Greek lore.',
-    extras: '168-page hardcover. The series conclusion. Rated 12+.',
-    handle: 'theseus-vol-3-hardcover', buyNote: '',
+    title: 'Volume 3', pages: 168, cover: '/images/cover-vol3.jpg', coverW: 1600, coverH: 1600,
+    hook: 'Volume 3 picks up when the ships with black sails appear on the horizon in Athens’ port, and the people know that Minos has come to collect his tribute: fourteen tributes who will be fed to the monstrous Minotaur.',
+    text: 'This 168 page hardcover contains four episodic chapters, knit together by Theseus’ journey to Crete, meeting the Princess Ariadne, and his ultimate confrontation with the most famous and menacing beast from Ancient Greek lore.',
+    extras: '',
   },
 ];
 
 export const samples = [
-  { src: '/images/sample-1.jpg', w: 701, h: 1050, alt: 'Page from Volume Three' },
-  { src: '/images/sample-3.jpg', w: 1096, h: 1600, alt: 'Page from Theseus' },
-  { src: '/images/sample-2.jpg', w: 679, h: 1050, alt: 'Page from Volume Three' },
-  { src: '/images/sample-5.jpg', w: 1096, h: 1600, alt: 'Page from Theseus' },
-  { src: '/images/sample-4.jpg', w: 1096, h: 1600, alt: 'Page from Theseus' },
-  { src: '/images/sample-6.jpg', w: 1096, h: 1600, alt: 'Page from Theseus' },
+  { src: '/images/sample-1.jpg', w: 701, h: 1050, alt: 'Theseus Vol. 3' },
+  { src: '/images/sample-3.jpg', w: 1096, h: 1600, alt: 'Theseus' },
+  { src: '/images/sample-2.jpg', w: 679, h: 1050, alt: 'Theseus Vol. 3' },
+  { src: '/images/sample-5.jpg', w: 1096, h: 1600, alt: 'Theseus' },
+  { src: '/images/sample-4.jpg', w: 1096, h: 1600, alt: 'Theseus' },
+  { src: '/images/sample-6.jpg', w: 1096, h: 1600, alt: 'Theseus' },
 ];
 
 // ---------------------------------------------------------------- Reader
@@ -62,7 +60,7 @@ export const samples = [
 const EXT = 'svg';   // 'svg' = placeholders; switch to 'jpg' when the real scans are in
 const COUNT = 10;
 export const chapters = [
-  { title: 'Chapter One', volume: 'Volume One', from: 1, to: COUNT },
+  { title: 'Chapter 1', volume: 'Volume 1', from: 1, to: COUNT },
 ];
 export const readerPages = Array.from({ length: COUNT }, (_, i) => {
   const n = i + 1;

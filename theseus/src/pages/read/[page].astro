@@ -11,7 +11,7 @@ const next = p.n < total ? `/read/${p.n + 1}/` : null;
 const ch = chapters.find((c) => c.title === p.chapter)!;
 const nextSrc = next ? readerPages[p.n].src : '';
 ---
-<T title={`Page ${p.n}`} description={`Read Theseus online: ${ch.volume}, ${ch.title}, page ${p.n}.`} reader>
+<T title={`Page ${p.n}`} description={`Theseus, ${ch.volume}, ${ch.title}, page ${p.n}`} reader>
   <div class="rd" data-reader data-n={p.n}>
     <div class="topbar wrap">
       <a href="/read/" class="crumb"><span class="eyebrow">{ch.volume}</span><span>{ch.title}</span></a>
@@ -38,16 +38,12 @@ const nextSrc = next ? readerPages[p.n].src : '';
       <a href={next ?? '#'} class:list={['pg-btn', 'main', { dis: !next }]} aria-disabled={!next}>Next ›</a>
       <a href={`/read/${total}/`} class:list={['pg-btn', { dis: !next }]} aria-disabled={!next}>Last »</a>
     </nav>
-    <p class="hint wrap">Tip: use ← → keys, or tap the sides of the page.</p>
 
     {!next && (
       <section class="end wrap">
-        <p class="eyebrow">That’s all online for now</p>
-        <h2>The story continues in the books.</h2>
-        <p>Theseus is complete in three hardcover volumes, nearly 500 pages in all.</p>
         <div class="ctas">
           <a href={shopUrl('theseus-the-full-collection')} class="btn flame">Get the full collection</a>
-          <a href="/#books" class="btn">About the books</a>
+          <a href="/#books" class="btn">The books</a>
         </div>
       </section>
     )}
@@ -81,7 +77,7 @@ const nextSrc = next ? readerPages[p.n].src : '';
   .pg-btn.dis { opacity: .3; pointer-events: none; }
   .count { min-width: 72px; text-align: center; font: 500 1.2rem/1 var(--serif); font-variant-numeric: tabular-nums; }
   .hint { text-align: center; font-size: 12px; color: var(--on-night-muted); margin-top: 14px; }
-  .end { text-align: center; margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,.12); }
+  .end { text-align: center; margin-top: 40px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.12); }
   .end h2 { margin: 12px 0 14px; }
   .end .eyebrow { color: var(--gold); }
   .end p { color: var(--on-night-muted); }

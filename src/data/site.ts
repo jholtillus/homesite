@@ -130,20 +130,29 @@ export const projects: Project[] = [
   {
     slug: 'theseus',
     site: { url: THESEUS_URL, name: 'Theseus' },
-    caseStudy: { feature: prod('theseus-the-full-collection-1', 'Theseus: the full collection in its slipcase'), featureCaption: 'Theseus: The Full Collection — three sewn-bound hardcovers in a slipcase.' },
+    caseStudy: {
+      feature: prod('theseus-the-full-collection-1', 'Theseus: The Full Collection'), featureCaption: 'Theseus: The Full Collection',
+      paras: [
+        'Began in 2020, Theseus is a full and detailed retelling of the myth, novelized and worked into a coming-of-age tale full of comedy and adventure.',
+        'This is more like what happens if someone loves Greek mythology very much, studies it in-depth along with the culture, language and history of that period, is fascinated by the idea of a true story behind the myth, but is simply not a serious person.',
+        'These graphic novels are written, meticulously hand-drawn and colored by me, Jordan Holt. I don’t use AI in any form. I’ve spent about 1000 very pleasant hours writing and illustrating Volume 1.',
+        'Readers have watched Theseus grow in confidence and strength over the course of Volume I & II, but his boyish absurdity still remains. This series is marked by its merger of mythology and comedy.',
+      ],
+      closing: 'Theseus is a long-standing passion project for me. I hope you enjoy reading it as much as I’ve enjoyed creating it. Immerse yourself in the world of myth.',
+    },
     featured: true,
     title: 'Theseus',
     kicker: 'Graphic novel',
     status: 'Available',
-    summary: 'The life of the Ancient Greek hero, taken from the writings of Plutarch and spun into a colorful, fully illustrated coming-of-age adventure, both sincere and humorous. Complete in three volumes.',
-    cover: prod('theseus-the-full-collection-digital-1', 'Theseus, Volume One cover art'),
-    hero: prod('theseus-vol-2-digital-1', 'Theseus, Volume Two cover art'),
+    // Theseus text is taken verbatim from the Kickstarter campaigns.
+    summary: 'I’ve taken the narrative of his life directly from the ancient writings of Plutarch and spun it into a colorful, fully-illustrated, coming-of-age adventure both sincere and humorous.',
+    cover: prod('theseus-the-full-collection-digital-1', 'Theseus Vol. 1'),
+    hero: prod('theseus-vol-2-digital-1', 'Theseus Vol. 2'),
     heroDark: true,
     facts: [
-      { label: 'Format', value: 'Graphic novel, three hardcover volumes' },
-      { label: 'Length', value: '488 full-color pages, 12 chapters' },
-      { label: 'Made', value: '2020–2026, drawn and colored by hand' },
-      { label: 'Readers', value: '10 and up; Volume Three rated 12+' },
+      { label: 'Volume 1', value: '148 pages' },
+      { label: 'Volume 2', value: '172 pages' },
+      { label: 'Volume 3', value: '168 pages' },
     ],
     links: [
       { label: 'Read on Webtoon', href: 'https://www.webtoons.com/en/canvas/theseus/list?title_no=656447' },
@@ -151,16 +160,16 @@ export const projects: Project[] = [
     productTags: ['theseus'],
     blocks: [
       { kind: 'text', paras: [
-        'Theseus is known in mythology for defeating bandits, killing the Minotaur and eventually ruling over Athens. There’s probably a true story underneath the legend. This isn’t it.',
-        'It’s a faithful retelling of the myth according to Plutarch, crafted into a coming-of-age story with ample humor and an unusually high number of interfering deities. This Theseus is neither very strong nor particularly smart, and is swept up in accidental fortunes and the schemes of a host of bored gods, until his own legend outgrows him and he has to reckon with the man he aspires to be.',
+        'Theseus is a well-known figure in mythology for defeating bandits, killing the minotaur, and ruling over Athens. While the story itself is a fable, there is likely a true story that undergirds the legend. This is most definitely not it.',
+        'This is a lovingly faithful retelling of the myth’s broader story according to Plutarch, but crafted into a compelling coming-of-age story garnished with ample humor and an unusually high number of interfering deities.',
       ] },
-      { kind: 'gallery', images: [prod('theseus-the-full-collection-digital-1', 'Volume One: the road to Athens'), prod('theseus-vol-2-digital-1', 'Volume Two: a complicated homecoming'), prod('theseus-vol-3-digital-1', 'Volume Three: black sails on the horizon')] },
-      { kind: 'text', heading: 'Three volumes', paras: [
-        'Volume One (148 pages) follows Theseus on foot from Troezen toward his father in Athens, through bandits and beasts. Volume Two (172 pages) brings him to Athens and a homecoming far more complicated than he expected. Volume Three (168 pages) begins when black sails appear in the harbor: Minos has come for his tribute, and Theseus sails for Crete, Ariadne and the Minotaur.',
-        'Each chapter works as its own episode, with gods and monsters given their own spin. The humor sits alongside real stakes: when you stand before a god of Olympus, it must feel like it.',
+      { kind: 'gallery', images: [prod('theseus-the-full-collection-digital-1', 'Theseus Vol. 1'), prod('theseus-vol-2-digital-1', 'Theseus Vol. 2'), prod('theseus-vol-3-digital-1', 'Theseus Vol. 3')] },
+      { kind: 'text', paras: [
+        'Young Theseus starts off like any teenager burdened with responsibility: he avoids it. But while encountering vicious bandits (each with their own brand of villainy) and mythological monsters, he begins the path towards a better and more capable version of himself...while still leaving room for humor.',
+        'Each chapter behaves like an independent episode, containing its own story but leading us further down the path of the over-arching tale.',
       ] },
-      { kind: 'gallery', images: [art('theseus-vol3-page-1'), art('theseus-vol3-page-2'), prod('theseus-the-full-collection-3', 'Page from Theseus'), prod('theseus-the-full-collection-6', 'Page from Theseus')] },
-      { kind: 'text', heading: 'The full collection', paras: ['All three hardcovers, sewn-bound, in a slipcase adorned with Theseus artwork. Signed or unsigned, with free US shipping. The full story, the reader and more pages are on the Theseus site.'] },
+      { kind: 'gallery', images: [art('theseus-vol3-page-1'), art('theseus-vol3-page-2'), prod('theseus-the-full-collection-3', 'Theseus'), prod('theseus-the-full-collection-6', 'Theseus')] },
+      { kind: 'text', paras: ['This is the complete Theseus collection, spanning nearly 500 pages.'] },
     ],
   },
   {
@@ -300,7 +309,7 @@ export const heroSlides: HeroSlide[] = [
     label: 'Theseus Vol. 3',
     image: prod('theseus-vol-3-digital-1', 'Theseus, Volume Three cover art'),
     eyebrow: 'On deck · Graphic novel',
-    text: 'Theseus Vol. 3 is here — the series conclusion. Theseus travels to Crete to confront King Minos’ minotaur in the legendary labyrinth.',
+    text: 'Volume 3 picks up when the ships with black sails appear on the horizon in Athens’ port, and the people know that Minos has come to collect his tribute: fourteen tributes who will be fed to the monstrous Minotaur.',
     caption: 'Theseus, Vol. 3',
     primary: { label: 'See the project', href: '/projects/theseus/' },
     secondary: { label: 'Buy', href: '/shop/theseus-vol-3-hardcover/' },
@@ -362,6 +371,6 @@ export type NewsItem = { date?: string; title: string; summary: string; href: st
 // Pinned studio announcements (undated items stay at the top). Substack posts and YouTube
 // videos are merged in at build time from their public feeds.
 export const studioNews: NewsItem[] = [
-  { title: 'Theseus Vol. 3 is here', summary: 'The series conclusion: Theseus travels to Crete to confront King Minos’ minotaur in the legendary labyrinth.', href: '/shop/theseus-vol-3-hardcover/', source: 'Shop', image: '/images/products/theseus-vol-3-digital-1.jpg' },
+  { title: 'Theseus Vol. 3 is here', summary: 'Theseus travels to Crete to confront King Minos’ minotaur in the legendary labyrinth.', href: '/shop/theseus-vol-3-hardcover/', source: 'Shop', image: '/images/products/theseus-vol-3-digital-1.jpg' },
   { title: 'Panomachea Deluxe', summary: 'The deck plus 4 unique holographic cards, a deluxe box and the Panomachea coin.', href: '/shop/panomachea-deluxe/', source: 'Shop', image: '/images/products/panomachea-deluxe-1.jpg' },
 ];
