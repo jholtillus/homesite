@@ -1,0 +1,52 @@
+---
+import T from '../../layouts/T.astro';
+import { readerPages, chapters, links } from '../../data/theseus';
+---
+<T title="Read online" description="Read Theseus online, page by page.">
+  <section class="band dark arch">
+    <div class="wrap">
+      <p class="eyebrow">Read online</p>
+      <h1>Theseus, page by page.</h1>
+      <p class="lede">Start at the beginning, or pick up where you left off. New pages are added over time; the complete story is in the books.</p>
+      <div class="ctas">
+        <a href="/read/1/" class="btn flame" data-continue>Start at page 1</a>
+        <a href={links.webtoon} target="_blank" rel="noopener" class="btn">Read on Webtoon ↗</a>
+      </div>
+    </div>
+  </section>
+  <section class="band">
+    <div class="wrap">
+      {chapters.map((c) => (
+        <div class="chapter">
+          <div class="ch-head"><p class="eyebrow">{c.volume}</p><h2>{c.title}</h2><p class="muted">Pages {c.from}–{c.to}</p></div>
+          <ol class="thumbs">
+            {readerPages.filter((p) => p.n >= c.from && p.n <= c.to).map((p) => (
+              <li><a href={`/read/${p.n}/`}><span class="frame"><img src={p.src} alt={`Page ${p.n}`} width={p.w} height={p.h} loading="lazy" /></span><span class="num">Page {p.n}</span></a></li>
+            ))}
+          </ol>
+        </div>
+      ))}
+    </div>
+  </section>
+</T>
+<style>
+  .arch h1 { font-size: clamp(2.6rem, 6vw, 4.8rem); margin: 14px 0 20px; color: var(--gold); }
+  .arch .lede { max-width: 40ch; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .ch-head { display: flex; align-items: baseline; gap: 8px 20px; flex-wrap: wrap; margin-bottom: 28px; }
+  .ch-head .eyebrow { width: 100%; }
+  .thumbs { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 24px 16px; }
+  .thumbs .frame { display: block; aspect-ratio: 11 / 16; box-shadow: 0 8px 24px rgba(36,26,44,.15); transition: transform .3s var(--ease); }
+  .thumbs a:hover .frame { transform: translateY(-3px); }
+  .num { display: block; margin-top: 10px; font-size: 13px; }
+  .thumbs a[aria-current] .num { color: var(--flame); }
+</style>
+<script>
+  try {
+    const last = Number(localStorage.getItem('theseus-last-page'));
+    if (last > 1) {
+      document.querySelectorAll<HTMLAnchorElement>('[data-continue]').forEach((a) => { a.href = `/read/${last}/`; a.textContent = `Continue · page ${last}`; });
+      document.querySelector(`.thumbs a[href="/read/${last}/"]`)?.setAttribute('aria-current', 'page');
+    }
+  } catch {}
+</script>

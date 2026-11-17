@@ -104,10 +104,14 @@ export type Project = {
   productTags: string[];
   blocks: Block[];
   featured?: boolean; // shown in the home page "Projects" section
+  // Larger projects get their own site (subdomain). url empty = site not built yet ("coming soon").
+  site?: { url: string; name: string };
   // Projects page case study. Paragraphs default to placeholders until written.
   // images pair with paras 1–4 (alternating sides); closing is the full-width final paragraph.
   caseStudy?: { images?: Img[]; paras?: string[]; closing?: string; feature?: Img; featureCaption?: string };
 };
+
+export const THESEUS_URL = (import.meta.env.PUBLIC_THESEUS_URL || 'https://theseus.jordanholt.art').replace(/\/$/, '');
 
 export const caseStudyPlaceholders = (title: string) => [
   `PLACEHOLDER — Origin. How ${title} began: the idea, the source material, and who it was made for.`,
@@ -125,40 +129,43 @@ const art = (s: string) => artwork.find((x) => x.slug === s)!;
 export const projects: Project[] = [
   {
     slug: 'theseus',
+    site: { url: THESEUS_URL, name: 'Theseus' },
     caseStudy: { feature: prod('theseus-the-full-collection-1', 'Theseus: the full collection in its slipcase'), featureCaption: 'Theseus: The Full Collection — three sewn-bound hardcovers in a slipcase.' },
     featured: true,
     title: 'Theseus',
     kicker: 'Graphic novel',
     status: 'Available',
-    summary: 'An action-adventure retelling of the myth of Theseus, from his journey to Athens through bandits and beasts to his ultimate confrontation with the legendary minotaur. Told with humor and heart.',
+    summary: 'The life of the Ancient Greek hero, taken from the writings of Plutarch and spun into a colorful, fully illustrated coming-of-age adventure, both sincere and humorous. Complete in three volumes.',
     cover: prod('theseus-the-full-collection-digital-1', 'Theseus, Volume One cover art'),
     hero: prod('theseus-vol-2-digital-1', 'Theseus, Volume Two cover art'),
     heroDark: true,
     facts: [
-      { label: 'Format', value: 'Three-volume graphic novel' },
-      { label: 'Length', value: '470+ full color pages' },
-      { label: 'Edition', value: 'Sewn-bound hardcovers in slipcase' },
-      { label: 'Rating', value: '12+' },
+      { label: 'Format', value: 'Graphic novel, three hardcover volumes' },
+      { label: 'Length', value: '488 full-color pages, 12 chapters' },
+      { label: 'Made', value: '2020–2026, drawn and colored by hand' },
+      { label: 'Readers', value: '10 and up; Volume Three rated 12+' },
     ],
     links: [
       { label: 'Read on Webtoon', href: 'https://www.webtoons.com/en/canvas/theseus/list?title_no=656447' },
-      { label: 'theseuscomic.com', href: 'https://theseuscomic.com' },
     ],
     productTags: ['theseus'],
     blocks: [
       { kind: 'text', paras: [
-        'Theseus began as a web comic and grew into a three-volume graphic novel — a retelling of the Ancient Greek hero’s life that follows him from his journey to Athens, through bandits and beasts, to the labyrinth of King Minos.',
-        'The series is complete. Volume 3 brings the story to its conclusion: Theseus travels to Crete to confront King Minos’ minotaur in the legendary labyrinth.',
+        'Theseus is known in mythology for defeating bandits, killing the Minotaur and eventually ruling over Athens. There’s probably a true story underneath the legend. This isn’t it.',
+        'It’s a faithful retelling of the myth according to Plutarch, crafted into a coming-of-age story with ample humor and an unusually high number of interfering deities. This Theseus is neither very strong nor particularly smart, and is swept up in accidental fortunes and the schemes of a host of bored gods, until his own legend outgrows him and he has to reckon with the man he aspires to be.',
       ] },
-      { kind: 'gallery', images: [prod('theseus-the-full-collection-digital-1', 'Volume One'), prod('theseus-vol-2-digital-1', 'Volume Two'), prod('theseus-vol-3-digital-1', 'Volume Three')] },
-      { kind: 'text', heading: 'The full collection', paras: ['All three volumes as sewn-bound hardcovers in a high quality slipcase — 470+ full color pages. Available signed or unsigned, with free US shipping.'] },
-      { kind: 'gallery', images: [prod('theseus-the-full-collection-1', 'The full collection slipcase'), prod('theseus-the-full-collection-2', 'The full collection slipcase, reverse')] },
-      { kind: 'text', heading: 'Pages', paras: ['Interior pages from Volume 3.'] },
-      { kind: 'gallery', images: [art('theseus-vol3-page-1'), art('theseus-vol3-page-2'), art('theseus-vol3-page-3'), prod('theseus-the-full-collection-6', 'Page from Theseus')] },
+      { kind: 'gallery', images: [prod('theseus-the-full-collection-digital-1', 'Volume One: the road to Athens'), prod('theseus-vol-2-digital-1', 'Volume Two: a complicated homecoming'), prod('theseus-vol-3-digital-1', 'Volume Three: black sails on the horizon')] },
+      { kind: 'text', heading: 'Three volumes', paras: [
+        'Volume One (148 pages) follows Theseus on foot from Troezen toward his father in Athens, through bandits and beasts. Volume Two (172 pages) brings him to Athens and a homecoming far more complicated than he expected. Volume Three (168 pages) begins when black sails appear in the harbor: Minos has come for his tribute, and Theseus sails for Crete, Ariadne and the Minotaur.',
+        'Each chapter works as its own episode, with gods and monsters given their own spin. The humor sits alongside real stakes: when you stand before a god of Olympus, it must feel like it.',
+      ] },
+      { kind: 'gallery', images: [art('theseus-vol3-page-1'), art('theseus-vol3-page-2'), prod('theseus-the-full-collection-3', 'Page from Theseus'), prod('theseus-the-full-collection-6', 'Page from Theseus')] },
+      { kind: 'text', heading: 'The full collection', paras: ['All three hardcovers, sewn-bound, in a slipcase adorned with Theseus artwork. Signed or unsigned, with free US shipping. The full story, the reader and more pages are on the Theseus site.'] },
     ],
   },
   {
     slug: 'panomachea',
+    site: { url: 'https://panomachea.com', name: 'Panomachea' },
     caseStudy: { feature: img(P + 'three-cards.jpg', 'Hades, Centaur and Odysseus cards'), featureCaption: 'Fighter Cards: Hades, Centaur and Odysseus.' },
     featured: true,
     title: 'Panomachea',
@@ -264,6 +271,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'petracor',
+    site: { url: '', name: 'PetraCor' },
     caseStudy: { feature: art('petracor-page-section'), featureCaption: 'PetraCor page section.' },
     title: 'PetraCor',
     kicker: 'Anglo-Saxon graphic novel',

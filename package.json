@@ -4,8 +4,11 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "dev:theseus": "SITE=theseus astro dev",
     "build": "astro build",
+    "build:theseus": "SITE=theseus astro build",
     "preview": "astro preview",
+    "preview:theseus": "SITE=theseus astro preview",
     "pull-images": "node scripts/pull-images.mjs",
     "deploy": "bash scripts/deploy.sh"
   },

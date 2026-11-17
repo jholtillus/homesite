@@ -1,14 +1,21 @@
 import { defineConfig } from 'astro/config';
 
-// Static output: the build in dist/ is uploaded to S3 and served by CloudFront.
+// One repository, two static sites:
+//   npm run build           -> the main site (jordanholt.art) in dist/
+//   npm run build:theseus   -> the Theseus site (theseus.<domain>) in dist-theseus/
+// ARTIFACT=1 builds the claude.ai preview variants (CSS inlined) into dist-artifact*/.
+const THESEUS = process.env.SITE === 'theseus';
+const ARTIFACT = !!process.env.ARTIFACT;
+
 export default defineConfig({
-  site: process.env.SITE_URL || 'https://jordanholt.art',
+  site: THESEUS ? process.env.THESEUS_URL || 'https://theseus.jordanholt.art' : process.env.SITE_URL || 'https://jordanholt.art',
+  srcDir: THESEUS ? './theseus/src' : './src',
+  publicDir: THESEUS ? './theseus/public' : './public',
+  outDir: `./dist${ARTIFACT ? '-artifact' : ''}${THESEUS ? '-theseus' : ''}`,
   output: 'static',
   trailingSlash: 'ignore',
   build: {
     format: 'directory',
-    // The artifact preview export (scripts/export-artifact.mjs) needs CSS inlined into each page.
-    inlineStylesheets: process.env.ARTIFACT ? 'always' : 'auto',
+    inlineStylesheets: ARTIFACT ? 'always' : 'auto',
   },
-  outDir: process.env.ARTIFACT ? './dist-artifact' : './dist',
 });

@@ -6,3 +6,6 @@ infra/.aws-sam
 source-images
 dist-artifact
 artifact-preview
+dist-theseus
+dist-artifact-theseus
+artifact-preview-theseus
