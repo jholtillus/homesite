@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
+<channel>
+<title>Theseus - Webcomic feed</title>
+<atom:link href="http://theseuscomic.com/theseusrss.xml" rel="self" type="application/rss+xml"/>
+<link>http://www.theseuscomic.com</link>
+<description>Updates for Theseus</description>
+<language>en-us</language>
+	
+																				<item>
+<guid isPermaLink="true">http://theseuscomic.com/comic.php?=315</guid>
+<title>Theseus page 315</title>
+<link>http://theseuscomic.com/comic.php?=315</link>
+<description>
+<![CDATA[ Theseus page 315 is up. ]]>
+</description>
+</item>
+	
+																				<item>
+<guid isPermaLink="true">http://theseuscomic.com/comic.php?=314</guid>
+<title>Theseus page 314</title>
+<link>http://theseuscomic.com/comic.php?=314</link>
+<description>
+<![CDATA[ Theseus page 314 is up. ]]>
+</description>
+</item>
+	
+							<item>
+	<guid isPermaLink="true">http://theseuscomic.com/comic.php?=313</guid>
+<title>Theseus page 313</title>
+<link>http://theseuscomic.com/comic.php?=313</link>
+<description>
+<![CDATA[ Theseus page 313 is up. ]]>
+</description>
+</item>
+	
+							<item>
+	<guid isPermaLink="true">http://theseuscomic.com/comic.php?=312</guid>
+<title>Theseus page 312</title>
+<link>http://theseuscomic.com/comic.php?=312</link>
+<description>
+<![CDATA[ Theseus page 312 is up. ]]>
+</description>
+</item>
+
+	
+
+
+
+	
+
+
+
+
+
+</channel>
+</rss>

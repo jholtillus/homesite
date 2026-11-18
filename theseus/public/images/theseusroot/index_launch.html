@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<!--
+	Story by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Theseus: the Comic</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" description="A webcomic that retells the Ancient Greek myth of Theseus and gives you precisely the details that most certainly didn't happen."/>
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-21784059-8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-21784059-8');
+</script>
+
+		<script>
+// Set the date we're counting down to
+var countDownDate = new Date("Dec 12, 2021 00:00:00").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+    
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+    
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+  // Output the result in an element with id="demo"
+  document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
+    
+  // If the count down is over, write some text 
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("timer").innerHTML = "EXPIRED";
+  }
+}, 1000);
+</script>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper" class="divided">
+
+				<!-- One -->
+					<section class="banner style1 orient-center content-align-center image-position-right fullscreen onload-image-fade-in onload-content-fade-right">
+						<div class="content" style="background-image: url('images/homebgtextures.png')">
+							<style>
+								div {
+							background-repeat: no-repeat;
+  							background-size: 100% auto;
+								}</style>
+							<img src="images/theseus_logo_02.png" class="responsive">
+							<p class="major"><img src="images/subheading.png" class="responsive"></p>
+							<ul class="actions stacked">
+								<p id="timer" class="timer"></p>
+							  <li><a href="#first"><img src="images/buttons/first_basic.png" class="imagebutton"></a><a href="about.html"><img src="images/buttons/about_basic.png" class="imagebutton"></a><a href="#latest"><img src="images/buttons/latest_basic.png" class="imagebutton"></a></li>
+							</ul>
+						</div>
+						<div class="image">
+							<img src="images/theseus_cover_01.jpg" alt="" />
+						</div>
+					</section>
+
+				<!-- Two -->
+					
+
+				<!-- Three -->
+					
+
+				<!-- Four -->
+					
+
+				<!-- Five -->
+				
+
+				<!-- Six -->
+					
+				<!-- Seven -->
+					
+
+				<!-- Footer -->
+					<footer class="wrapper style1 align-center">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://twitter.com/thejordanholt" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="https://www.instagram.com/jordanholtillus/" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>
+							</ul>
+							<p><strong>Jordan Holt &copy; 2020</strong></p>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

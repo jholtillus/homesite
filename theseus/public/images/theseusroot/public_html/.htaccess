@@ -1,0 +1,13 @@
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule .* https://theseuscomic.com%{REQUEST_URI} [R,L]
+RewriteCond %{HTTP_HOST} ^theseuscomic\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.theseuscomic\.com$
+RewriteRule ^kickstarter$ "https\:\/\/www\.kickstarter\.com\/projects\/jholtillus\/theseus\-volume\-1\-a\-graphic\-novel" [R=302,L]
+RewriteCond %{HTTP_HOST} ^theseuscomic\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.theseuscomic\.com$
+RewriteRule ^signup$ "https\:\/\/mailchi\.mp\/22c3f0865383\/theseus" [R=301,L]
+RewriteCond %{HTTP_HOST} ^theseuscomic\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.theseuscomic\.com$
+RewriteRule ^2$ "https\:\/\/www\.kickstarter\.com\/projects\/jholtillus\/theseus\-volume\-2\-a\-graphic\-novel" [R=301,L]
+

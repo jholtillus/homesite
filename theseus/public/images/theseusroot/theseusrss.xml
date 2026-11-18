@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
+<channel>
+<title>Theseus - Webcomic feed</title>
+<atom:link href="http://theseuscomic.com/theseusrss.xml" rel="self" type="application/rss+xml"/>
+<link>http://www.theseuscomic.com</link>
+<description>Updates for Theseus</description>
+<language>en-us</language>
+						<item>
+	<guid isPermaLink="true">http://theseuscomic.com/comic.php?=405</guid>
+<title>Theseus page 405</title>
+<link>http://theseuscomic.com/comic.php?=404</link>
+<description>
+<![CDATA[ The entire rest of Theseus is up to read, starting at page 405. ]]>
+</description>
+</item>
+
+
+</channel>
+</rss>
