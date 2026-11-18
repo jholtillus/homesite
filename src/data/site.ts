@@ -34,7 +34,6 @@ export const social = [
   { label: 'YouTube', key: 'youtube', href: 'https://youtube.com/@jholtillus' },
   { label: 'X', key: 'x', href: 'https://x.com/jholtillus' },
   { label: 'Instagram', key: 'instagram', href: 'https://instagram.com/jholtillus' },
-  { label: 'Webtoon', key: 'webtoon', href: 'https://www.webtoons.com/en/canvas/theseus/list?title_no=656447' },
   { label: 'Substack', key: 'substack', href: 'https://jholtillus.substack.com/' },
 ];
 
@@ -89,9 +88,13 @@ export type Block =
   | { kind: 'gallery'; images: Img[] }
   | { kind: 'list'; heading: string; items: string[] };
 
+// A book sold by its publisher: shown on the Projects page like the mini shop, linking out.
+export type External = { seller: string; url: string; title: string; price: string; format?: string; desc: string; image: Img };
+
 export type Project = {
   slug: string;
   title: string;
+  logo?: Img;        // shown in place of the title on the home page
   kicker: string;
   partner?: string;
   status: 'Available' | 'Upcoming' | 'Published';
@@ -108,7 +111,7 @@ export type Project = {
   site?: { url: string; name: string };
   // Projects page case study. Paragraphs default to placeholders until written.
   // images pair with paras 1–4 (alternating sides); closing is the full-width final paragraph.
-  caseStudy?: { images?: Img[]; paras?: string[]; closing?: string; feature?: Img; featureCaption?: string };
+  caseStudy?: { images?: Img[]; paras?: string[]; closing?: string; feature?: Img; featureCaption?: string; shop?: string; external?: External }; // shop: Shopify handle shown as a mini shop in place of the feature image
 };
 
 export const THESEUS_URL = (import.meta.env.PUBLIC_THESEUS_URL || 'https://theseus.jordanholt.art').replace(/\/$/, '');
@@ -129,9 +132,10 @@ const art = (s: string) => artwork.find((x) => x.slug === s)!;
 export const projects: Project[] = [
   {
     slug: 'theseus',
+    logo: { src: '/images/theseus-logo.png', alt: 'Theseus', w: 800, h: 192 },
     site: { url: THESEUS_URL, name: 'Theseus' },
     caseStudy: {
-      feature: prod('theseus-the-full-collection-1', 'Theseus: The Full Collection'), featureCaption: 'Theseus: The Full Collection',
+      feature: prod('theseus-the-full-collection-1', 'Theseus: The Full Collection'), featureCaption: 'Theseus: The Full Collection', shop: 'theseus-the-full-collection',
       paras: [
         'Began in 2020, Theseus is a full and detailed retelling of the myth, novelized and worked into a coming-of-age tale full of comedy and adventure.',
         'This is more like what happens if someone loves Greek mythology very much, studies it in-depth along with the culture, language and history of that period, is fascinated by the idea of a true story behind the myth, but is simply not a serious person.',
@@ -154,9 +158,7 @@ export const projects: Project[] = [
       { label: 'Volume 2', value: '172 pages' },
       { label: 'Volume 3', value: '168 pages' },
     ],
-    links: [
-      { label: 'Read on Webtoon', href: 'https://www.webtoons.com/en/canvas/theseus/list?title_no=656447' },
-    ],
+    links: [],
     productTags: ['theseus'],
     blocks: [
       { kind: 'text', paras: [
@@ -224,7 +226,15 @@ export const projects: Project[] = [
   },
   {
     slug: 'blood-and-water',
-    caseStudy: { feature: art('blood-and-water-page-2'), featureCaption: 'Page from Blood & Water.' },
+    caseStudy: {
+      feature: art('blood-and-water-page-2'), featureCaption: 'Page from Blood & Water.',
+      external: {
+        seller: 'Ignatius Press', url: 'https://ignatius.com/blood-and-water-6bwh/',
+        title: 'Blood and Water', price: '$17.99', format: 'Paperback',
+        desc: 'This graphic biography vividly chronicles Shahbaz Bhatti’s extraordinary life (1968–2011). His convictions were shaped by his Catholic faith and illuminated by courage, service, and sacrifice. Through powerful artwork woven with Gospel episodes that mirrored his mission, Blood and Water offers an unforgettable portrait of a servant-leader who refused to be silent in the face of injustice.',
+        image: { src: '/images/projects/external/blood-and-water.jpg', alt: 'Blood and Water cover', w: 842, h: 1280 },
+      },
+    },
     title: 'Blood & Water',
     kicker: 'YA graphic novel',
     partner: 'Ignatius Press',
@@ -242,7 +252,15 @@ export const projects: Project[] = [
   },
   {
     slug: 'in-desert-and-wilderness',
-    caseStudy: { feature: art('in-desert-wilderness-7'), featureCaption: 'In Desert & Wilderness #7.' },
+    caseStudy: {
+      feature: art('in-desert-wilderness-7'), featureCaption: 'In Desert & Wilderness #7.',
+      external: {
+        seller: 'Old Sovereign Publishing', url: 'https://oldsovereignpublishing.com/products/in-desert-and-wilderness',
+        title: 'In Desert And Wilderness', price: '£70.00',
+        desc: 'The adventure of a lifetime awaits. Follow Stas and Nel as they are taken on a journey from civilisation in Port Said down through the deserts of upper Egypt and the Sudan, to the wide open and undiscovered wildernesses of central and eastern Africa.',
+        image: { src: '/images/projects/external/in-desert-and-wilderness.jpg', alt: 'In Desert And Wilderness hardcover', w: 1050, h: 1400 },
+      },
+    },
     title: 'In Desert & Wilderness',
     kicker: 'Illustrated novel',
     partner: 'Old Sovereign Publishing',
@@ -302,7 +320,7 @@ export const projects: Project[] = [
 // ---------------------------------------------------------------- Home page
 // Hero carousel. The heading stays fixed; each slide swaps the image, text and buttons.
 // To put a new project "on deck", edit or reorder these entries.
-export const heroHeading = { line1: 'Pictures for', em: 'old stories', line2: '& new ones.' };
+export const heroHeading = { line1: 'Illustrating', em: 'history, myth and fable.', line2: '' };
 export type HeroSlide = { label: string; image: Img; eyebrow: string; text: string; caption: string; primary: { label: string; href: string }; secondary?: { label: string; href: string } };
 export const heroSlides: HeroSlide[] = [
   {
@@ -311,7 +329,7 @@ export const heroSlides: HeroSlide[] = [
     eyebrow: 'On deck · Graphic novel',
     text: 'Volume 3 picks up when the ships with black sails appear on the horizon in Athens’ port, and the people know that Minos has come to collect his tribute: fourteen tributes who will be fed to the monstrous Minotaur.',
     caption: 'Theseus, Vol. 3',
-    primary: { label: 'See the project', href: '/projects/theseus/' },
+    primary: { label: 'See the project', href: '/projects/#theseus' },
     secondary: { label: 'Buy', href: '/shop/theseus-vol-3-hardcover/' },
   },
   {
@@ -320,7 +338,7 @@ export const heroSlides: HeroSlide[] = [
     eyebrow: 'Card game',
     text: 'Panomachea — all-out mythological war in a competitive card-capture game. Fight with the gods, heroes and monsters of Ancient Greek myth.',
     caption: 'Panomachea',
-    primary: { label: 'See the project', href: '/projects/panomachea/' },
+    primary: { label: 'See the project', href: '/projects/#panomachea' },
     secondary: { label: 'Buy', href: '/shop/panomachea-battle-with-gods-heroes-monsters/' },
   },
   {

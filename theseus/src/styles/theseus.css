@@ -6,19 +6,25 @@
 @import '@fontsource/cormorant-garamond/500.css';
 @import '@fontsource/cormorant-garamond/600.css';
 
-/* Theseus: the homesite's type and spacing, with the books' palette (plum night, flame, parchment). */
+/* Theseus: the homesite's type, spacing and restraint, on the original theseuscomic.com palette
+   (deep indigo, logo coral, pale sky blue). Light parchment bands keep the homesite's airiness. */
 :root {
-  --paper: #fbf8f3;
-  --parch: #f3ecdf;
-  --ink: #1d1622;
-  --night: #241a2c;
-  --night-2: #33253d;
-  --flame: #d4562c;
+  --night: #211e33;      /* theseuscomic.com background */
+  --night-2: #2a2640;
+  --deep: #18162a;
+  --on-night: #f1ebe2;
+  --on-night-muted: #a9a6c4;
+  --sky: #80a0d9;        /* theseuscomic.com blue */
+  --aqua: #47d3e5;
+  --flame: #e0502f;      /* logo coral */
+  --crimson: #a83346;    /* logo shadow red */
   --gold: #e3a843;
-  --muted: #6f6574;
-  --line: #e6ddcf;
-  --on-night: #f3e9da;
-  --on-night-muted: #b8a7c0;
+  --parch: #f3ecdf;
+  --paper: #faf6ef;
+  --ink: #1f1b2e;
+  --muted: #6d6880;
+  --line: rgba(255, 255, 255, .12);
+  --line-light: #e3dacb;
   --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --max: 1320px;
@@ -27,32 +33,35 @@
   --ease: cubic-bezier(.2, .7, .2, 1);
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: var(--header); }
-body { margin: 0; background: var(--paper); color: var(--ink); font: 300 16px/1.7 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; overflow-wrap: anywhere; }
+html { background: var(--deep); -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: var(--header); }
+body { margin: 0; background: var(--night); color: var(--on-night); font: 300 16px/1.7 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; overflow-wrap: anywhere; }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--aqua); outline-offset: 3px; }
 [hidden] { display: none !important; }
 h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.08; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
 h2 { font-size: clamp(2.2rem, 4.2vw, 3.6rem); }
 h3 { font-size: 1.6rem; }
 p { margin: 0 0 1.1em; }
 .wrap { max-width: var(--max); margin: 0 auto; padding-inline: var(--gutter); }
-.eyebrow { font: 500 11px/1.4 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.eyebrow { font: 500 11px/1.4 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--sky); }
 .lede { font-family: var(--serif); font-size: clamp(1.35rem, 2.2vw, 1.8rem); line-height: 1.42; }
-.muted { color: var(--muted); }
+.muted { color: var(--on-night-muted); }
 .band { padding-block: clamp(72px, 10vw, 136px); }
-.dark { background: var(--night); color: var(--on-night); }
-.dark .eyebrow, .dark .muted { color: var(--on-night-muted); }
+.dark { background: var(--deep); color: var(--on-night); }
+.light { background: var(--parch); color: var(--ink); }
+.light .eyebrow { color: var(--crimson); }
+.light .muted { color: var(--muted); }
+.meander { background: url('/images/meander.png') center / contain no-repeat; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 26px; border: 1px solid currentColor; font: 500 12px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; transition: background .25s var(--ease), color .25s var(--ease), border-color .25s; }
-.btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn:hover { background: var(--on-night); color: var(--night); border-color: var(--on-night); }
+.light .btn:not(.flame):hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .btn.flame { background: var(--flame); border-color: var(--flame); color: #fff; }
-.btn.flame:hover { background: #b9451f; border-color: #b9451f; }
-.dark .btn:not(.flame):hover { background: var(--on-night); color: var(--night); border-color: var(--on-night); }
+.btn.flame:hover { background: var(--crimson); border-color: var(--crimson); color: #fff; }
 .link { font: 400 13px/1 var(--sans); letter-spacing: .06em; border-bottom: 1px solid currentColor; padding-bottom: 4px; }
 .link:hover { color: var(--flame); }
-.frame { background: var(--parch); overflow: hidden; }
+.frame { background: var(--night-2); overflow: hidden; }
 .frame img { width: 100%; height: 100%; object-fit: cover; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } html { scroll-behavior: auto; } }

@@ -15,7 +15,7 @@ const year = new Date().getFullYear();
     </div>
     <div>
       <p class="eyebrow">Projects</p>
-      <ul>{projects.map((p) => <li><a href={`/projects/${p.slug}/`}>{p.title}</a></li>)}</ul>
+      <ul>{projects.map((p) => <li><a href={`/projects/#${p.slug}`}>{p.title}</a></li>)}</ul>
       <p class="eyebrow" style="margin-top:28px">Store</p>
       <ul><li><a href="/shop/">Shop</a></li><li><a href={`https://${site.shopDomain}`} target="_blank" rel="noopener">carthageworkshop.com</a></li></ul>
     </div>

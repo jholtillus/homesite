@@ -16,7 +16,6 @@ export const priceRange = (handle: string) => {
 };
 
 export const links = {
-  webtoon: 'https://www.webtoons.com/en/canvas/theseus/list?title_no=656447',
   substack: 'https://jholtillus.substack.com/',
   x: 'https://x.com/jholtillus',
   youtube: 'https://youtube.com/@jholtillus',
@@ -57,12 +56,12 @@ export const samples = [
 // ---------------------------------------------------------------- Reader
 // Pages read online. To add pages: put the scans in theseus/public/read/vol1/ named
 // 001.jpg, 002.jpg … and set EXT to 'jpg' and COUNT to the number of pages.
-const EXT = 'svg';   // 'svg' = placeholders; switch to 'jpg' when the real scans are in
+const EXT = 'jpg';
 const COUNT = 10;
 export const chapters = [
   { title: 'Chapter 1', volume: 'Volume 1', from: 1, to: COUNT },
 ];
 export const readerPages = Array.from({ length: COUNT }, (_, i) => {
   const n = i + 1;
-  return { n, src: `/read/vol1/${String(n).padStart(3, '0')}.${EXT}`, w: 1100, h: 1600, chapter: chapters.find((c) => n >= c.from && n <= c.to)!.title };
+  return { n, src: `/read/vol1/${String(n).padStart(3, '0')}.${EXT}`, w: 800, h: 1168, chapter: chapters.find((c) => n >= c.from && n <= c.to)!.title };
 });

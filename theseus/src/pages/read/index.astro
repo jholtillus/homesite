@@ -1,14 +1,13 @@
 ---
 import T from '../../layouts/T.astro';
-import { readerPages, chapters, links } from '../../data/theseus';
+import { readerPages, chapters } from '../../data/theseus';
 ---
 <T title="Read">
   <section class="band dark arch">
     <div class="wrap">
-      <h1>Theseus</h1>
+      <h1 class="meander"><img src="/images/logo.png" alt="Theseus" width="800" height="192" /></h1>
       <div class="ctas">
         <a href="/read/1/" class="btn flame" data-continue>Start reading</a>
-        <a href={links.webtoon} target="_blank" rel="noopener" class="btn">Read on Webtoon ↗</a>
       </div>
     </div>
   </section>
@@ -28,15 +27,16 @@ import { readerPages, chapters, links } from '../../data/theseus';
   </section>
 </T>
 <style>
-  .arch h1 { font-size: clamp(2.6rem, 6vw, 4.8rem); margin: 14px 0 20px; color: var(--gold); }
+  .arch h1 { margin: 0 0 12px; padding: 20px 0; max-width: 460px; }
+  .arch h1 img { width: 100%; }
   .arch .lede { max-width: 40ch; }
   .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
   .ch-head { display: flex; align-items: baseline; gap: 8px 20px; flex-wrap: wrap; margin-bottom: 28px; }
   .ch-head .eyebrow { width: 100%; }
   .thumbs { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 24px 16px; }
-  .thumbs .frame { display: block; aspect-ratio: 11 / 16; box-shadow: 0 8px 24px rgba(36,26,44,.15); transition: transform .3s var(--ease); }
+  .thumbs .frame { display: block; aspect-ratio: 11 / 16; box-shadow: 0 10px 30px rgba(0,0,0,.35); transition: transform .3s var(--ease); }
   .thumbs a:hover .frame { transform: translateY(-3px); }
-  .num { display: block; margin-top: 10px; font-size: 13px; }
+  .num { display: block; margin-top: 10px; font-size: 13px; color: var(--on-night-muted); }
   .thumbs a[aria-current] .num { color: var(--flame); }
 </style>
 <script>

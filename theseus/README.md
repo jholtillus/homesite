@@ -27,3 +27,7 @@ npm run build:theseus    # output in dist-theseus/
 4. On the main site's Amplify app, set `PUBLIC_THESEUS_URL` = `https://theseus.<domain>` so its "Full project site" links point here.
 
 `amplify.yml` already builds the right site based on `SITE`.
+
+## Source files
+- `theseus/originals/` — full-size source images (not deployed). Web versions live in `theseus/public/images/`.
+- `/theseusroot/` — archive of the original theseuscomic.com (not deployed). Comic pages are in `theseusroot/public_html/images/comics/theseus_NNN.jpg`.
