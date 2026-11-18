@@ -6,10 +6,10 @@ import Newsletter from '../../components/Newsletter.astro';
 import { projects } from '../../data/site';
 import { getProducts } from '../../data/shopify';
 
-export function getStaticPaths() { return projects.map((p) => ({ params: { slug: p.slug }, props: { project: p } })); }
+export function getStaticPaths() { return projects.filter((p) => !p.noPage).map((p) => ({ params: { slug: p.slug }, props: { project: p } })); }
 const { project: p } = Astro.props;
 const related = p.productTags.length ? (await getProducts()).filter((x) => x.tags.some((t) => p.productTags.includes(t))) : [];
-const i = projects.indexOf(p), next = projects[(i + 1) % projects.length];
+const list = projects.filter((x) => !x.noPage), i = list.indexOf(p), next = list[(i + 1) % list.length];
 ---
 <Base title={p.title} description={p.summary} image={p.hero.src}>
   <section class:list={['hero', { dark: p.heroDark }]}>

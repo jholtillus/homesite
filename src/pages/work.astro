@@ -9,7 +9,7 @@ const buyLabel: Record<string, string> = { Print: 'Buy print', Original: 'Buy or
 const items = artwork.map((a) => {
   const links: { label: string; href: string }[] = [];
   const proj = projects.find((p) => p.title === a.project);
-  if (proj) links.push({ label: 'See the project', href: `/projects/${proj.slug}/` });
+  if (proj) links.push({ label: 'See the project', href: `/projects/#${proj.slug}` });
   for (const h of artworkProducts[a.slug] ?? []) {
     const p = products.find((x) => x.handle === h);
     if (p?.available) links.push({ label: buyLabel[p.type] ?? 'Buy', href: `/shop/${p.handle}/` });

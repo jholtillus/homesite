@@ -122,7 +122,8 @@ export type Project = {
   site?: { url: string; name: string };
   // Projects page case study. Paragraphs default to placeholders until written.
   // images pair with paras 1–4 (alternating sides); closing is the full-width final paragraph.
-  caseStudy?: { images?: Img[]; paras?: string[]; closing?: string; feature?: Img; featureCaption?: string; shop?: string; external?: External }; // shop: Shopify handle shown as a mini shop in place of the feature image
+  noPage?: boolean;  // no overview page (/projects/<slug>/): the Projects page case study is all there is
+  caseStudy?: { images?: (Img & { whole?: boolean })[]; banner?: Img; paras?: string[]; closing?: string; feature?: Img; featureCaption?: string; shop?: string; external?: External }; // shop: Shopify handle shown as a mini shop in place of the feature image
 };
 
 
@@ -243,11 +244,26 @@ export const projects: Project[] = [
   },
   {
     slug: 'blood-and-water',
+    noPage: true,
     caseStudy: {
+      images: [
+        { src: '/images/projects/blood-and-water/book.jpg', alt: 'Blood & Water hardcover', w: 711, h: 947 },
+        { src: '/images/projects/blood-and-water/inks-page-24.jpg', alt: 'Blood & Water, inked page 24', w: 1200, h: 1600 },
+        { src: '/images/projects/blood-and-water/page.jpg', alt: 'Page from Blood & Water', w: 784, h: 1200, whole: true },
+        art('blood-and-water-page-1'),
+      ],
+      paras: [
+        'In 2023 I was contacted by writer Matt Yocum about joining the project to create a graphic novel on the remarkable life of Shahbaz Bhatti, which was tragically cut short by assassination in 2011. The project was spearheaded by Knox Thames, who was a friend of Shahbaz and working with the Bhatti family to bring his inspiring story to life.',
+        'I delved into the world of Pakistan, determined to avoid the contemporary tendency to depict the Middle-East or West Asia as sepia toned and bland. I studied the town where Shahbaz was born and raised, and got feedback from his brother on the artwork.',
+        'Working from Matt’s script, I illustrated his childhood and the narrative of his life. The pressure to portray him properly weighed on me for the year it took to illustrate the book.',
+        'In March of 2026, the book was published in hardcover by Ignatius Press, and I traveled to Toronto to meet the Bhatti family and the Canadian Pakistani community along with Matt Yocum and Knox Thames.',
+      ],
+      closing: 'In Rome, at San Bartolomeo d’Isola, you can see Shahbaz’s personal Bible on display among relics of martyrs from that part of the world. It was an honor to depict his life.',
+      banner: { src: '/images/projects/blood-and-water/rome.jpg', alt: 'Jordan Holt at San Bartolomeo, Rome, by the display of Shahbaz Bhatti’s Bible', w: 2000, h: 1502 },
       feature: art('blood-and-water-page-2'), featureCaption: 'Page from Blood & Water.',
       external: {
         seller: 'Ignatius Press', url: 'https://ignatius.com/blood-and-water-6bwh/',
-        title: 'Blood and Water', price: '$17.99', format: 'Paperback',
+        title: 'Blood and Water', price: '$17.99', format: 'Hardcover',
         desc: 'This graphic biography vividly chronicles Shahbaz Bhatti’s extraordinary life (1968–2011). His convictions were shaped by his Catholic faith and illuminated by courage, service, and sacrifice. Through powerful artwork woven with Gospel episodes that mirrored his mission, Blood and Water offers an unforgettable portrait of a servant-leader who refused to be silent in the face of injustice.',
         image: { src: '/images/projects/external/blood-and-water.jpg', alt: 'Blood and Water cover', w: 842, h: 1280 },
       },
