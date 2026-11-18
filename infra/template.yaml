@@ -12,6 +12,7 @@ Parameters:
     Description: ACM certificate in us-east-1 for DomainName and www.DomainName. Leave blank to use the CloudFront domain only.
   ContactTo:
     Type: String
+    Default: jholt@carthageworkshop.com
     Description: Address that receives contact-form enquiries
   ContactFrom:
     Type: String
