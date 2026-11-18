@@ -101,6 +101,13 @@ export type Block =
 // A book sold by its publisher: shown on the Projects page like the mini shop, linking out.
 export type External = { seller: string; url: string; title: string; price: string; format?: string; desc: string; image: Img };
 
+// Where "Buy" goes for a project: its Shopify product (caseStudy.shop) or its publisher's page
+// (caseStudy.external). Projects with neither have no Buy button.
+export const buyLink = (p: { caseStudy?: { shop?: string; external?: { url: string } } }) =>
+  p.caseStudy?.shop ? { href: `/shop/${p.caseStudy.shop}/`, external: false }
+  : p.caseStudy?.external ? { href: p.caseStudy.external.url, external: true } : null;
+
+// Projects are presented on the Projects page only (no per-project pages); larger projects get their own site.
 export type Project = {
   slug: string;
   title: string;
@@ -122,7 +129,6 @@ export type Project = {
   site?: { url: string; name: string };
   // Projects page case study. Paragraphs default to placeholders until written.
   // images pair with paras 1–4 (alternating sides); closing is the full-width final paragraph.
-  noPage?: boolean;  // no overview page (/projects/<slug>/): the Projects page case study is all there is
   caseStudy?: { images?: (Img & { whole?: boolean })[]; banner?: Img; paras?: string[]; closing?: string; feature?: Img; featureCaption?: string; shop?: string; external?: External }; // shop: Shopify handle shown as a mini shop in place of the feature image
 };
 
@@ -149,7 +155,6 @@ const THESEUS_SPREAD = { src: '/images/projects/theseus/pages-spread.jpg', alt: 
 export const projects: Project[] = [
   {
     slug: 'theseus',
-    noPage: true,
     logo: { src: '/images/theseus-logo.png', alt: 'Theseus', w: 800, h: 192 },
     site: { url: THESEUS_URL, name: 'Theseus' },
     caseStudy: {
@@ -203,7 +208,6 @@ export const projects: Project[] = [
   },
   {
     slug: 'panomachea',
-    noPage: true,
     site: { url: PANOMACHEA_URL, name: 'Panomachea' },
     // A short version of the Panomachea site: its text and images.
     caseStudy: {
@@ -271,7 +275,6 @@ export const projects: Project[] = [
   },
   {
     slug: 'blood-and-water',
-    noPage: true,
     caseStudy: {
       images: [
         { src: '/images/projects/blood-and-water/book.jpg', alt: 'Blood & Water hardcover', w: 711, h: 947 },
@@ -364,7 +367,6 @@ export const projects: Project[] = [
   },
   {
     slug: 'witch-of-hobomock-pass',
-    noPage: true,
     caseStudy: {
       images: [art('witch-of-hobomock-pass-cover'), art('hobomock-in-the-fort'), art('hobomock-hellhound'), art('hobomock-king-of-the-forest')],
       paras: [

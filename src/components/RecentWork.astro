@@ -1,14 +1,11 @@
 ---
 // "Recent work" slider: four projects visible on desktop, slides horizontally.
-import { recentWork, projects } from '../data/site';
-import { getProducts } from '../data/shopify';
-const products = await getProducts();
+import { recentWork, projects, buyLink } from '../data/site';
 const items = recentWork.map((s) => projects.find((p) => p.slug === s)!).filter(Boolean);
-const hasShop = (tags: string[]) => tags.length > 0 && products.some((x) => x.tags.some((t) => tags.includes(t)));
 ---
 <div class="rw" data-rw>
   <div class="track" data-track>
-    {items.map((p) => (
+    {items.map((p) => { const buy = buyLink(p); return (
       <article class="card">
         <a href={`/projects/#${p.slug}`} class="img-frame" tabindex="-1" aria-hidden="true"><img src={p.cover.src} alt="" loading="lazy" decoding="async" width={p.cover.w} height={p.cover.h} /></a>
         <p class="eyebrow">{p.kicker}{p.status === 'Upcoming' ? ' · Upcoming' : ''}</p>
@@ -16,10 +13,10 @@ const hasShop = (tags: string[]) => tags.length > 0 && products.some((x) => x.ta
         {p.partner && <p class="partner">{p.partner}</p>}
         <div class="acts">
           <a href={`/projects/#${p.slug}`} class="btn sm">See more</a>
-          <a href={hasShop(p.productTags) && !p.noPage ? `/projects/${p.slug}/#shop` : `/projects/#${p.slug}`} class="btn solid sm">Buy</a>
+          {buy && <a href={buy.href} class="btn solid sm" {...(buy.external ? { target: '_blank', rel: 'noopener' } : {})}>Buy{buy.external ? ' ↗' : ''}</a>}
         </div>
       </article>
-    ))}
+    ); })}
   </div>
   <div class="nav">
     <div class="bar"><span data-bar></span></div>
