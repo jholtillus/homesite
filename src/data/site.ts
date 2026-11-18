@@ -149,6 +149,7 @@ const THESEUS_SPREAD = { src: '/images/projects/theseus/pages-spread.jpg', alt: 
 export const projects: Project[] = [
   {
     slug: 'theseus',
+    noPage: true,
     logo: { src: '/images/theseus-logo.png', alt: 'Theseus', w: 800, h: 192 },
     site: { url: THESEUS_URL, name: 'Theseus' },
     caseStudy: {

@@ -16,7 +16,7 @@ const hasShop = (tags: string[]) => tags.length > 0 && products.some((x) => x.ta
         {p.partner && <p class="partner">{p.partner}</p>}
         <div class="acts">
           <a href={`/projects/#${p.slug}`} class="btn sm">See more</a>
-          <a href={hasShop(p.productTags) ? `/projects/${p.slug}/#shop` : `/projects/#${p.slug}`} class="btn solid sm">Buy</a>
+          <a href={hasShop(p.productTags) && !p.noPage ? `/projects/${p.slug}/#shop` : `/projects/#${p.slug}`} class="btn solid sm">Buy</a>
         </div>
       </article>
     ))}

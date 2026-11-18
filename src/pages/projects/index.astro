@@ -66,8 +66,8 @@ const studies = projects.map((p) => {
               {p.site
                 ? (p.site.url ? <a href={p.site.url} class="btn">Full project site ↗</a> : <span class="btn soon" aria-disabled="true">Full project site · coming soon</span>)
                 : !p.noPage && <a href={`/projects/${p.slug}/`} class="btn">Full project page</a>}
-              {p.site && <a href={`/projects/${p.slug}/`} class="btn">Project overview</a>}
-              {shop && <a href={`/projects/${p.slug}/#shop`} class="btn solid">Buy</a>}
+              {p.site && !p.noPage && <a href={`/projects/${p.slug}/`} class="btn">Project overview</a>}
+              {shop && <a href={p.noPage ? `#cs-${p.slug}-shop` : `/projects/${p.slug}/#shop`} class="btn solid">Buy</a>}
             </div>
           </aside>
         </header>
@@ -87,7 +87,7 @@ const studies = projects.map((p) => {
           const first = mini.variants.find((v) => v.available) ?? mini.variants[0];
           const blurb = mini.description.split('\n').filter(Boolean)[0] ?? '';
           return (
-            <section class="mini" data-mini={JSON.stringify({ handle: mini.handle, title: mini.title, image: mini.image, currency: mini.currency, variants: mini.variants })}>
+            <section class="mini" id={`cs-${p.slug}-shop`} data-mini={JSON.stringify({ handle: mini.handle, title: mini.title, image: mini.image, currency: mini.currency, variants: mini.variants })}>
               <a href={`/shop/${mini.handle}/`} class="mini-img"><img src={mini.images[0] ?? mini.image} alt={mini.title} width="1200" height="1200" loading="lazy" /></a>
               <div class="mini-info">
                 <p class="eyebrow">{mini.type}</p>
