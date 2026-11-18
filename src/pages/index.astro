@@ -10,7 +10,7 @@ const featured = projects.filter((p) => p.featured);
 <Base>
   <HeroCarousel />
 
-  <section class="section wrap">
+  <section class="section wrap first">
     <div class="section-head"><div><h2>Portfolio</h2><p class="sub">Some of my individual art pieces. I work mostly in watercolor and ink.</p></div><a href="/work/" class="link-arrow">All work</a></div>
     <FeaturedWork />
   </section>
@@ -50,4 +50,5 @@ const featured = projects.filter((p) => p.featured);
     .proj:nth-child(even) .img-frame { order: 0; }
     .proj .img-frame { aspect-ratio: 3 / 2; }
   }
+  .first { padding-top: clamp(28px, 4vw, 56px); }
 </style>
