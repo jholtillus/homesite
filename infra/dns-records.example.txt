@@ -1,0 +1,8 @@
+# Copy to infra/dns-records.txt and list the DNS records jordanholt.art needs to keep
+# (mainly email: MX, and TXT records such as SPF or site verifications).
+# Leave out the old website's A / CNAME records; Amplify creates the new ones.
+# One record per line:  NAME  TYPE  TTL  VALUE    (same NAME+TYPE on several lines are combined)
+#
+# jordanholt.art  MX   3600  10 mx1.example-mail.com
+# jordanholt.art  MX   3600  20 mx2.example-mail.com
+# jordanholt.art  TXT  3600  "v=spf1 include:example-mail.com ~all"

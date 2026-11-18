@@ -6,6 +6,11 @@ Parameters:
   DomainName:
     Type: String
     Default: jordanholt.art
+  DeployHosting:
+    Type: String
+    Default: 'true'
+    AllowedValues: ['true', 'false']
+    Description: "'false' when the site is hosted on AWS Amplify: deploys only the form/feed API."
   CertificateArn:
     Type: String
     Default: ''
@@ -26,22 +31,26 @@ Parameters:
     Description: Shopify Admin API token with write_customers scope
 
 Conditions:
-  HasCert: !Not [!Equals [!Ref CertificateArn, '']]
+  Hosting: !Equals [!Ref DeployHosting, 'true']
+  HasCert: !And [!Condition Hosting, !Not [!Equals [!Ref CertificateArn, '']]]
 
 Resources:
   SiteBucket:
+    Condition: Hosting
     Type: AWS::S3::Bucket
     Properties:
       PublicAccessBlockConfiguration: { BlockPublicAcls: true, BlockPublicPolicy: true, IgnorePublicAcls: true, RestrictPublicBuckets: true }
       BucketEncryption: { ServerSideEncryptionConfiguration: [{ ServerSideEncryptionByDefault: { SSEAlgorithm: AES256 } }] }
 
   OAC:
+    Condition: Hosting
     Type: AWS::CloudFront::OriginAccessControl
     Properties:
       OriginAccessControlConfig: { Name: !Sub '${AWS::StackName}-oac', OriginAccessControlOriginType: s3, SigningBehavior: always, SigningProtocol: sigv4 }
 
   # Rewrites /work/ -> /work/index.html and redirects www -> apex.
   IndexRewrite:
+    Condition: Hosting
     Type: AWS::CloudFront::Function
     Properties:
       Name: !Sub '${AWS::StackName}-index'
@@ -59,6 +68,7 @@ Resources:
         }
 
   Headers:
+    Condition: Hosting
     Type: AWS::CloudFront::ResponseHeadersPolicy
     Properties:
       ResponseHeadersPolicyConfig:
@@ -70,6 +80,7 @@ Resources:
           ReferrerPolicy: { ReferrerPolicy: strict-origin-when-cross-origin, Override: true }
 
   Distribution:
+    Condition: Hosting
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
@@ -98,6 +109,7 @@ Resources:
           - { ErrorCode: 404, ResponseCode: 404, ResponsePagePath: /404.html }
 
   SiteBucketPolicy:
+    Condition: Hosting
     Type: AWS::S3::BucketPolicy
     Properties:
       Bucket: !Ref SiteBucket
@@ -113,7 +125,10 @@ Resources:
     Type: AWS::Serverless::HttpApi
     Properties:
       CorsConfiguration:
-        AllowOrigins: [!Sub 'https://${DomainName}', !Sub 'https://${Distribution.DomainName}', 'http://localhost:4321']
+        AllowOrigins: !If
+          - Hosting
+          - [!Sub 'https://${DomainName}', !Sub 'https://www.${DomainName}', !Sub 'https://${Distribution.DomainName}', 'http://localhost:4321']
+          - [!Sub 'https://${DomainName}', !Sub 'https://www.${DomainName}', 'http://localhost:4321']
         AllowMethods: [GET, POST, OPTIONS]
         AllowHeaders: [content-type]
       DefaultRouteSettings: { ThrottlingBurstLimit: 20, ThrottlingRateLimit: 5 }
@@ -123,7 +138,7 @@ Resources:
     Properties:
       CodeUri: lambda/api/
       Handler: index.handler
-      Runtime: nodejs20.x
+      Runtime: nodejs24.x
       Architectures: [arm64]
       Timeout: 15
       MemorySize: 256
@@ -144,7 +159,7 @@ Resources:
         Feeds: { Type: HttpApi, Properties: { ApiId: !Ref Api, Path: /feeds, Method: GET } }
 
 Outputs:
-  BucketName: { Value: !Ref SiteBucket }
-  DistributionId: { Value: !Ref Distribution }
-  CloudFrontUrl: { Value: !Sub 'https://${Distribution.DomainName}' }
+  BucketName: { Condition: Hosting, Value: !Ref SiteBucket }
+  DistributionId: { Condition: Hosting, Value: !Ref Distribution }
+  CloudFrontUrl: { Condition: Hosting, Value: !Sub 'https://${Distribution.DomainName}' }
   ApiUrl: { Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com' }

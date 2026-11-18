@@ -35,20 +35,20 @@ npm run dev        # http://localhost:4321
 - **Rebuilds:** prices and stock refresh on each build, so rebuild and deploy after catalogue changes, or schedule a rebuild.
 
 ## AWS deployment
-1. **SES:** verify the sending domain or address in SES, and request production access.
-2. **Certificate (optional):** request an ACM certificate in **us-east-1** for `jordanholt.art` and `www.jordanholt.art`.
-3. **Shopify Admin token:** create a custom app in Shopify with the `write_customers` scope.
-4. **Deploy the stack:**
-   ```bash
-   cd infra
-   sam build && sam deploy --guided --stack-name jordanholt-site
-   ```
-5. **Publish the site:**
-   ```bash
-   STACK=jordanholt-site npm run deploy
-   ```
-   This builds with `PUBLIC_API_URL` taken from the stack, syncs to S3, and invalidates CloudFront.
-6. **DNS:** point `jordanholt.art` and `www` at the CloudFront distribution, using Route 53 alias records or CNAMEs.
+The sites are hosted on **AWS Amplify** (one app per site, built from this repository with `amplify.yml`).
+`scripts/aws-setup.sh` does the rest of the AWS setup in one go: Route 53 zone for the domain, the Theseus
+and Panomachea Amplify apps, custom domains (jordanholt.art, www, theseus., panomachea.), SES for the
+contact form, the form/newsletter/feed API (`infra/template.yaml` with `DeployHosting=false`), and the
+settings that connect them. Run it in AWS CloudShell from a clone of this repository:
+
+```bash
+bash scripts/aws-setup.sh          # safe to re-run
+bash scripts/aws-setup.sh status   # progress: nameservers, domains, SES, API
+```
+
+Email and other DNS records to carry over go in `infra/dns-records.txt` (see `infra/dns-records.example.txt`).
+`infra/template.yaml` with `DeployHosting=true` (the default) also defines an S3 + CloudFront alternative to Amplify,
+published with `STACK=<stack> npm run deploy`.
 
 ## Environment
 See `.env.example`. Set `PUBLIC_YOUTUBE_CHANNEL_ID` and `PUBLIC_TWITTER_HANDLE` to turn on the social feeds.
