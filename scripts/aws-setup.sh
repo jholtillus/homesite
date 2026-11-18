@@ -4,6 +4,8 @@
 #
 #   bash scripts/aws-setup.sh            # run every step (safe to run again; finished steps are skipped)
 #   bash scripts/aws-setup.sh status     # show where things stand
+#   bash scripts/aws-setup.sh add-domain theseuscomic.com theseus      # extra domain -> redirects to a site
+#   bash scripts/aws-setup.sh add-domain panomachea.com panomachea     #   (site: theseus, panomachea or main)
 #
 # What it does:
 #   1. Route 53 hosted zone for the domain (prints the nameservers to enter at your registrar)
@@ -74,6 +76,83 @@ status() {
   info "Form API: ${api:-not deployed}"
 }
 if [ "${1:-}" = "status" ]; then status; exit 0; fi
+
+# ---------------------------------------------------------------- add-domain
+# Points another domain you own (e.g. theseuscomic.com) at one of the sites. The domain and www both
+# redirect (301) to the site's address, keeping the page path, so links to the old domain still land.
+# Its DNS moves to Route 53: if the zone is new, set the printed nameservers at that domain's registrar.
+# Records to keep (email etc.) can be listed in infra/dns-records.<domain>.txt, same format as dns-records.txt.
+add_domain() {
+  local d=${1:?usage: add-domain <domain> <theseus|panomachea|main>} site=${2:?usage: add-domain <domain> <theseus|panomachea|main>}
+  local id target
+  case "$site" in
+    theseus|panomachea) id=$(app_id "homesite-$site"); target="https://$site.$DOMAIN" ;;
+    main) id="${MAIN_APP_ID:-}"; target="https://$DOMAIN"
+      [ -n "$id" ] || id=$(aws amplify list-apps --output json | py 'import json,sys
+apps=[a for a in json.load(sys.stdin)["apps"] if not (a.get("environmentVariables") or {}).get("SITE")]
+print(apps[0]["appId"] if len(apps)==1 else "")') ;;
+    *) die "site must be theseus, panomachea or main" ;;
+  esac
+  [ -n "$id" ] || die "No Amplify app found for '$site' (for main, set MAIN_APP_ID)."
+  say "Add $d -> $target (Amplify app $id)"
+
+  local z; z=$(aws route53 list-hosted-zones-by-name --dns-name "$d." --query "HostedZones[?Name=='$d.'] | [0].Id" --output text | sed 's#/hostedzone/##; s/^None$//')
+  if [ -z "$z" ]; then
+    z=$(aws route53 create-hosted-zone --name "$d" --caller-reference "add-$d-$(date +%s)" --query HostedZone.Id --output text | sed 's#/hostedzone/##')
+    info "Created Route 53 zone $z"
+    say "ACTION AT THE REGISTRAR FOR $d: set these nameservers"
+    aws route53 get-hosted-zone --id "$z" --query 'DelegationSet.NameServers' --output text | tr '\t' '\n' | sed 's/^/     /'
+  else
+    info "Route 53 zone exists: $z (no nameserver change needed if $d already uses it)"
+    local backup; backup="$HOME/dns-backup-$d-$(date +%Y%m%d-%H%M%S).json"
+    aws route53 list-resource-record-sets --hosted-zone-id "$z" --output json > "$backup"
+    info "Saved a copy of its current records to $backup"
+  fi
+
+  local rec="$ROOT/infra/dns-records.$d.txt"
+  if [ -f "$rec" ]; then
+    py 'import sys,collections,json
+recs=collections.OrderedDict()
+for line in open(sys.argv[1]):
+    line=line.strip()
+    if not line or line.startswith("#"): continue
+    n,t,ttl,v=line.split(None,3); recs.setdefault((n,t.upper(),ttl),[]).append(v)
+ch=[{"Action":"UPSERT","ResourceRecordSet":{"Name":n,"Type":t,"TTL":int(ttl),"ResourceRecords":[{"Value":v} for v in vals]}} for (n,t,ttl),vals in recs.items()]
+print(json.dumps({"Changes":ch}))' "$rec" > /tmp/dns-batch.json
+    aws route53 change-resource-record-sets --hosted-zone-id "$z" --change-batch file:///tmp/dns-batch.json >/dev/null
+    info "Added the records from infra/dns-records.$d.txt"
+  fi
+
+  # Redirect rules first (old theseuscomic.com reader links go to the new reader), then attach the domain.
+  local rules newrules
+  rules=$(aws amplify get-app --app-id "$id" --query 'app.customRules' --output json)
+  newrules=$(py 'import json,sys
+rules=json.loads(sys.argv[1]) or []; d,t,site=sys.argv[2:5]
+add=[]
+if site=="theseus":
+    for h in (d,"www."+d):
+        for old in ("comic.php","index.php","archive.html"):
+            add.append({"source":f"https://{h}/{old}","target":t+"/read/","status":"301"})
+for h in ("www."+d,d):
+    add.append({"source":f"https://{h}/<*>","target":t+"/<*>","status":"301"})
+    add.append({"source":f"https://{h}","target":t,"status":"301"})
+srcs={r["source"] for r in add}
+print(json.dumps(add+[r for r in rules if r.get("source") not in srcs]))' "$rules" "$d" "$target" "$site")
+  aws amplify update-app --app-id "$id" --custom-rules "$newrules" >/dev/null
+  info "$d and www.$d redirect to $target"
+
+  if aws amplify get-domain-association --app-id "$id" --domain-name "$d" >/dev/null 2>&1; then
+    info "$d already attached ($(aws amplify get-domain-association --app-id "$id" --domain-name "$d" --query domainAssociation.domainStatus --output text))"
+  elif aws amplify create-domain-association --app-id "$id" --domain-name "$d" --no-enable-auto-sub-domain \
+        --sub-domain-settings "[{\"prefix\":\"\",\"branchName\":\"$BRANCH\"},{\"prefix\":\"www\",\"branchName\":\"$BRANCH\"}]" >/dev/null; then
+    info "Attached $d and www.$d (Amplify creates the certificate and Route 53 records)"
+  else
+    warn "Amplify could not attach $d. If the old site still owns it (e.g. a CloudFront distribution listing $d"
+    warn "as an alternate domain name), remove it there first, then run this command again."
+  fi
+  info "Check progress with: bash scripts/aws-setup.sh status"
+}
+if [ "${1:-}" = "add-domain" ]; then shift; add_domain "$@"; exit 0; fi
 
 say "Account $ACCOUNT, region $REGION, domain $DOMAIN"
 

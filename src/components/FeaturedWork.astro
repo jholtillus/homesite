@@ -13,7 +13,7 @@ const items = featuredWork.slice(0, 9).map((f) => {
   if (proj) actions.push({ label: 'See the project', href: `/projects/#${proj.slug}` });
   if (print) actions.push(print.available ? { label: 'Prints', href: `/shop/${print.handle}/` } : { label: 'Prints sold out', sold: true });
   if (orig) actions.push(orig.available && !f.sold ? { label: 'For sale', href: `/shop/${orig.handle}/` } : { label: 'Sold', sold: true });
-  return { ...a, caption: f.caption, actions };
+  return { ...a, caption: f.caption ?? a.title, actions };
 });
 ---
 <div class="fw" data-fw>
