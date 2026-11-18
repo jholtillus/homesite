@@ -115,6 +115,7 @@ export type Project = {
 };
 
 export const THESEUS_URL = (import.meta.env.PUBLIC_THESEUS_URL || 'https://theseus.jordanholt.art').replace(/\/$/, '');
+export const PANOMACHEA_URL = (import.meta.env.PUBLIC_PANOMACHEA_URL || 'https://panomachea.jordanholt.art').replace(/\/$/, '');
 
 export const caseStudyPlaceholders = (title: string) => [
   `PLACEHOLDER — Origin. How ${title} began: the idea, the source material, and who it was made for.`,
@@ -176,7 +177,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'panomachea',
-    site: { url: 'https://panomachea.com', name: 'Panomachea' },
+    site: { url: PANOMACHEA_URL, name: 'Panomachea' },
     caseStudy: { feature: img(P + 'three-cards.jpg', 'Hades, Centaur and Odysseus cards'), featureCaption: 'Fighter Cards: Hades, Centaur and Odysseus.' },
     featured: true,
     title: 'Panomachea',

@@ -4,7 +4,7 @@ import ProductCard from '../../components/ProductCard.astro';
 import { getProducts } from '../../data/shopify';
 const products = await getProducts();
 const order = ['Book', 'Game', 'Original', 'Print', 'Digital'] as const;
-const label: Record<string, string> = { All: 'All', Book: 'Books', Game: 'Games', Original: 'Originals', Print: 'Prints', Digital: 'Digital' };
+const label: Record<string, string> = { All: 'All', Book: 'Books', Game: 'Games', Original: 'Original Art', Print: 'Prints', Digital: 'Digital' };
 const types = ['All', ...order.filter((t) => products.some((p) => p.type === t))];
 const sorted = [...products].sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type));
 ---

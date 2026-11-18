@@ -9,6 +9,9 @@
     "build:theseus": "SITE=theseus astro build",
     "preview": "astro preview",
     "preview:theseus": "SITE=theseus astro preview",
+    "dev:panomachea": "SITE=panomachea astro dev",
+    "build:panomachea": "SITE=panomachea astro build",
+    "preview:panomachea": "SITE=panomachea astro preview",
     "pull-images": "node scripts/pull-images.mjs",
     "deploy": "bash scripts/deploy.sh"
   },

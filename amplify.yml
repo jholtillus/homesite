@@ -11,9 +11,9 @@ frontend:
         - npm ci --cache .npm --prefer-offline
     build:
       commands:
-        # One repository, two Amplify apps. The Theseus app sets the environment variable
-        # SITE=theseus; both apps publish dist/.
-        - if [ "$SITE" = "theseus" ]; then npm run build:theseus && rm -rf dist && mv dist-theseus dist; else npm run build; fi
+        # One repository, one Amplify app per site. The project apps set the environment
+        # variable SITE=theseus or SITE=panomachea; every app publishes dist/.
+        - if [ "$SITE" = "theseus" ] || [ "$SITE" = "panomachea" ]; then npm run build:$SITE && rm -rf dist && mv dist-$SITE dist; else npm run build; fi
   artifacts:
     baseDirectory: dist
     files:

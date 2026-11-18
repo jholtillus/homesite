@@ -1,5 +1,5 @@
 // Builds a self-contained copy of both sites for a claude.ai Artifact preview:
-//  - main site at the root, the Theseus site under theseus/
+//  - main site at the root, the Theseus site under theseus/, the Panomachea site under panomachea/
 //  - CSS inlined, page scripts bundled and inlined (the preview only runs inline/CDN scripts)
 //  - fonts from Google Fonts instead of local files
 //  - root-absolute URLs made relative via <base>, directory links rewritten to index.html
@@ -12,10 +12,11 @@ import { join, relative, dirname } from 'node:path';
 import { buildSync } from 'esbuild';
 
 const OUT = 'artifact-preview';
-const MAIN_MARK = 'https://main.preview.invalid', THESEUS_MARK = 'https://theseus.preview.invalid';
-const env = { ...process.env, ARTIFACT: '1', PUBLIC_MAIN_URL: MAIN_MARK, PUBLIC_THESEUS_URL: THESEUS_MARK };
+const MAIN_MARK = 'https://main.preview.invalid', THESEUS_MARK = 'https://theseus.preview.invalid', PANO_MARK = 'https://panomachea.preview.invalid';
+const env = { ...process.env, ARTIFACT: '1', PUBLIC_MAIN_URL: MAIN_MARK, PUBLIC_THESEUS_URL: THESEUS_MARK, PUBLIC_PANOMACHEA_URL: PANO_MARK };
 execSync('npx astro build', { stdio: 'inherit', env });
 execSync('npx astro build', { stdio: 'inherit', env: { ...env, SITE: 'theseus' } });
+execSync('npx astro build', { stdio: 'inherit', env: { ...env, SITE: 'panomachea' } });
 rmSync(OUT, { recursive: true, force: true }); mkdirSync(OUT, { recursive: true });
 
 const walk = (d) => readdirSync(d).flatMap((f) => (statSync(join(d, f)).isDirectory() ? walk(join(d, f)) : [join(d, f)]));
@@ -44,6 +45,7 @@ function exportSite(SRC, prefix, roots) {
     // Cross-site links inside the preview.
     html = html.replaceAll(MAIN_MARK + '/', '/').replaceAll(MAIN_MARK, 'index.html');
     html = html.replaceAll(THESEUS_MARK + '/', 'theseus/').replaceAll(THESEUS_MARK, 'theseus/').replaceAll('theseus.preview.invalid', 'theseus.jordanholt.art');
+    html = html.replaceAll(PANO_MARK + '/', 'panomachea/').replaceAll(PANO_MARK, 'panomachea/').replaceAll('panomachea.preview.invalid', 'panomachea.jordanholt.art');
     // Root-absolute -> relative to the preview root (resolved against <base>).
     html = html.replace(new RegExp(`(["'\`(,]\\s?)/(?=(${roots}))`, 'g'), `$1${prefix}`);
     if (prefix) html = html.replace(/(["'`])\/(?=(images|shop|projects|work|news|about|contact)\b)/g, '$1'); // links back to the main site
@@ -60,6 +62,7 @@ function exportSite(SRC, prefix, roots) {
 }
 exportSite('dist-artifact', '', 'images|shop|projects|work|news|about|contact|_astro|favicon\\.svg|rss\\.xml');
 exportSite('dist-artifact-theseus', 'theseus/', 'images|read|_astro|favicon\\.svg');
+exportSite('dist-artifact-panomachea', 'panomachea/', 'images|_astro|favicon\\.svg');
 
 // Downscale images for the preview upload.
 execSync(`python3 -I -c "

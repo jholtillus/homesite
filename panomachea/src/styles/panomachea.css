@@ -1,0 +1,69 @@
+@import '@fontsource/inter/300.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/cormorant-garamond/400.css';
+@import '@fontsource/cormorant-garamond/400-italic.css';
+@import '@fontsource/cormorant-garamond/500.css';
+@import '@fontsource/cormorant-garamond/600.css';
+
+/* Panomachea: the homesite's type and spacing on the colors of the cards — the deep teal of the
+   card back, with the four suits (Sky gold, Sea teal, Earth violet, Fire red) as accents. */
+:root {
+  --night: #13272e;      /* card back teal, deepened */
+  --night-2: #1c3640;
+  --deep: #0c1a1f;
+  --on-night: #f2e7d0;   /* card parchment */
+  --on-night-muted: #a8bab6;
+  --sky: #e2a33c;
+  --sea: #4f9c96;
+  --earth: #6a4c74;
+  --fire: #b8432f;
+  --oxblood: #7e292e;
+  --parch: #efe3c8;
+  --paper: #f7efdc;
+  --ink: #1e1a16;
+  --muted: #6e655a;
+  --line: rgba(242, 231, 208, .14);
+  --line-light: #dccfb2;
+  --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --max: 1320px;
+  --gutter: clamp(16px, 4vw, 48px);
+  --header: 68px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--deep); -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: var(--header); }
+body { margin: 0; background: var(--night); color: var(--on-night); font: 300 16px/1.7 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; overflow-wrap: anywhere; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+:focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; }
+[hidden] { display: none !important; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.08; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+h2 { font-size: clamp(2.2rem, 4.2vw, 3.6rem); }
+h3 { font-size: 1.6rem; }
+p { margin: 0 0 1.1em; }
+.wrap { max-width: var(--max); margin: 0 auto; padding-inline: var(--gutter); }
+.eyebrow { font: 500 11px/1.4 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--sky); }
+.lede { font-family: var(--serif); font-size: clamp(1.35rem, 2.2vw, 1.8rem); line-height: 1.42; }
+.muted { color: var(--on-night-muted); }
+.band { padding-block: clamp(72px, 10vw, 136px); }
+.dark { background: var(--deep); color: var(--on-night); }
+.light { background: var(--parch); color: var(--ink); }
+.light .eyebrow { color: var(--fire); }
+.light .muted { color: var(--muted); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 26px; border: 1px solid currentColor; font: 500 12px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; transition: background .25s var(--ease), color .25s var(--ease), border-color .25s; }
+.btn:hover { background: var(--on-night); color: var(--night); border-color: var(--on-night); }
+.light .btn:not(.flame):hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn.flame { background: var(--fire); border-color: var(--fire); color: #fff; }
+.btn.flame:hover { background: var(--oxblood); border-color: var(--oxblood); color: #fff; }
+.link { font: 400 13px/1 var(--sans); letter-spacing: .06em; border-bottom: 1px solid currentColor; padding-bottom: 4px; }
+.link:hover { color: var(--sky); }
+.frame { background: var(--night-2); overflow: hidden; }
+.frame img { width: 100%; height: 100%; object-fit: cover; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } html { scroll-behavior: auto; } }
+
+/* Greek-key band, after the borders on the cards. Colour with `color`. */
+.key { height: 18px; color: var(--sky); opacity: .55; background-color: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='18' viewBox='0 0 36 18'%3E%3Cpath d='M0 17h36M0 1h36M3 17V5h12v8H7V9h4' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M21 1v12h12V5h-8v4h4' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") repeat-x left center / 36px 18px; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='18' viewBox='0 0 36 18'%3E%3Cpath d='M0 17h36M0 1h36M3 17V5h12v8H7V9h4' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M21 1v12h12V5h-8v4h4' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") repeat-x left center / 36px 18px; }

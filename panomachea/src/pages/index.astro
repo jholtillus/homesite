@@ -1,0 +1,325 @@
+---
+// All prose on this page is taken verbatim from the Panomachea Kickstarter campaign, panomachea.com
+// and the Shopify product descriptions.
+import P from '../layouts/P.astro';
+import { suits, worldCards, tycheCards, links, MAIN_URL, shopUrl, product, money, firstPara } from '../data/panomachea';
+const decks = [
+  { h: 'panomachea-battle-with-gods-heroes-monsters', img: '/images/photo-box-front.jpg' },
+  { h: 'panomachea-deluxe', img: '/images/photo-box-coin.jpg' },
+].map((d) => ({ ...d, p: product(d.h) }));
+const gallery = suits.flatMap((s) => s.cards.map((c) => ({ ...c, suit: s.key })));
+---
+<P>
+  <section class="hero">
+    <img class="hero-bg" src="/images/hero.jpg" alt="" width="2400" height="1600" fetchpriority="high" />
+    <div class="wrap hero-grid">
+      <div class="hero-txt">
+        <p class="eyebrow">A card game of mythic proportions</p>
+        <h1><img src="/images/logo-white.png" alt="Panomachea" width="1728" height="1080" /></h1>
+        <p class="lede">All-out mythological war in this competitive card-capture game. Created and Illustrated by Jordan Holt.</p>
+        <div class="ctas">
+          <a href="#buy" class="btn flame">Get a Deck</a>
+          <a href={links.rules} target="_blank" rel="noopener" class="btn">Rules &amp; manual ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="key" aria-hidden="true"></div>
+
+  <section class="band" id="game">
+    <div class="wrap intro">
+      <div>
+        <h2>Panomachea (pān-ō-mäk-e-ä) is an original, all-out mythological battle game.</h2>
+        <p class="lede">Capture the most cards to win. Fight with the gods, heroes and monsters of Ancient Greek myth.</p>
+      </div>
+      <div class="intro-copy">
+        <p>This is the kind of game that you'll remember playing. It gives you every opportunity to pull off those staggering wins you'll lord over your friends for years, and all but guarantees you'll eventually face the crushing defeat that can only come when you're absolutely sure of victory.</p>
+        <p>I based the game on a simple concept like War, but with all the changing variables it becomes a complex-but-accessible strategy game with a robust dose of chaos.</p>
+      </div>
+    </div>
+    <figure class="wide"><img src="/images/photo-spread.jpg" alt="Panomachea cards" width="2400" height="1600" loading="lazy" /></figure>
+  </section>
+
+  <section class="band light" id="cards">
+    <div class="wrap">
+      <div class="head-row">
+        <h2>But let's talk about the cards.</h2>
+        <div>
+          <p>Not as complex as a deck-builder or as simple as most casual games, this is a "middle ground" strategy card game with a rich tableau of 56 hand-illustrated Fighter Cards, representing a god, hero or beast from the world of Greek mythology. Each one with its own unique abilities, strengths and weaknesses.</p>
+          <p>But that's not enough to ensure that Panomachea is both approachable for new players and that every hand is a different challenge. So the total 84 card deck includes 24 Tyche (Chance or Fortune) Cards and 4 World Cards that keep the upper hand shifting throughout the game.</p>
+        </div>
+      </div>
+      <ul class="stats">
+        <li><b>56</b><span>Fighter Cards</span></li>
+        <li><b>24</b><span>Tyche Cards</span></li>
+        <li><b>4</b><span>World Cards</span></li>
+        <li><b>84</b><span>Card deck</span></li>
+      </ul>
+      <div class="anatomy">
+        <figure><img src="/images/card-anatomy.jpg" alt="Anatomy of a Fighter Card" width="2000" height="2000" loading="lazy" /></figure>
+        <div>
+          <p class="lede">Every one of the 56 Fighter Cards has an original interpretation of the Immortal, Hero or mythological Beast, in addition to the character's Power Level in the game, name (both the Latinized version we're familiar with and the Ancient Greek spelling), a brief description and a clearly defined suit by the color of the card and the emblem in the bottom right.</p>
+          <p class="suit-line">There are four suits in Panomachea: the Sky, Sea, Earth and Fire.</p>
+          <ul class="suit-dots">{suits.map((s) => <li class={s.key}>{s.name}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band deck" id="deck" data-deck data-suit="sky">
+    <div class="wrap">
+      <div class="head-row">
+        <h2>Speaking of which, here's every card.</h2>
+        <p class="muted">Playing Panomachea is an experience brimming with color and character that can only come from an artist who is passionately invested in the beauty and uniqueness of every card.</p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Suits">
+        {suits.map((s, i) => <button role="tab" class={s.key} aria-selected={i === 0 ? 'true' : 'false'} aria-controls={`suit-${s.key}`} data-tab={s.key}>{s.name}<span>{s.cards.length}</span></button>)}
+      </div>
+      {suits.map((s, i) => (
+        <div class="grid" id={`suit-${s.key}`} role="tabpanel" data-panel={s.key} hidden={i !== 0}>
+          {s.cards.map((c) => (
+            <button class="cardbtn" data-i={gallery.findIndex((g) => g.src === c.src)} aria-label={`Enlarge ${c.alt}`}><img src={c.src} alt={c.alt} width={c.w} height={c.h} loading="lazy" /></button>
+          ))}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="band" id="art">
+    <div class="wrap art">
+      <figure class="art-tall"><img src="/images/ink-illustration.jpg" alt="Panomachea ink illustration" width="1080" height="1912" loading="lazy" /></figure>
+      <div>
+        <h2>But for the moment, let's talk about the art.</h2>
+        <p class="lede">The 67 unique card illustrations you'll find in this 84 card deck were drawn in their entirety by me. Not one pixel is generated by AI. Neither were the references or concepts used.</p>
+        <p>I drew each card using photo references of real people and animals I purchased from terrific suppliers like Grafit Studio and from photos of Classical art like the Samothrace's Winged Victory.</p>
+        <p>As an enthusiast of Classical history and an ancient mythology obsessive, I've tried to give these card designs a strong degree of cultural fidelity —even using Greek pottery and sculpture to guide the character designs— while also giving the characters new color and flavor to better distinguish them from one another and make them visually striking.</p>
+        <p>My goal was to make a card game that is not only extremely fun and challenging to play, but also make playing a sheer delight because every card is as beautifully designed as I can make it to maximize its quality and appeal.</p>
+      </div>
+    </div>
+    <figure class="wide"><img src="/images/photo-table.jpg" alt="Panomachea deck" width="2400" height="1600" loading="lazy" /></figure>
+  </section>
+
+  <section class="band dark" id="play">
+    <div class="wrap">
+      <div class="play-head">
+        <h2>Panomachea is simple in concept.</h2>
+        <div>
+          <p class="lede">Your opponents have cards, and you want them. Because each one of those cards is worth sweet, sweet points.</p>
+          <p>So you send your Fighter Cards out to capture theirs by having a higher Power Level than the others.</p>
+          <p>Each player (for example, out of 4) chooses a Fighter Card and plays them in order. There's always a World Card active that boosts one of the four suits. Once all the players have laid down their Fighter Cards, the highest overall Power Level captures all the cards on the field. However, it's not as simple as just having the highest Power Level card. Tyche (Ty-kee) cards, World cards, individual Fighter Card abilities and other captured cards can sway the round in your favor.</p>
+        </div>
+      </div>
+
+      <div class="kind">
+        <p class="eyebrow">World Cards</p>
+        <p>But since there's always a World Card active that boosts one suit and not the others, and changes through multiple methods throughout the game, there's always advantage and disadvantage on the table.</p>
+      </div>
+      <div class="row4">
+        {worldCards.map((c) => <figure><img src={c.src} alt={c.alt} width={c.w} height={c.h} loading="lazy" /></figure>)}
+      </div>
+
+      <div class="kind">
+        <p class="eyebrow">Tyche Cards</p>
+        <p>But that's not the only agent of chaos in this deck. Each card also has their individual Power Level, a unique ability that allows advantages against specific cards (for example, Athena steals victory from Zeus, and Odysseus can't be captured by Poseidon), and players also have Tyche (chance or fortune) cards that allow the tide to be turned in their favor by a strategic play.</p>
+        <p>Tyche Cards (Tyche means Chance or Fortune in Ancient Greek) allow the player to shake up the Field of Battle and employ gambits to lose big or win it all.</p>
+      </div>
+      <div class="row7">
+        {tycheCards.map((c) => <figure><img src={c.src} alt={c.alt} width={c.w} height={c.h} loading="lazy" /></figure>)}
+      </div>
+
+      <p class="rules">If you want a detailed breakdown of the rules, you can get it from the online manual over at <a href={links.rules} target="_blank" rel="noopener">playpanomachea.com</a>.</p>
+    </div>
+  </section>
+
+  <section class="band light" id="buy">
+    <div class="wrap">
+      <div class="head-row">
+        <h2>Panomachea is now available.</h2>
+        <p>The cards have been designed with high quality, black paper core. They are casino grade and meant to survive a lot of use with significant wear and tear.</p>
+      </div>
+      <div class="decks">
+        {decks.filter((d) => d.p).map((d) => (
+          <a href={shopUrl(d.h)} class="deckcard">
+            <span class="frame"><img src={d.img} alt={d.p!.title} width="933" height="1400" loading="lazy" /></span>
+            <span class="dc-txt">
+              <b>{d.p!.title}</b>
+              <span class="price">{money(d.p!.price)}</span>
+              <span class="dc-desc">{firstPara(d.h)}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+      <div class="groups">
+        <p>Retailers! I haven't forgotten you. If you're interested in trying out Panomachea in your store, contact me at <a href="mailto:jholt@carthageproject.com">jholt@carthageproject.com</a> and let's work out a discounted order.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band dark" id="creator">
+    <div class="wrap creator">
+      <figure class="frame"><img src="/images/photo-cards-2.jpg" alt="Panomachea cards" width="933" height="1400" loading="lazy" /></figure>
+      <div>
+        <h2>I'm Jordan Holt.</h2>
+        <p class="lede">I illustrated the cards and created the game myself. This is a passion project that I believe in.</p>
+        <p>I've worked in media, advertising, commercial illustration and held a faculty position at a university now for over 10 years.</p>
+        <p>This year while working on a new graphic novel project that was more or less under wraps (still kind of is) I knocked out card designs and refined the game playing at my kitchen table with my kids.</p>
+        <p>My little company, Carthage, is not big. It's just me and the help my wife generously gives. We are truly an indie operation.</p>
+        <div class="ctas">
+          <a href={MAIN_URL} class="btn">Portfolio ↗</a>
+          <a href={links.substack} target="_blank" rel="noopener" class="btn">Substack ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="lb" data-lb hidden role="dialog" aria-modal="true" aria-label="Card viewer">
+    <button class="lb-x" data-x>Close ✕</button>
+    <button class="lb-nav prev" data-p aria-label="Previous card">‹</button>
+    <img data-img alt="" />
+    <button class="lb-nav next" data-n aria-label="Next card">›</button>
+  </div>
+  <script type="application/json" data-cards set:html={JSON.stringify(gallery)} />
+</P>
+
+<style>
+  .hero { position: relative; min-height: min(88vh, 880px); display: flex; align-items: center; overflow: hidden; background: var(--deep); margin-top: calc(-1 * var(--header)); padding-top: var(--header); }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 40%; }
+  .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(12,26,31,.95) 0%, rgba(12,26,31,.82) 32%, rgba(12,26,31,.2) 62%, rgba(12,26,31,0) 80%), linear-gradient(0deg, var(--night) 0%, rgba(19,39,46,0) 20%); }
+  .hero-grid { position: relative; z-index: 1; width: 100%; padding-block: clamp(56px, 8vw, 120px); }
+  .hero-txt { max-width: 540px; }
+  .hero h1 { margin: 18px 0 22px; }
+  .hero h1 img { width: 100%; max-width: 440px; filter: drop-shadow(0 8px 30px rgba(0,0,0,.5)); }
+  .hero .lede { max-width: 30ch; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .key { display: block; }
+  main > .key { background-color: var(--sky); }
+
+  .intro { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(28px, 6vw, 96px); align-items: end; }
+  .intro h2 { margin-bottom: 22px; }
+  .intro .lede { color: var(--sky); margin: 0; max-width: 34ch; }
+  .intro-copy p { font-size: 1.05rem; color: var(--on-night-muted); }
+  .wide { margin: clamp(56px, 8vw, 112px) 0 0; }
+  .wide img { width: 100%; max-height: 720px; object-fit: cover; }
+
+  .head-row { display: grid; grid-template-columns: 1fr 1.2fr; gap: 24px 64px; align-items: end; margin-bottom: clamp(36px, 5vw, 64px); }
+  .head-row h2 { font-size: clamp(2rem, 3.6vw, 3.1rem); }
+  .head-row p { margin: 0 0 1em; max-width: 60ch; }
+  .head-row p:last-child { margin-bottom: 0; }
+  .stats { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid var(--line-light); }
+  .stats li { padding: 26px 0; display: flex; flex-direction: column; align-items: center; }
+  .stats li + li { border-left: 1px solid var(--line-light); }
+  .stats b { font: 500 clamp(2.4rem, 4.4vw, 3.6rem)/1 var(--serif); font-variant-numeric: lining-nums; }
+  .stats span { margin-top: 8px; font: 500 11px/1.4 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+  .stats li:nth-child(1) b { color: var(--fire); } .stats li:nth-child(2) b { color: var(--earth); } .stats li:nth-child(3) b { color: var(--sea); } .stats li:nth-child(4) b { color: #b57a1f; }
+  .anatomy { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 6vw, 96px); align-items: center; margin-top: clamp(48px, 6vw, 88px); }
+  .anatomy figure { margin: 0; }
+  .anatomy img { mix-blend-mode: multiply; }
+  .suit-line { font-size: 1.05rem; margin-top: 18px; }
+  .suit-dots { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+  .suit-dots li { font: 500 11px/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: #fff; padding: 10px 16px; }
+  .sky { --c: var(--sky); } .sea { --c: var(--sea); } .earth { --c: var(--earth); } .fire { --c: var(--fire); }
+  .suit-dots li { background: var(--c); }
+
+  .deck { --c: var(--sky); --bg: #33240f; background: var(--bg); transition: background .6s var(--ease); }
+  .deck[data-suit='sea'] { --c: var(--sea); --bg: #10302d; } .deck[data-suit='earth'] { --c: var(--earth); --bg: #251a2d; } .deck[data-suit='fire'] { --c: var(--fire); --bg: #321411; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+  .tabs button { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 20px; border: 1px solid var(--line); font: 500 12px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; transition: background .25s, border-color .25s, color .25s; }
+  .tabs button span { font-weight: 400; opacity: .6; letter-spacing: 0; }
+  .tabs button:hover { border-color: var(--c); }
+  .tabs button[aria-selected='true'] { background: var(--c); border-color: var(--c); color: #fff; }
+  .grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: clamp(8px, 1.2vw, 16px); animation: rise .5s var(--ease); }
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  .cardbtn { border-radius: 4.5% / 3.2%; overflow: hidden; cursor: zoom-in; box-shadow: 0 10px 24px rgba(0,0,0,.35); transition: transform .35s var(--ease), box-shadow .35s; }
+  .cardbtn:hover { transform: translateY(-6px) rotate(-1deg); box-shadow: 0 18px 36px rgba(0,0,0,.45); }
+
+  .art { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(28px, 6vw, 96px); align-items: center; }
+  .art-tall { margin: 0; }
+  .art-tall img { width: 100%; max-height: 820px; object-fit: cover; }
+  .art h2 { margin-bottom: 22px; }
+  .art .lede { margin-bottom: 22px; }
+  .art p:not(.lede) { font-size: 1.05rem; color: var(--on-night-muted); max-width: 60ch; }
+
+  .play-head { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(28px, 6vw, 96px); align-items: start; }
+  .play-head .lede { color: var(--sky); }
+  .play-head p:not(.lede), .kind p:not(.eyebrow) { color: var(--on-night-muted); font-size: 1.05rem; max-width: 62ch; }
+  .kind { margin-top: clamp(56px, 7vw, 96px); padding-top: 28px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 2fr; gap: 12px 64px; }
+  .kind .eyebrow { grid-row: span 2; }
+  .row4, .row7 { display: grid; gap: clamp(8px, 1.2vw, 16px); margin-top: 28px; }
+  .row4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .row7 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .row4 figure, .row7 figure { margin: 0; border-radius: 3.5% / 4.8%; overflow: hidden; box-shadow: 0 10px 24px rgba(0,0,0,.35); }
+  .rules { margin: clamp(48px, 6vw, 80px) 0 0; padding-top: 28px; border-top: 1px solid var(--line); font: 400 clamp(1.2rem, 1.8vw, 1.45rem)/1.55 var(--serif); }
+  .rules a { color: var(--sky); border-bottom: 1px solid currentColor; }
+
+  .decks { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 44px); }
+  .deckcard { display: grid; grid-template-columns: .8fr 1fr; gap: 24px; align-items: center; padding: 20px; background: var(--paper); border: 1px solid var(--line-light); transition: border-color .25s, transform .3s var(--ease); }
+  .deckcard:hover { border-color: var(--ink); transform: translateY(-3px); }
+  .deckcard .frame { aspect-ratio: 2 / 3; display: block; }
+  .dc-txt { display: flex; flex-direction: column; gap: 10px; }
+  .dc-txt b { font: 500 1.6rem/1.15 var(--serif); }
+  .price { font: 500 1.25rem/1 var(--serif); color: var(--fire); }
+  .dc-desc { font-size: 14.5px; color: var(--muted); }
+  .dc-txt::after { content: '→'; font-size: 20px; }
+  .groups { display: grid; grid-template-columns: 1fr; gap: 24px 64px; margin-top: clamp(40px, 5vw, 64px); padding-top: 28px; border-top: 1px solid var(--line-light); color: var(--muted); }
+  .groups a { color: var(--ink); border-bottom: 1px solid currentColor; }
+
+  .creator { display: grid; grid-template-columns: minmax(220px, .8fr) 1.4fr; gap: clamp(28px, 6vw, 96px); align-items: center; }
+  .creator .frame { aspect-ratio: 2 / 3; margin: 0; }
+  .creator h2 { margin: 0 0 18px; }
+  .creator .lede { color: var(--sky); max-width: 38ch; margin-bottom: 22px; }
+  .creator p:not(.lede) { max-width: 60ch; color: var(--on-night-muted); }
+
+  .lb { position: fixed; inset: 0; z-index: 200; background: rgba(12, 26, 31, .97); display: grid; grid-template-columns: 64px 1fr 64px; align-items: center; justify-items: center; padding: max(56px, env(safe-area-inset-top)) 0 24px; }
+  .lb img { max-height: calc(100dvh - 96px); max-width: 100%; width: auto; object-fit: contain; border-radius: 12px; }
+  .lb-x { position: absolute; top: calc(16px + env(safe-area-inset-top, 0px)); right: max(20px, env(safe-area-inset-right, 0px)); color: var(--on-night); font: 400 12px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; }
+  .lb-nav { color: var(--on-night); font-size: 44px; height: 100%; width: 100%; }
+
+  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } .deckcard { grid-template-columns: 1fr; } }
+  @media (max-width: 960px) {
+    .intro, .head-row, .anatomy, .art, .play-head, .kind, .decks, .groups, .creator { grid-template-columns: 1fr; }
+    .kind .eyebrow { grid-row: auto; }
+    .hero { min-height: 0; flex-direction: column; align-items: stretch; }
+    .hero-bg { position: relative; height: auto; aspect-ratio: 3 / 2; -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent); mask-image: linear-gradient(180deg, #000 70%, transparent); }
+    .hero::after { display: none; }
+    .hero-grid { padding-top: 0; margin-top: -8vw; }
+    .hero h1 img { max-width: 320px; }
+    .art-tall { max-width: 420px; }
+    .creator .frame { max-width: 360px; }
+    .deckcard { grid-template-columns: .8fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stats li:nth-child(3) { border-left: 0; }
+    .stats li:nth-child(n+3) { border-top: 1px solid var(--line-light); }
+    .row4, .row7 { grid-template-columns: 1fr 1fr; }
+    .deckcard { grid-template-columns: 1fr; }
+    .lb { grid-template-columns: 1fr; } .lb-nav { position: absolute; bottom: 12px; width: 56px; height: 56px; } .prev { left: 8px; } .next { right: 8px; }
+  }
+</style>
+
+<script>
+  // Suit tabs
+  const deck = document.querySelector<HTMLElement>('[data-deck]')!;
+  const tabs = [...deck.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+  const panels = [...deck.querySelectorAll<HTMLElement>('[data-panel]')];
+  const pick = (k: string) => {
+    deck.dataset.suit = k;
+    tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === k)));
+    panels.forEach((p) => (p.hidden = p.dataset.panel !== k));
+  };
+  tabs.forEach((t) => t.addEventListener('click', () => pick(t.dataset.tab!)));
+
+  // Card lightbox (steps through every card in all four suits)
+  const data = JSON.parse(document.querySelector('[data-cards]')!.textContent!);
+  const lb = document.querySelector<HTMLElement>('[data-lb]')!, img = lb.querySelector<HTMLImageElement>('[data-img]')!;
+  let cur = 0;
+  const show = (i: number) => { cur = (i + data.length) % data.length; img.src = data[cur].src; img.alt = data[cur].alt; if (deck.dataset.suit !== data[cur].suit) pick(data[cur].suit); };
+  const close = () => { lb.hidden = true; document.body.style.overflow = ''; };
+  deck.addEventListener('click', (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>('[data-i]'); if (!b) return; show(+b.dataset.i!); lb.hidden = false; document.body.style.overflow = 'hidden'; });
+  lb.querySelector('[data-x]')!.addEventListener('click', close);
+  lb.querySelector('[data-p]')!.addEventListener('click', () => show(cur - 1));
+  lb.querySelector('[data-n]')!.addEventListener('click', () => show(cur + 1));
+  lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+  addEventListener('keydown', (e) => { if (lb.hidden) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
+</script>
