@@ -139,7 +139,7 @@ const prod = (f: string, alt: string) => img(`/images/products/${f}.jpg`, alt);
 const art = (s: string) => artwork.find((x) => x.slug === s)!;
 const IDW = '/images/projects/in-desert-and-wilderness/';
 const THESEUS_PAGES = { src: '/images/projects/theseus/pages-vertical.jpg', alt: 'Theseus comic pages', w: 1000, h: 1500 };
-const THESEUS_POSEIDON = { src: '/images/projects/theseus/poseidon-page.jpg', alt: 'Theseus page: Poseidon', w: 1280, h: 1600 };
+const THESEUS_POSEIDON = { src: '/images/projects/theseus/poseidon.jpg', alt: 'Poseidon, from Theseus', w: 1100, h: 1600 };
 const THESEUS_SPREAD = { src: '/images/projects/theseus/pages-spread.jpg', alt: 'Theseus comic spread', w: 2000, h: 1333 };
 
 
