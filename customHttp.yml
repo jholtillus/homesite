@@ -1,0 +1,16 @@
+# AWS Amplify response headers (applies to every app built from this repository).
+# The Panomachea web game (panomachea/public/play/) is a Godot export: make sure the engine is
+# served as WebAssembly, and let browsers cache the large files.
+customHeaders:
+  - pattern: '/play/*.wasm'
+    headers:
+      - key: 'Content-Type'
+        value: 'application/wasm'
+      - key: 'Cache-Control'
+        value: 'public, max-age=86400'
+  - pattern: '/play/*.pck'
+    headers:
+      - key: 'Content-Type'
+        value: 'application/octet-stream'
+      - key: 'Cache-Control'
+        value: 'public, max-age=86400'

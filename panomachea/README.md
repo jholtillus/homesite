@@ -17,7 +17,9 @@ npm run build:panomachea    # output in dist-panomachea/
 `panomachea/public/play/` holds the web export of the Panomachea game (from the `panomacheaweb`
 repository) and is served at `/play/`. To update it, export from Godot
 (`godot --headless --path . --export-release "Web" build/web/index.html`) and copy the
-**contents** of `build/web/` into this folder, replacing what is there.
+**contents** of `build/web/` into this folder, replacing what is there. The How to Play section
+shows a still (`images/game-title.jpg`) and loads the game in a frame only when Play is pressed.
+The files are too large for GitHub's web uploader (25 MB); commit them with git from the command line.
 
 ## Hosting on AWS Amplify
 1. In Amplify, create another app from the same `homesite` repository and `main` branch.

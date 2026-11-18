@@ -30,6 +30,7 @@ function exportSite(SRC, prefix, roots) {
     const outRel = prefix + rel;
     if (!rel.endsWith('.html')) {
       if (rel.startsWith('_astro/')) continue; // scripts are inlined; local fonts replaced by Google Fonts
+      if (rel.startsWith('play/')) continue; // the web game's engine file is over the preview's per-file limit
       mkdirSync(dirname(join(OUT, outRel)), { recursive: true });
       cpSync(file, join(OUT, outRel));
       if (!rel.endsWith('.json')) files.push(outRel);
