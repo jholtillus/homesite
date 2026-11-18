@@ -53,6 +53,7 @@ const a = (slug: string, title: string, project: string, note?: string): Artwork
 // Order follows the gallery on jordanholt.art.
 export const artwork: Artwork[] = [
   a('all-hallows', 'All Hallows’', 'Fine Art', 'Watercolor on watercolor paper'),
+  a('waiting-among-the-graves', 'Waiting Among the Graves', 'Fine Art', 'Watercolor'),
   a('in-desert-wilderness-7', 'In Desert & Wilderness #7', 'In Desert & Wilderness'),
   a('nice-manners-for-a-thief', 'Nice Manners for a Thief', 'Fine Art', 'Watercolor and ink'),
   a('in-desert-wilderness-5', 'In Desert & Wilderness #5', 'In Desert & Wilderness'),
@@ -398,17 +399,19 @@ export const heroSlides: HeroSlide[] = [
 // Hover buttons: "See the project" (project slug), "Prints" (print product handle),
 // "For sale" (original product handle). Sold state comes from Shopify availability;
 // set sold: true to force it.
-export type FeaturedWork = { art: string; caption: string; project?: string; print?: string; original?: string; sold?: boolean };
+// caption defaults to the artwork's title in the portfolio list above.
+export type FeaturedWork = { art: string; caption?: string; project?: string; print?: string; original?: string; sold?: boolean };
 export const featuredWork: FeaturedWork[] = [
-  { art: 'all-hallows', caption: 'Artwork Title', print: 'all-hallows-print', original: 'all-hallows-original-artwork' },
-  { art: 'nice-manners-for-a-thief', caption: 'Artwork Title', print: 'good-manners-print', original: 'good-manners-for-a-thief' },
-  { art: 'wanderer', caption: 'Artwork Title', original: 'mithrandir' },
-  { art: 'theseus-vol3-page-1', caption: 'Artwork Title', project: 'theseus' },
-  { art: 'panomachea-card-back', caption: 'Artwork Title', project: 'panomachea' },
-  { art: 'blood-and-water-cover', caption: 'Artwork Title', project: 'blood-and-water' },
-  { art: 'petracor-concept-1', caption: 'Artwork Title', project: 'petracor' },
-  { art: 'in-desert-wilderness-5', caption: 'Artwork Title', project: 'in-desert-and-wilderness' },
-  { art: 'hobomock-hellhound', caption: 'Artwork Title', project: 'witch-of-hobomock-pass' },
+  { art: 'all-hallows', print: 'all-hallows-print', original: 'all-hallows-original-artwork' },
+  { art: 'waiting-among-the-graves' },
+  { art: 'nice-manners-for-a-thief', print: 'good-manners-print', original: 'good-manners-for-a-thief' },
+  { art: 'wanderer', original: 'mithrandir' },
+  { art: 'theseus-vol3-page-1', project: 'theseus' },
+  { art: 'panomachea-card-back', project: 'panomachea' },
+  { art: 'blood-and-water-cover', project: 'blood-and-water' },
+  { art: 'petracor-concept-1', project: 'petracor' },
+  { art: 'in-desert-wilderness-5', project: 'in-desert-and-wilderness' },
+  { art: 'hobomock-hellhound', project: 'witch-of-hobomock-pass' },
 ];
 
 // "Recent work" slider on the home page (shows four at a time).

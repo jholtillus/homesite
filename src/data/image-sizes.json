@@ -1,4 +1,12 @@
 {
+"/images/about/fire.jpg": [
+1500,
+1000
+],
+"/images/about/jordan.jpg": [
+1236,
+1400
+],
 "/images/art/all-hallows.jpg": [
 824,
 1050
@@ -98,6 +106,10 @@
 "/images/art/theseus-vol3-page-3.jpg": [
 707,
 1050
+],
+"/images/art/waiting-among-the-graves.jpg": [
+1257,
+1600
 ],
 "/images/art/wanderer.jpg": [
 713,
@@ -355,6 +367,26 @@
 1200,
 1600
 ],
+"/images/projects/external/blood-and-water.jpg": [
+842,
+1280
+],
+"/images/projects/external/in-desert-and-wilderness.jpg": [
+1050,
+1400
+],
+"/images/projects/in-desert-and-wilderness/book-open.jpg": [
+1500,
+1500
+],
+"/images/projects/in-desert-and-wilderness/elephant-inks.jpg": [
+1202,
+1600
+],
+"/images/projects/in-desert-and-wilderness/lion-watercolor.jpg": [
+1202,
+1600
+],
 "/images/projects/panomachea/card-anatomy.jpg": [
 2000,
 2000
@@ -374,6 +406,10 @@
 "/images/projects/panomachea/heroes-strip.png": [
 1917,
 663
+],
+"/images/projects/panomachea/home-preview.jpg": [
+2000,
+1334
 ],
 "/images/projects/panomachea/ink-illustration.jpg": [
 1080,
@@ -402,5 +438,21 @@
 "/images/projects/panomachea/world-cards.jpg": [
 1779,
 1217
+],
+"/images/projects/theseus/pages-spread.jpg": [
+2000,
+1333
+],
+"/images/projects/theseus/pages-vertical.jpg": [
+1000,
+1500
+],
+"/images/projects/theseus/poseidon.jpg": [
+1100,
+1600
+],
+"/images/theseus-logo.png": [
+800,
+192
 ]
 }

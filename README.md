@@ -44,6 +44,7 @@ settings that connect them. Run it in AWS CloudShell from a clone of this reposi
 ```bash
 bash scripts/aws-setup.sh          # safe to re-run
 bash scripts/aws-setup.sh status   # progress: nameservers, domains, SES, API
+bash scripts/aws-setup.sh add-domain theseuscomic.com theseus   # extra domain that redirects to a site
 ```
 
 Email and other DNS records to carry over go in `infra/dns-records.txt` (see `infra/dns-records.example.txt`).
