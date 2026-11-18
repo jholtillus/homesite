@@ -47,7 +47,7 @@ const payload = { handle: p.handle, title: p.title, image: p.image, currency: p.
         <div class="desc">{paras.map((t) => <p>{t}</p>)}</div>
         <ul class="assure">
           <li>Secure checkout through Shopify at {site.shopDomain}</li>
-          {project && <li>Part of <a href={`/projects/${project.slug}/`} class="u">{project.title}</a></li>}
+          {project && <li>Part of <a href={`/projects/#${project.slug}`} class="u">{project.title}</a></li>}
           <li>Questions? <a href="/contact/" class="u">Get in touch</a></li>
         </ul>
       </div>
