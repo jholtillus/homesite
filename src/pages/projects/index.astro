@@ -65,9 +65,9 @@ const studies = projects.map((p) => {
             <div class="acts">
               {p.site
                 ? (p.site.url ? <a href={p.site.url} class="btn">Full project site ↗</a> : <span class="btn soon" aria-disabled="true">Full project site · coming soon</span>)
-                : !p.noPage && <a href={`/projects/${p.slug}/`} class="btn">Full project page</a>}
-              {p.site && !p.noPage && <a href={`/projects/${p.slug}/`} class="btn">Project overview</a>}
-              {shop && <a href={p.noPage ? `#cs-${p.slug}-shop` : `/projects/${p.slug}/#shop`} class="btn solid">Buy</a>}
+                : null}
+              {mini && <a href={`#cs-${p.slug}-shop`} class="btn solid">Buy</a>}
+              {!mini && ext && <a href={ext.url} target="_blank" rel="noopener" class="btn solid">Buy ↗</a>}
             </div>
           </aside>
         </header>
@@ -171,7 +171,7 @@ const studies = projects.map((p) => {
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 6vw, 96px); align-items: center; }
   .row figure { margin: 0; aspect-ratio: 4 / 5; }
   .row.flip figure { order: 2; }
-  .row figure.whole { aspect-ratio: auto; }
+  .row figure.whole { aspect-ratio: auto; max-width: 440px; width: 100%; justify-self: center; }
   .row figure.whole img { object-fit: contain; }
   .cs-banner { margin-bottom: 0; }
   .txt { max-width: 46ch; }

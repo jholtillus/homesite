@@ -101,6 +101,13 @@ export type Block =
 // A book sold by its publisher: shown on the Projects page like the mini shop, linking out.
 export type External = { seller: string; url: string; title: string; price: string; format?: string; desc: string; image: Img };
 
+// Where "Buy" goes for a project: its Shopify product (caseStudy.shop) or its publisher's page
+// (caseStudy.external). Projects with neither have no Buy button.
+export const buyLink = (p: { caseStudy?: { shop?: string; external?: { url: string } } }) =>
+  p.caseStudy?.shop ? { href: `/shop/${p.caseStudy.shop}/`, external: false }
+  : p.caseStudy?.external ? { href: p.caseStudy.external.url, external: true } : null;
+
+// Projects are presented on the Projects page only (no per-project pages); larger projects get their own site.
 export type Project = {
   slug: string;
   title: string;
@@ -122,7 +129,6 @@ export type Project = {
   site?: { url: string; name: string };
   // Projects page case study. Paragraphs default to placeholders until written.
   // images pair with paras 1–4 (alternating sides); closing is the full-width final paragraph.
-  noPage?: boolean;  // no overview page (/projects/<slug>/): the Projects page case study is all there is
   caseStudy?: { images?: (Img & { whole?: boolean })[]; banner?: Img; paras?: string[]; closing?: string; feature?: Img; featureCaption?: string; shop?: string; external?: External }; // shop: Shopify handle shown as a mini shop in place of the feature image
 };
 
@@ -149,18 +155,24 @@ const THESEUS_SPREAD = { src: '/images/projects/theseus/pages-spread.jpg', alt: 
 export const projects: Project[] = [
   {
     slug: 'theseus',
-    noPage: true,
     logo: { src: '/images/theseus-logo.png', alt: 'Theseus', w: 800, h: 192 },
     site: { url: THESEUS_URL, name: 'Theseus' },
     caseStudy: {
       feature: prod('theseus-the-full-collection-1', 'Theseus: The Full Collection'), featureCaption: 'Theseus: The Full Collection', shop: 'theseus-the-full-collection',
-      paras: [
-        'Began in 2020, Theseus is a full and detailed retelling of the myth, novelized and worked into a coming-of-age tale full of comedy and adventure.',
-        'This is more like what happens if someone loves Greek mythology very much, studies it in-depth along with the culture, language and history of that period, is fascinated by the idea of a true story behind the myth, but is simply not a serious person.',
-        'These graphic novels are written, meticulously hand-drawn and colored by me, Jordan Holt. I don’t use AI in any form. I spent very pleasant evenings for 6 years writing and illustrating this series.',
-        'Readers have watched Theseus grow in confidence and strength over the course of Volume I & II, but his boyish absurdity still remains. This series is marked by its merger of mythology and comedy.',
+      // A short version of the Theseus site: its text and images.
+      images: [
+        { src: '/images/projects/theseus/site-crowd.jpg', alt: 'Theseus', w: 2400, h: 1080 },
+        { src: '/images/projects/theseus/site-ad-throne.jpg', alt: 'Theseus', w: 1080, h: 1080 },
+        { src: '/images/projects/theseus/site-spread-2.jpg', alt: 'Theseus spread', w: 680, h: 680 },
+        { src: '/images/projects/theseus/site-ad-kraken.jpg', alt: 'Theseus', w: 1080, h: 1080 },
       ],
-      closing: 'Theseus is a long-standing passion project for me. I hope you enjoy reading it as much as I’ve enjoyed creating it. Immerse yourself in the world of myth.',
+      paras: [
+        'Theseus is a well-known figure in mythology for defeating bandits, killing the minotaur, and ruling over Athens. While the story itself is a fable, there is likely a true story that undergirds the legend. This is the definitely inaccurate story behind the myth.',
+        'Young Theseus starts off like any teenager burdened with responsibility: he avoids it. But while encountering vicious bandits (each with their own brand of villainy) and mythological monsters, he begins the path towards a better and more capable version of himself...while still leaving room for humor.',
+        'This is the complete Theseus collection, spanning nearly 500 pages. Each chapter behaves like an independent episode, containing its own story but leading us further down the path of the over-arching tale.',
+        '“When you stand before a god of Olympus, it must feel like it.” This series is marked by its merger of mythology and comedy. But this humor is never held at the expense of stakes, scale, and the wonder of encountering the beauty and strangeness of Greek myth.',
+      ],
+      closing: 'These graphic novels are written, meticulously hand-drawn and colored by me, Jordan Holt. I don’t use AI in any form. I spent very pleasant evenings for 6 years writing and illustrating this series.',
     },
     featured: true,
     title: 'Theseus',
@@ -197,12 +209,28 @@ export const projects: Project[] = [
   {
     slug: 'panomachea',
     site: { url: PANOMACHEA_URL, name: 'Panomachea' },
-    caseStudy: { feature: img(P + 'three-cards.jpg', 'Hades, Centaur and Odysseus cards'), featureCaption: 'Fighter Cards: Hades, Centaur and Odysseus.' },
+    // A short version of the Panomachea site: its text and images.
+    caseStudy: {
+      images: [
+        { src: '/images/projects/panomachea/site-photo-spread.jpg', alt: 'Panomachea cards', w: 2400, h: 1600 },
+        { src: '/images/projects/panomachea/site-sea_15_poseidon.jpg', alt: 'Poseidon Fighter Card', w: 600, h: 840, whole: true },
+        { src: '/images/projects/panomachea/site-ink-illustration.jpg', alt: 'Panomachea ink illustration', w: 1080, h: 1912 },
+        { src: '/images/projects/panomachea/site-photo-table.jpg', alt: 'Panomachea deck', w: 2400, h: 1600 },
+      ],
+      paras: [
+        'Panomachea (pān-ō-mäk-e-ä) is an original, all-out mythological battle game. Capture the most cards to win. Fight with the gods, heroes and monsters of Ancient Greek myth.',
+        'Not as complex as a deck-builder or as simple as most casual games, this is a “middle ground” strategy card game with a rich tableau of 56 hand-illustrated Fighter Cards, representing a god, hero or beast from the world of Greek mythology. Each one with its own unique abilities, strengths and weaknesses.',
+        'The 67 unique card illustrations you’ll find in this 84 card deck were drawn in their entirety by me. Not one pixel is generated by AI. Neither were the references or concepts used.',
+        'Your opponents have cards, and you want them. Because each one of those cards is worth sweet, sweet points. So you send your Fighter Cards out to capture theirs by having a higher Power Level than the others.',
+      ],
+      closing: 'Playing Panomachea is an experience brimming with color and character that can only come from an artist who is passionately invested in the beauty and uniqueness of every card.',
+      feature: img(P + 'three-cards.jpg', 'Hades, Centaur and Odysseus cards'), featureCaption: 'Panomachea', shop: 'panomachea-battle-with-gods-heroes-monsters',
+    },
     featured: true,
     title: 'Panomachea',
     kicker: 'Card game',
     status: 'Available',
-    summary: 'A card game of mythic proportions. All-out mythological war in this competitive card-capture game — fight with the gods, heroes and monsters of Ancient Greek myth.',
+    summary: 'All-out mythological war in this competitive card-capture game. Created and Illustrated by Jordan Holt.',
     cover: prod('panomachea-battle-with-gods-heroes-monsters-1', 'Panomachea deck'),
     preview: { src: '/images/projects/panomachea/home-preview.jpg', alt: 'Panomachea deck and cards', w: 2000, h: 1334 },
     hero: img(P + 'hero-bg.jpg', 'Panomachea cards spread on a table'),
@@ -247,7 +275,6 @@ export const projects: Project[] = [
   },
   {
     slug: 'blood-and-water',
-    noPage: true,
     caseStudy: {
       images: [
         { src: '/images/projects/blood-and-water/book.jpg', alt: 'Blood & Water hardcover', w: 711, h: 947 },
@@ -340,7 +367,6 @@ export const projects: Project[] = [
   },
   {
     slug: 'witch-of-hobomock-pass',
-    noPage: true,
     caseStudy: {
       images: [art('witch-of-hobomock-pass-cover'), art('hobomock-in-the-fort'), art('hobomock-hellhound'), art('hobomock-king-of-the-forest')],
       paras: [
@@ -397,6 +423,15 @@ export const heroHeading = { line1: 'Illustrating', em: 'history, myth and fable
 export type HeroSlide = { label: string; image: Img; eyebrow: string; text: string; caption: string; primary: { label: string; href: string }; secondary?: { label: string; href: string } };
 export const heroSlides: HeroSlide[] = [
   {
+    label: 'Commissions',
+    image: img('/images/art/all-hallows.jpg', 'All Hallows’, watercolor'),
+    eyebrow: 'Commissions open',
+    text: 'Illustration for books, games, comics and graphic novels — historical, mythological, religious and literary work.',
+    caption: 'All Hallows’',
+    primary: { label: 'Commission', href: '/contact/' },
+    secondary: { label: 'View work', href: '/work/' },
+  },
+  {
     label: 'Theseus Vol. 3',
     image: THESEUS_POSEIDON,
     eyebrow: 'On deck · Graphic novel',
@@ -413,15 +448,6 @@ export const heroSlides: HeroSlide[] = [
     caption: 'Panomachea',
     primary: { label: 'See the project', href: '/projects/#panomachea' },
     secondary: { label: 'Buy', href: '/shop/panomachea-battle-with-gods-heroes-monsters/' },
-  },
-  {
-    label: 'Commissions',
-    image: img('/images/art/all-hallows.jpg', 'All Hallows’, watercolor'),
-    eyebrow: 'Commissions open',
-    text: 'Illustration for books, games, comics and graphic novels — historical, mythological, religious and literary work.',
-    caption: 'All Hallows’',
-    primary: { label: 'Commission', href: '/contact/' },
-    secondary: { label: 'View work', href: '/work/' },
   },
 ];
 
