@@ -21,7 +21,7 @@ const featured = projects.filter((p) => p.featured);
       {featured.map((p) => (
         <a href={`/projects/${p.slug}/`} class="proj reveal">
           <div class="img-frame"><img src={p.hero.src} alt={p.hero.alt} loading="lazy" width={p.hero.w} height={p.hero.h} /></div>
-          <div class="pmeta"><p class="eyebrow">{p.kicker} · {p.status}</p><h3>{p.title}</h3><p class="muted">{p.summary}</p><span class="link-arrow">Explore</span></div>
+          <div class="pmeta"><p class="eyebrow">{p.kicker} · {p.status}</p><h3>{p.logo ? <img class="plogo" src={p.logo.src} alt={p.logo.alt} width={p.logo.w} height={p.logo.h} loading="lazy" /> : p.title}</h3><p class="muted">{p.summary}</p><span class="link-arrow">Explore</span></div>
         </a>
       ))}
     </div>
@@ -43,6 +43,7 @@ const featured = projects.filter((p) => p.featured);
   .proj:nth-child(even) .img-frame { order: 2; }
   .proj .img-frame { aspect-ratio: 2 / 1; }
   .pmeta h3 { font-size: clamp(2.2rem, 4vw, 3.4rem); margin: 14px 0 16px; }
+  .plogo { width: min(100%, 340px); height: auto; }
   .pmeta .muted { max-width: 38ch; margin-bottom: 24px; }
   @media (max-width: 820px) {
     .proj, .proj:nth-child(even) { grid-template-columns: 1fr; }

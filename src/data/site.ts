@@ -92,6 +92,7 @@ export type Block =
 export type Project = {
   slug: string;
   title: string;
+  logo?: Img;        // shown in place of the title on the home page
   kicker: string;
   partner?: string;
   status: 'Available' | 'Upcoming' | 'Published';
@@ -129,6 +130,7 @@ const art = (s: string) => artwork.find((x) => x.slug === s)!;
 export const projects: Project[] = [
   {
     slug: 'theseus',
+    logo: { src: '/images/theseus-logo.png', alt: 'Theseus', w: 800, h: 192 },
     site: { url: THESEUS_URL, name: 'Theseus' },
     caseStudy: {
       feature: prod('theseus-the-full-collection-1', 'Theseus: The Full Collection'), featureCaption: 'Theseus: The Full Collection',
