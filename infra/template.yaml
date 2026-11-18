@@ -25,10 +25,20 @@ Parameters:
   ShopifyAdminDomain:
     Type: String
     Default: carthageworkshop.myshopify.com
+  ShopifyClientId:
+    Type: String
+    Default: ''
+    Description: Client ID of the Shopify Dev Dashboard app (scope write_customers) used for newsletter sign-ups
+  ShopifyClientSecret:
+    Type: String
+    Default: ''
+    NoEcho: true
+    Description: Client secret of that app
   ShopifyAdminToken:
     Type: String
+    Default: ''
     NoEcho: true
-    Description: Shopify Admin API token with write_customers scope
+    Description: Only for older Shopify custom apps that show a fixed Admin API access token (shpat_...); otherwise leave blank
 
 Conditions:
   Hosting: !Equals [!Ref DeployHosting, 'true']
@@ -148,6 +158,8 @@ Resources:
           CONTACT_FROM: !Ref ContactFrom
           SHOPIFY_ADMIN_DOMAIN: !Ref ShopifyAdminDomain
           SHOPIFY_ADMIN_TOKEN: !Ref ShopifyAdminToken
+          SHOPIFY_CLIENT_ID: !Ref ShopifyClientId
+          SHOPIFY_CLIENT_SECRET: !Ref ShopifyClientSecret
       Policies:
         - Statement:
             - Effect: Allow

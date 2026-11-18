@@ -6,15 +6,37 @@
 import { SESv2Client, SendEmailCommand } from '@aws-sdk/client-sesv2';
 
 const ses = new SESv2Client({});
-const { CONTACT_TO, CONTACT_FROM, SHOPIFY_ADMIN_DOMAIN, SHOPIFY_ADMIN_TOKEN } = process.env;
+const { CONTACT_TO, CONTACT_FROM, SHOPIFY_ADMIN_DOMAIN, SHOPIFY_ADMIN_TOKEN, SHOPIFY_CLIENT_ID, SHOPIFY_CLIENT_SECRET } = process.env;
+const SHOPIFY_API_VERSION = process.env.SHOPIFY_API_VERSION || '2026-07';
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const res = (statusCode, body) => ({ statusCode, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
 const clip = (s, n) => String(s ?? '').slice(0, n);
 
+// Admin API access. Apps made in Shopify's Dev Dashboard have a Client ID and secret, which are
+// exchanged for a token that lasts 24 hours (client credentials grant); the token is cached and
+// renewed before it expires. A fixed Admin API token (older custom apps) also still works.
+let tokenCache = { value: '', until: 0 };
+async function adminToken() {
+  if (SHOPIFY_CLIENT_ID && SHOPIFY_CLIENT_SECRET) {
+    if (tokenCache.value && Date.now() < tokenCache.until) return tokenCache.value;
+    const r = await fetch(`https://${SHOPIFY_ADMIN_DOMAIN}/admin/oauth/access_token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ grant_type: 'client_credentials', client_id: SHOPIFY_CLIENT_ID, client_secret: SHOPIFY_CLIENT_SECRET }),
+    });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok || !j.access_token) throw new Error(`Shopify token: ${r.status} ${JSON.stringify(j)}`);
+    tokenCache = { value: j.access_token, until: Date.now() + Math.max(60, (j.expires_in ?? 86399) - 300) * 1000 };
+    return tokenCache.value;
+  }
+  if (SHOPIFY_ADMIN_TOKEN) return SHOPIFY_ADMIN_TOKEN;
+  throw new Error('Shopify credentials are not set');
+}
+
 async function shopify(query, variables) {
-  const r = await fetch(`https://${SHOPIFY_ADMIN_DOMAIN}/admin/api/2025-01/graphql.json`, {
+  const r = await fetch(`https://${SHOPIFY_ADMIN_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN },
+    headers: { 'Content-Type': 'application/json', 'X-Shopify-Access-Token': await adminToken() },
     body: JSON.stringify({ query, variables }),
   });
   return r.json();

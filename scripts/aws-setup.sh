@@ -19,7 +19,8 @@
 #   CONTACT_TO=jholt@carthageworkshop.com  CONTACT_FROM=no-reply@jordanholt.art
 #   MAIN_APP_ID=<id>   only needed if the script can't tell which Amplify app is the main site
 #   GITHUB_TOKEN=...   GitHub token (classic, scopes: repo, admin:repo_hook); asked for if needed
-#   SHOPIFY_ADMIN_TOKEN=...  Shopify Admin API token (write_customers); asked for if needed
+#   SHOPIFY_CLIENT_ID=... SHOPIFY_CLIENT_SECRET=...  Shopify Dev Dashboard app (scope write_customers); asked for if needed
+#   SHOPIFY_DOMAIN=<store>.myshopify.com
 set -euo pipefail
 
 DOMAIN="${DOMAIN:-jordanholt.art}"
@@ -218,13 +219,17 @@ fi
 # ---------------------------------------------------------------- 6. API
 say "6. Contact form / newsletter / news feed API"
 command -v sam >/dev/null || die "SAM CLI not found (it is preinstalled in CloudShell)."
-# On a re-run without a token, the token saved in the stack is kept (SAM reuses previous values).
+# Newsletter sign-ups use a Shopify Dev Dashboard app: its Client ID and Client secret.
+# On a re-run, values left blank keep what the stack already has (SAM reuses previous values).
 SHOP_PARAM=()
-if [ -z "${SHOPIFY_ADMIN_TOKEN:-}" ] && ! aws cloudformation describe-stacks --stack-name "$STACK" >/dev/null 2>&1; then
-  read -rsp "   Shopify Admin API token (write_customers) for the newsletter, or Enter to skip: " SHOPIFY_ADMIN_TOKEN; echo
-  SHOPIFY_ADMIN_TOKEN="${SHOPIFY_ADMIN_TOKEN:-not-set}"
+if ! aws cloudformation describe-stacks --stack-name "$STACK" >/dev/null 2>&1; then
+  [ -n "${SHOPIFY_CLIENT_ID:-}" ] || read -rp "   Shopify app Client ID (Enter to skip the newsletter for now): " SHOPIFY_CLIENT_ID
+  if [ -n "${SHOPIFY_CLIENT_ID:-}" ] && [ -z "${SHOPIFY_CLIENT_SECRET:-}" ]; then read -rsp "   Shopify app Client secret: " SHOPIFY_CLIENT_SECRET; echo; fi
+  [ -n "${SHOPIFY_DOMAIN:-}" ] || read -rp "   Store's myshopify.com address [carthageworkshop.myshopify.com]: " SHOPIFY_DOMAIN
 fi
-[ -n "${SHOPIFY_ADMIN_TOKEN:-}" ] && SHOP_PARAM=("ShopifyAdminToken=$SHOPIFY_ADMIN_TOKEN")
+[ -n "${SHOPIFY_CLIENT_ID:-}" ] && SHOP_PARAM+=("ShopifyClientId=$SHOPIFY_CLIENT_ID")
+[ -n "${SHOPIFY_CLIENT_SECRET:-}" ] && SHOP_PARAM+=("ShopifyClientSecret=$SHOPIFY_CLIENT_SECRET")
+[ -n "${SHOPIFY_DOMAIN:-}" ] && SHOP_PARAM+=("ShopifyAdminDomain=$SHOPIFY_DOMAIN")
 ( cd "$ROOT/infra" && sam build --template template.yaml >/dev/null && \
   sam deploy --stack-name "$STACK" --resolve-s3 --capabilities CAPABILITY_IAM --no-confirm-changeset --no-fail-on-empty-changeset \
     --parameter-overrides "DeployHosting=false" "DomainName=$DOMAIN" "ContactTo=$CONTACT_TO" "ContactFrom=$CONTACT_FROM" "${SHOP_PARAM[@]}" )
