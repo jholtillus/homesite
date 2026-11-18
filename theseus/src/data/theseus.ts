@@ -16,7 +16,6 @@ export const priceRange = (handle: string) => {
 };
 
 export const links = {
-  webtoon: 'https://www.webtoons.com/en/canvas/theseus/list?title_no=656447',
   substack: 'https://jholtillus.substack.com/',
   x: 'https://x.com/jholtillus',
   youtube: 'https://youtube.com/@jholtillus',

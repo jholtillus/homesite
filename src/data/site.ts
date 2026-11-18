@@ -34,7 +34,6 @@ export const social = [
   { label: 'YouTube', key: 'youtube', href: 'https://youtube.com/@jholtillus' },
   { label: 'X', key: 'x', href: 'https://x.com/jholtillus' },
   { label: 'Instagram', key: 'instagram', href: 'https://instagram.com/jholtillus' },
-  { label: 'Webtoon', key: 'webtoon', href: 'https://www.webtoons.com/en/canvas/theseus/list?title_no=656447' },
   { label: 'Substack', key: 'substack', href: 'https://jholtillus.substack.com/' },
 ];
 
@@ -109,7 +108,7 @@ export type Project = {
   site?: { url: string; name: string };
   // Projects page case study. Paragraphs default to placeholders until written.
   // images pair with paras 1–4 (alternating sides); closing is the full-width final paragraph.
-  caseStudy?: { images?: Img[]; paras?: string[]; closing?: string; feature?: Img; featureCaption?: string };
+  caseStudy?: { images?: Img[]; paras?: string[]; closing?: string; feature?: Img; featureCaption?: string; shop?: string }; // shop: Shopify handle shown as a mini shop in place of the feature image
 };
 
 export const THESEUS_URL = (import.meta.env.PUBLIC_THESEUS_URL || 'https://theseus.jordanholt.art').replace(/\/$/, '');
@@ -133,7 +132,7 @@ export const projects: Project[] = [
     logo: { src: '/images/theseus-logo.png', alt: 'Theseus', w: 800, h: 192 },
     site: { url: THESEUS_URL, name: 'Theseus' },
     caseStudy: {
-      feature: prod('theseus-the-full-collection-1', 'Theseus: The Full Collection'), featureCaption: 'Theseus: The Full Collection',
+      feature: prod('theseus-the-full-collection-1', 'Theseus: The Full Collection'), featureCaption: 'Theseus: The Full Collection', shop: 'theseus-the-full-collection',
       paras: [
         'Began in 2020, Theseus is a full and detailed retelling of the myth, novelized and worked into a coming-of-age tale full of comedy and adventure.',
         'This is more like what happens if someone loves Greek mythology very much, studies it in-depth along with the culture, language and history of that period, is fascinated by the idea of a true story behind the myth, but is simply not a serious person.',
@@ -156,9 +155,7 @@ export const projects: Project[] = [
       { label: 'Volume 2', value: '172 pages' },
       { label: 'Volume 3', value: '168 pages' },
     ],
-    links: [
-      { label: 'Read on Webtoon', href: 'https://www.webtoons.com/en/canvas/theseus/list?title_no=656447' },
-    ],
+    links: [],
     productTags: ['theseus'],
     blocks: [
       { kind: 'text', paras: [
@@ -304,7 +301,7 @@ export const projects: Project[] = [
 // ---------------------------------------------------------------- Home page
 // Hero carousel. The heading stays fixed; each slide swaps the image, text and buttons.
 // To put a new project "on deck", edit or reorder these entries.
-export const heroHeading = { line1: 'Pictures for', em: 'old stories', line2: '& new ones.' };
+export const heroHeading = { line1: 'Illustrating', em: 'history, myth and fable.', line2: '' };
 export type HeroSlide = { label: string; image: Img; eyebrow: string; text: string; caption: string; primary: { label: string; href: string }; secondary?: { label: string; href: string } };
 export const heroSlides: HeroSlide[] = [
   {
