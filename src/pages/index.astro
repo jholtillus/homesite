@@ -20,7 +20,7 @@ const featured = projects.filter((p) => p.featured);
     <div class="wrap projects">
       {featured.map((p) => (
         <a href={`/projects/#${p.slug}`} class="proj reveal">
-          <div class="img-frame"><img src={p.hero.src} alt={p.hero.alt} loading="lazy" width={p.hero.w} height={p.hero.h} /></div>
+          <div class="img-frame"><img src={(p.preview ?? p.hero).src} alt={(p.preview ?? p.hero).alt} loading="lazy" width={(p.preview ?? p.hero).w} height={(p.preview ?? p.hero).h} /></div>
           <div class="pmeta"><p class="eyebrow">{p.kicker} · {p.status}</p><h3>{p.logo ? <img class="plogo" src={p.logo.src} alt={p.logo.alt} width={p.logo.w} height={p.logo.h} loading="lazy" /> : p.title}</h3><p class="muted">{p.summary}</p><span class="link-arrow">Explore</span></div>
         </a>
       ))}

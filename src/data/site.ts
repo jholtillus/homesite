@@ -110,6 +110,7 @@ export type Project = {
   summary: string;
   cover: Img;        // card image on index pages
   hero: Img;         // banner on project page
+  preview?: Img;     // image on the home page Projects section (defaults to hero)
   heroDark?: boolean;
   facts: { label: string; value: string }[];
   links: { label: string; href: string }[];
@@ -138,6 +139,7 @@ const prod = (f: string, alt: string) => img(`/images/products/${f}.jpg`, alt);
 const art = (s: string) => artwork.find((x) => x.slug === s)!;
 const IDW = '/images/projects/in-desert-and-wilderness/';
 const THESEUS_PAGES = { src: '/images/projects/theseus/pages-vertical.jpg', alt: 'Theseus comic pages', w: 1000, h: 1500 };
+const THESEUS_POSEIDON = { src: '/images/projects/theseus/poseidon-page.jpg', alt: 'Theseus page: Poseidon', w: 1096, h: 1600 };
 const THESEUS_SPREAD = { src: '/images/projects/theseus/pages-spread.jpg', alt: 'Theseus comic spread', w: 2000, h: 1333 };
 
 
@@ -197,6 +199,7 @@ export const projects: Project[] = [
     status: 'Available',
     summary: 'A card game of mythic proportions. All-out mythological war in this competitive card-capture game — fight with the gods, heroes and monsters of Ancient Greek myth.',
     cover: prod('panomachea-battle-with-gods-heroes-monsters-1', 'Panomachea deck'),
+    preview: { src: '/images/projects/panomachea/home-preview.jpg', alt: 'Panomachea deck and cards', w: 2000, h: 1334 },
     hero: img(P + 'hero-bg.jpg', 'Panomachea cards spread on a table'),
     heroDark: true,
     facts: [
@@ -364,7 +367,7 @@ export type HeroSlide = { label: string; image: Img; eyebrow: string; text: stri
 export const heroSlides: HeroSlide[] = [
   {
     label: 'Theseus Vol. 3',
-    image: THESEUS_PAGES,
+    image: THESEUS_POSEIDON,
     eyebrow: 'On deck · Graphic novel',
     text: 'Volume 3 picks up when the ships with black sails appear on the horizon in Athens’ port, and the people know that Minos has come to collect his tribute: fourteen tributes who will be fed to the monstrous Minotaur.',
     caption: 'Theseus',
