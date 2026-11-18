@@ -51,3 +51,82 @@ a.act:hover { background: var(--ochre) !important; color: var(--slate-darker) !i
 }
 .mini-img.plain { background: #d8ccb8 !important; }
 .ftr, footer { background: rgba(0, 0, 0, .3); }
+
+/* ── Accent colours from the TerraRossa dark palette, spread through the design ──
+   Lifted slightly so they read on near-black. */
+:root {
+  --sage: #8fa284;        /* earth green / sage */
+  --teal: #4f9db0;        /* teal accent */
+  --steel: #7d93a8;       /* slate blue */
+  --terra: #c4765a;       /* terracotta */
+  --rainbow: linear-gradient(90deg, var(--ochre), var(--terra) 30%, var(--sage) 62%, var(--teal));
+}
+
+/* Header: a thin four-colour rule under the bar, coloured nav hovers */
+.hdr { border-bottom: 0 !important; }
+.hdr::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--rainbow); opacity: .85; }
+.desk a:nth-child(6n+1):hover, .desk a.on:nth-child(6n+1) { color: var(--ochre); }
+.desk > :nth-child(6n+2) > a:hover, .desk > :nth-child(6n+2) > a.on { color: var(--terra); }
+.desk a:nth-child(6n+3):hover, .desk a.on:nth-child(6n+3) { color: var(--sage); }
+.desk a:nth-child(6n+4):hover, .desk a.on:nth-child(6n+4) { color: var(--teal); }
+.desk a:nth-child(6n+5):hover, .desk a.on:nth-child(6n+5) { color: var(--steel); }
+.desk a:nth-child(6n+6):hover, .desk a.on:nth-child(6n+6) { color: var(--terra); }
+.dd-menu a:hover { color: var(--teal) !important; }
+
+/* Headings: each section takes the next colour; italics in the hero line in terracotta */
+h1 em { color: var(--terra); }
+main > section:nth-of-type(4n+1) h2 { color: var(--ochre); }
+main > section:nth-of-type(4n+2) h2 { color: var(--terra); }
+main > section:nth-of-type(4n+3) h2 { color: var(--sage); }
+main > section:nth-of-type(4n+4) h2 { color: var(--teal); }
+.page h1 { color: var(--cream); }
+.page h1 + .lede, .page .lede { color: var(--steel); }
+h3 { color: var(--cream); }
+
+/* Small labels: teal by default, cycling in lists */
+.eyebrow { color: var(--teal); }
+.card:nth-child(4n+1) .eyebrow, .pick:nth-child(4n+1) .eyebrow { color: var(--ochre); }
+.card:nth-child(4n+2) .eyebrow, .pick:nth-child(4n+2) .eyebrow { color: var(--terra); }
+.card:nth-child(4n+3) .eyebrow, .pick:nth-child(4n+3) .eyebrow { color: var(--sage); }
+.card:nth-child(4n+4) .eyebrow, .pick:nth-child(4n+4) .eyebrow { color: var(--teal); }
+.sub { color: var(--steel) !important; }
+
+/* Lines: section dividers get the four-colour rule; table-like rows tinted */
+.section-head { position: relative; padding-bottom: 18px; }
+.section-head::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--rainbow); opacity: .55; }
+dl, dl div { border-color: rgba(79, 157, 176, .22) !important; }
+dt { color: var(--sage) !important; }
+.closing, .studies, .rule, .block { border-color: rgba(196, 118, 90, .3) !important; }
+.link-arrow { color: var(--teal); }
+.link-arrow:hover { color: var(--ochre); }
+a.u { text-decoration-color: var(--terra); }
+a.u:hover { color: var(--terra); }
+
+/* Buttons: ochre for the lead action, terracotta for Buy, teal and sage outlines elsewhere */
+.btn { border-color: rgba(79, 157, 176, .55); }
+.btn:hover { background: rgba(79, 157, 176, .14); border-color: var(--teal); color: var(--teal); }
+.acts .btn.solid, .mini-acts .btn.solid, [data-add].btn, .btn.solid.sm {
+  background: linear-gradient(135deg, var(--terra) 0%, #9c5540 100%); color: #f3e8d6;
+}
+.acts .btn.solid:hover, .mini-acts .btn.solid:hover, [data-add].btn:hover, .btn.solid.sm:hover { background: linear-gradient(135deg, #d4876a 0%, #a85d46 100%); color: #fff; }
+.card .btn:not(.solid), .acts .btn:not(.solid) { border-color: rgba(143, 162, 132, .55); color: var(--sage); }
+.card .btn:not(.solid):hover, .acts .btn:not(.solid):hover { background: rgba(143, 162, 132, .14); border-color: var(--sage); }
+
+/* Prices, selections, tabs */
+.price { color: var(--terra) !important; }
+.mini-price { color: var(--terra); }
+.pick[aria-selected='true'] .img-frame { outline-color: var(--teal) !important; }
+.pick[aria-selected='true'] .t { color: var(--teal); }
+.filter button[aria-selected='true'], .opt input:checked + span { background: var(--sage) !important; border-color: var(--sage) !important; color: #0c0c0f !important; }
+.pill input:checked + span { background: var(--teal) !important; border-color: var(--teal) !important; color: #0c0c0f !important; }
+.hdr .count { background: var(--terra) !important; color: #0c0c0f !important; }
+.hero .bar span, [data-progress] { background: var(--terra) !important; }
+
+/* Footer: each column heading its own colour, rainbow rule on top */
+.ftr { position: relative; }
+.ftr::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--rainbow); opacity: .7; }
+.ftr .eyebrow { color: var(--sage); }
+.ftr .cols > :nth-child(2) .eyebrow, .ftr div:nth-child(2) > .eyebrow { color: var(--ochre); }
+.ftr div:nth-child(3) > .eyebrow { color: var(--terra); }
+.ftr div:nth-child(4) > .eyebrow { color: var(--teal); }
+.ftr a:hover { color: var(--teal); }
