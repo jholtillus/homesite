@@ -337,7 +337,18 @@ export const projects: Project[] = [
   },
   {
     slug: 'witch-of-hobomock-pass',
-    caseStudy: { feature: art('hobomock-grandfathers'), featureCaption: 'A View of the Grandfathers. Ink on watercolor paper.' },
+    noPage: true,
+    caseStudy: {
+      images: [art('witch-of-hobomock-pass-cover'), art('hobomock-in-the-fort'), art('hobomock-hellhound'), art('hobomock-king-of-the-forest')],
+      paras: [
+        'In 2026, Michael F. Kane, author of the After Moses series, commissioned me to do 21 illustrations and the cover for his next book. This one is a frontier fantasy, set in the 18th century in a parallel of the American frontier.',
+        'Working in the style we both knew of American Illustrated Classics, I worked with Michael to develop the visuals of a mystical-yet-grounded world akin to the Appalachian wilderness.',
+        'I used East Tennessee locations like Cades Cove as references, and many of my own photographs of forests and trails in the Smokies to craft the scenes.',
+        'The end result being a truly unique book, rife with illustrations and a grand narrative about destiny and what it means to grow up and confront the evil you encounter in life.',
+      ],
+      closing: '',
+      feature: art('hobomock-grandfathers'), featureCaption: 'A View of the Grandfathers. Ink on watercolor paper.',
+    },
     title: 'The Witch of Hobomock Pass',
     kicker: 'Frontier fantasy novel',
     partner: 'Written by Michael F. Kane',
@@ -346,7 +357,7 @@ export const projects: Project[] = [
     cover: art('witch-of-hobomock-pass-cover'),
     hero: art('witch-of-hobomock-pass-cover'),
     heroDark: true,
-    facts: [{ label: 'Author', value: 'Michael F. Kane' }, { label: 'Cover', value: 'Acrylic gouache and watercolor' }, { label: 'Interiors', value: 'Ink on watercolor paper' }],
+    facts: [{ label: 'Author', value: 'Michael F. Kane' }, { label: 'Illustrations', value: '21 and the cover' }, { label: 'Cover', value: 'Acrylic gouache and watercolor' }, { label: 'Interiors', value: 'Ink on watercolor paper' }],
     links: [],
     productTags: [],
     blocks: [

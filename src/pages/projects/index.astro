@@ -81,7 +81,7 @@ const studies = projects.map((p) => {
           ))}
         </div>
 
-        <p class:list={['closing', { ph: closing.startsWith('PLACEHOLDER') }]} set:html={closing} />
+        {closing && <p class:list={['closing', { ph: closing.startsWith('PLACEHOLDER') }]} set:html={closing} />}
 
         {mini ? (() => {
           const first = mini.variants.find((v) => v.available) ?? mini.variants[0];
