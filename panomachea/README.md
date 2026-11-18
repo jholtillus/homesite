@@ -13,6 +13,12 @@ npm run build:panomachea    # output in dist-panomachea/
 - **Other images:** `panomachea/public/images/`. Full-size originals are in `panomachea/originals/` (not deployed).
 - **Prices and buy links:** read from the main site's `src/data/products.json`; the deck cards link to the main site's shop pages.
 
+## Web game
+`panomachea/public/play/` holds the web export of the Panomachea game (from the `panomacheaweb`
+repository) and is served at `/play/`. To update it, export from Godot
+(`godot --headless --path . --export-release "Web" build/web/index.html`) and copy the
+**contents** of `build/web/` into this folder, replacing what is there.
+
 ## Hosting on AWS Amplify
 1. In Amplify, create another app from the same `homesite` repository and `main` branch.
 2. Under **Environment variables**, add:
