@@ -14,7 +14,8 @@ const studies = projects.map((p) => {
   const paras = p.caseStudy?.paras ?? caseStudyPlaceholders(p.title);
   return {
     p,
-    rows: paras.map((t, k) => ({ text: t, img: pool[k % Math.max(pool.length, 1)] })),
+    rows: paras.map((t, k) => ({ text: t, img: pool[k % Math.max(pool.length, 1)] as Img & { whole?: boolean } })),
+    banner: p.caseStudy?.banner,
     closing: p.caseStudy?.closing ?? caseStudyClosing(p.title),
     feature,
     caption: p.caseStudy?.featureCaption ?? p.title,
@@ -51,7 +52,7 @@ const studies = projects.map((p) => {
   </section>
 
   <div class="studies" id="case-study">
-    {studies.map(({ p, rows, closing, feature, caption, shop, mini, ext }, i) => (
+    {studies.map(({ p, rows, closing, feature, caption, shop, mini, ext, banner }, i) => (
       <article class="cs wrap" id={`cs-${p.slug}`} role="tabpanel" aria-labelledby={`tab-${p.slug}`} data-cs={p.slug} hidden={i !== 0}>
         <header class="cs-head">
           <div>
@@ -64,7 +65,7 @@ const studies = projects.map((p) => {
             <div class="acts">
               {p.site
                 ? (p.site.url ? <a href={p.site.url} class="btn">Full project site ↗</a> : <span class="btn soon" aria-disabled="true">Full project site · coming soon</span>)
-                : <a href={`/projects/${p.slug}/`} class="btn">Full project page</a>}
+                : !p.noPage && <a href={`/projects/${p.slug}/`} class="btn">Full project page</a>}
               {p.site && <a href={`/projects/${p.slug}/`} class="btn">Project overview</a>}
               {shop && <a href={`/projects/${p.slug}/#shop`} class="btn solid">Buy</a>}
             </div>
@@ -74,13 +75,13 @@ const studies = projects.map((p) => {
         <div class="rows">
           {rows.map((r, k) => (
             <section class:list={['row', { flip: k % 2 === 1 }]}>
-              {r.img && <figure class="img-frame"><img src={r.img.src} alt={r.img.alt} width={r.img.w} height={r.img.h} loading="lazy" /></figure>}
+              {r.img && <figure class:list={['img-frame', { whole: r.img.whole }]} style={r.img.whole ? `aspect-ratio:${r.img.w}/${r.img.h}` : undefined}><img src={r.img.src} alt={r.img.alt} width={r.img.w} height={r.img.h} loading="lazy" /></figure>}
               <div class="txt"><span class="eyebrow">{String(k + 1).padStart(2, '0')}</span><p class:list={{ ph: r.text.startsWith('PLACEHOLDER') }} set:html={r.text} /></div>
             </section>
           ))}
         </div>
 
-        <p class:list={['closing', { ph: closing.startsWith('PLACEHOLDER') }]} set:html={closing} />
+        {closing && <p class:list={['closing', { ph: closing.startsWith('PLACEHOLDER') }]} set:html={closing} />}
 
         {mini ? (() => {
           const first = mini.variants.find((v) => v.available) ?? mini.variants[0];
@@ -111,7 +112,8 @@ const studies = projects.map((p) => {
               </div>
             </section>
           );
-        })() : ext ? (
+        })() : ext ? (<>
+          {banner && <figure class="cs-feature cs-banner"><img src={banner.src} alt={banner.alt} width={banner.w} height={banner.h} loading="lazy" /></figure>}
           <section class="mini">
             <a href={ext.url} target="_blank" rel="noopener" class="mini-img plain"><img src={ext.image.src} alt={ext.image.alt} width={ext.image.w} height={ext.image.h} loading="lazy" /></a>
             <div class="mini-info">
@@ -124,7 +126,7 @@ const studies = projects.map((p) => {
               </div>
             </div>
           </section>
-        ) : (
+        </>) : (
           <figure class="cs-feature">
             <img src={feature.src} alt={feature.alt} width={feature.w} height={feature.h} loading="lazy" />
             <figcaption>{caption}</figcaption>
@@ -169,6 +171,9 @@ const studies = projects.map((p) => {
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 6vw, 96px); align-items: center; }
   .row figure { margin: 0; aspect-ratio: 4 / 5; }
   .row.flip figure { order: 2; }
+  .row figure.whole { aspect-ratio: auto; }
+  .row figure.whole img { object-fit: contain; }
+  .cs-banner { margin-bottom: 0; }
   .txt { max-width: 46ch; }
   .txt .eyebrow { display: block; margin-bottom: 14px; }
   .txt p { font: 400 clamp(1.25rem, 1.9vw, 1.6rem)/1.5 var(--serif); margin: 0; }
