@@ -94,7 +94,7 @@ export const artworkProducts: Record<string, string[]> = {
 export type Block =
   | { kind: 'text'; heading?: string; paras: string[] }
   | { kind: 'image'; image: Img; caption?: string; wide?: boolean }
-  | { kind: 'gallery'; images: Img[] }
+  | { kind: 'gallery'; images: Img[]; row?: number } // row: target row height in px (default 320)
   | { kind: 'list'; heading: string; items: string[] };
 
 // A book sold by its publisher: shown on the Projects page like the mini shop, linking out.
@@ -137,6 +137,8 @@ const P = '/images/projects/panomachea/';
 const prod = (f: string, alt: string) => img(`/images/products/${f}.jpg`, alt);
 const art = (s: string) => artwork.find((x) => x.slug === s)!;
 const IDW = '/images/projects/in-desert-and-wilderness/';
+const THESEUS_PAGES = { src: '/images/projects/theseus/pages-vertical.jpg', alt: 'Theseus comic pages', w: 1000, h: 1500 };
+const THESEUS_SPREAD = { src: '/images/projects/theseus/pages-spread.jpg', alt: 'Theseus comic spread', w: 2000, h: 1333 };
 
 
 export const projects: Project[] = [
@@ -181,6 +183,7 @@ export const projects: Project[] = [
         'Each chapter behaves like an independent episode, containing its own story but leading us further down the path of the over-arching tale.',
       ] },
       { kind: 'gallery', images: [art('theseus-vol3-page-1'), art('theseus-vol3-page-2'), prod('theseus-the-full-collection-3', 'Theseus'), prod('theseus-the-full-collection-6', 'Theseus')] },
+      { kind: 'gallery', images: [THESEUS_PAGES, THESEUS_SPREAD], row: 520 },
       { kind: 'text', paras: ['This is the complete Theseus collection, spanning nearly 500 pages.'] },
     ],
   },
@@ -361,10 +364,10 @@ export type HeroSlide = { label: string; image: Img; eyebrow: string; text: stri
 export const heroSlides: HeroSlide[] = [
   {
     label: 'Theseus Vol. 3',
-    image: prod('theseus-vol-3-digital-1', 'Theseus, Volume Three cover art'),
+    image: THESEUS_PAGES,
     eyebrow: 'On deck · Graphic novel',
     text: 'Volume 3 picks up when the ships with black sails appear on the horizon in Athens’ port, and the people know that Minos has come to collect his tribute: fourteen tributes who will be fed to the monstrous Minotaur.',
-    caption: 'Theseus, Vol. 3',
+    caption: 'Theseus',
     primary: { label: 'See the project', href: '/projects/#theseus' },
     secondary: { label: 'Buy', href: '/shop/theseus-vol-3-hardcover/' },
   },

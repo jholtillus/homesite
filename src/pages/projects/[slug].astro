@@ -43,7 +43,7 @@ const i = projects.indexOf(p), next = projects[(i + 1) % projects.length];
             {b.caption && <figcaption>{b.caption}</figcaption>}
           </figure>
         ) : b.kind === 'gallery' ? (
-          <div class="b-gallery"><Gallery items={b.images} row={320} /></div>
+          <div class="b-gallery"><Gallery items={b.images} row={b.row ?? 320} /></div>
         ) : (
           <section class="b-text"><h2>{b.heading}</h2><ul>{b.items.map((x) => <li>{x}</li>)}</ul></section>
         )
