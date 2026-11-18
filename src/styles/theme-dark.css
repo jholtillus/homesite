@@ -1,0 +1,52 @@
+/* Dark theme test: the "Earthy Paint Palette" dark mode (slate, ochre, sienna, warm cream),
+   mapped onto the site's existing variables. Loaded after global.css; remove the import in
+   src/layouts/Base.astro to return to the light theme. */
+:root {
+  --slate-darker: #1f2328;
+  --slate-bg: #2a3038;
+  --slate-lighter: #3a424c;
+  --ochre: #d4a574;
+  --sienna: #b8764f;
+  --terracotta: #c77b5c;
+  --cream: #e8dcc8;
+
+  --bg: #1f2328;
+  --fg: #e8dcc8;
+  --muted: #a3967f;
+  --line: rgba(212, 165, 116, .16);
+  --soft: #2a3038;
+  --accent: #d4a574;
+  color-scheme: dark;
+}
+html { background: var(--slate-darker); }
+body { background: linear-gradient(135deg, var(--slate-darker) 0%, var(--slate-bg) 100%) fixed; color: var(--fg); }
+::selection { background: rgba(212, 165, 116, .35); }
+:focus-visible { outline-color: var(--ochre); }
+h1, h2, h3 { color: var(--cream); }
+.eyebrow { color: var(--ochre); }
+a.u:hover, .link:hover, .link-arrow:hover { color: var(--ochre); }
+
+/* Buttons: ochre-to-sienna for the main action, ochre outline otherwise */
+.btn { border-color: rgba(212, 165, 116, .45); color: var(--cream); }
+.btn:hover { background: rgba(212, 165, 116, .14); border-color: var(--ochre); color: var(--ochre); }
+.btn.solid { background: linear-gradient(135deg, var(--ochre) 0%, var(--sienna) 100%); border-color: transparent; color: var(--slate-darker); font-weight: 500; }
+.btn.solid:hover { background: linear-gradient(135deg, #e0b585 0%, #c98860 100%); color: var(--slate-darker); }
+
+input, textarea, select { color: var(--fg); border-bottom-color: rgba(212, 165, 116, .3); }
+input:focus, textarea:focus, select:focus { border-color: var(--ochre); }
+select option { background: var(--slate-bg); color: var(--fg); }
+
+/* Components that had white or black hard-coded */
+.hdr { background: rgba(31, 35, 40, .88) !important; border-bottom-color: rgba(212, 165, 116, .12) !important; }
+.hdr .count { background: var(--ochre) !important; color: var(--slate-darker) !important; }
+.dd-menu, .mobile { background: var(--slate-bg) !important; }
+.act { background: rgba(31, 35, 40, .92) !important; color: var(--cream) !important; }
+a.act:hover { background: var(--ochre) !important; color: var(--slate-darker) !important; }
+.act.sold { background: rgba(58, 66, 76, .9) !important; color: #7d7466 !important; }
+.lb { background: rgba(24, 27, 31, .97) !important; }
+.opt span { border-color: rgba(212, 165, 116, .3) !important; }
+.opt input:checked + span, .pill input:checked + span, .filter button[aria-selected='true'] {
+  background: var(--ochre) !important; border-color: var(--ochre) !important; color: var(--slate-darker) !important;
+}
+.mini-img.plain { background: #e8dcc8 !important; }
+.ftr, footer { background: rgba(0, 0, 0, .18); }
