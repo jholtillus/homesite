@@ -329,7 +329,7 @@ export const heroSlides: HeroSlide[] = [
     eyebrow: 'On deck · Graphic novel',
     text: 'Volume 3 picks up when the ships with black sails appear on the horizon in Athens’ port, and the people know that Minos has come to collect his tribute: fourteen tributes who will be fed to the monstrous Minotaur.',
     caption: 'Theseus, Vol. 3',
-    primary: { label: 'See the project', href: '/projects/theseus/' },
+    primary: { label: 'See the project', href: '/projects/#theseus' },
     secondary: { label: 'Buy', href: '/shop/theseus-vol-3-hardcover/' },
   },
   {
@@ -338,7 +338,7 @@ export const heroSlides: HeroSlide[] = [
     eyebrow: 'Card game',
     text: 'Panomachea — all-out mythological war in a competitive card-capture game. Fight with the gods, heroes and monsters of Ancient Greek myth.',
     caption: 'Panomachea',
-    primary: { label: 'See the project', href: '/projects/panomachea/' },
+    primary: { label: 'See the project', href: '/projects/#panomachea' },
     secondary: { label: 'Buy', href: '/shop/panomachea-battle-with-gods-heroes-monsters/' },
   },
   {

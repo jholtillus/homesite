@@ -138,7 +138,7 @@ const studies = projects.map((p) => {
 <style>
   .head { padding-bottom: clamp(28px, 4vw, 48px); }
   .head h1 { margin: 16px 0 20px; }
-  .picker { --g: clamp(14px, 2vw, 24px); }
+  .picker { --g: clamp(14px, 2vw, 24px); scroll-margin-top: calc(var(--header) + 16px); }
   .track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 5 * var(--g)) / 6); gap: var(--g); overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; padding-bottom: 4px; }
   .track::-webkit-scrollbar { display: none; }
   .pick { scroll-snap-align: start; text-align: left; display: flex; flex-direction: column; gap: 8px; opacity: .55; transition: opacity .3s; }
@@ -236,6 +236,12 @@ const studies = projects.map((p) => {
     const k = (e as KeyboardEvent).key;
     if (k === 'ArrowRight' || k === 'ArrowLeft') { e.preventDefault(); select(cur + (k === 'ArrowRight' ? 1 : -1)); tabs[cur].focus(); }
   });
-  const fromHash = () => { const i = tabs.findIndex((t) => '#' + t.dataset.slug === location.hash); if (i >= 0) select(i); };
-  addEventListener('hashchange', fromHash); fromHash();
+  // Arriving from a link to /projects/#slug: select that project and bring the picker into view.
+  const fromHash = (land = false) => {
+    const i = tabs.findIndex((t) => '#' + t.dataset.slug === location.hash);
+    if (i < 0) return;
+    select(i);
+    if (land) requestAnimationFrame(() => root.scrollIntoView({ block: 'start' }));
+  };
+  addEventListener('hashchange', () => fromHash(true)); fromHash(true);
 </script>

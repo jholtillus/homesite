@@ -10,7 +10,7 @@ const items = featuredWork.slice(0, 9).map((f) => {
   const orig = f.original ? products.find((p) => p.handle === f.original) : undefined;
   const proj = f.project ? projects.find((p) => p.slug === f.project) : undefined;
   const actions: { label: string; href?: string; sold?: boolean }[] = [];
-  if (proj) actions.push({ label: 'See the project', href: `/projects/${proj.slug}/` });
+  if (proj) actions.push({ label: 'See the project', href: `/projects/#${proj.slug}` });
   if (print) actions.push(print.available ? { label: 'Prints', href: `/shop/${print.handle}/` } : { label: 'Prints sold out', sold: true });
   if (orig) actions.push(orig.available && !f.sold ? { label: 'For sale', href: `/shop/${orig.handle}/` } : { label: 'Sold', sold: true });
   return { ...a, caption: f.caption, actions };

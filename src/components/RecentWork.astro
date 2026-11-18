@@ -10,13 +10,13 @@ const hasShop = (tags: string[]) => tags.length > 0 && products.some((x) => x.ta
   <div class="track" data-track>
     {items.map((p) => (
       <article class="card">
-        <a href={`/projects/${p.slug}/`} class="img-frame" tabindex="-1" aria-hidden="true"><img src={p.cover.src} alt="" loading="lazy" decoding="async" width={p.cover.w} height={p.cover.h} /></a>
+        <a href={`/projects/#${p.slug}`} class="img-frame" tabindex="-1" aria-hidden="true"><img src={p.cover.src} alt="" loading="lazy" decoding="async" width={p.cover.w} height={p.cover.h} /></a>
         <p class="eyebrow">{p.kicker}{p.status === 'Upcoming' ? ' · Upcoming' : ''}</p>
-        <h3><a href={`/projects/${p.slug}/`}>{p.title}</a></h3>
+        <h3><a href={`/projects/#${p.slug}`}>{p.title}</a></h3>
         {p.partner && <p class="partner">{p.partner}</p>}
         <div class="acts">
-          <a href={`/projects/${p.slug}/`} class="btn sm">See more</a>
-          <a href={`/projects/${p.slug}/${hasShop(p.productTags) ? '#shop' : ''}`} class="btn solid sm">Buy</a>
+          <a href={`/projects/#${p.slug}`} class="btn sm">See more</a>
+          <a href={hasShop(p.productTags) ? `/projects/${p.slug}/#shop` : `/projects/#${p.slug}`} class="btn solid sm">Buy</a>
         </div>
       </article>
     ))}
