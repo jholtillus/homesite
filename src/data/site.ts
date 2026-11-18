@@ -203,6 +203,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'panomachea',
+    noPage: true,
     site: { url: PANOMACHEA_URL, name: 'Panomachea' },
     // A short version of the Panomachea site: its text and images.
     caseStudy: {
