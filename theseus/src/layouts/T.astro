@@ -2,13 +2,12 @@
 import '../styles/theseus.css';
 import { MAIN_URL, links } from '../data/theseus';
 interface Props { title?: string; description?: string; image?: string; reader?: boolean }
-const { title, description = 'I’ve taken the narrative of his life directly from the ancient writings of Plutarch and spun it into a colorful, fully-illustrated, coming-of-age adventure both sincere and humorous.', image = '/images/hero-theseus.jpg', reader = false } = Astro.props;
+const { title, description = 'The life of Theseus as told by the ancient writings of Plutarch, spun into a colorful, fully-illustrated coming-of-age adventure.', image = '/images/hero-theseus.jpg', reader = false } = Astro.props;
 const full = title ? `${title} — Theseus` : 'Theseus — Jordan Holt';
 const path = Astro.url.pathname;
 const nav = [
   { label: 'The Story', href: '/#story' },
   { label: 'The Books', href: '/#books' },
-  { label: 'Pages', href: '/#pages' },
   { label: 'Read', href: '/read/' },
   { label: 'The Creator', href: '/#creator' },
 ];

@@ -1,7 +1,7 @@
 ---
 // All prose on this page is taken verbatim from the three Theseus Kickstarter campaigns.
 import T from '../layouts/T.astro';
-import { volumes, samples, links, MAIN_URL, shopUrl, priceRange, product } from '../data/theseus';
+import { volumes, links, MAIN_URL, shopUrl, priceRange, product } from '../data/theseus';
 const options = ['theseus-the-full-collection', 'theseus-vol-3-hardcover', 'theseus-the-full-collection-digital'].map((h) => ({ h, title: product(h)?.title ?? h }));
 ---
 <T>
@@ -11,7 +11,7 @@ const options = ['theseus-the-full-collection', 'theseus-vol-3-hardcover', 'thes
       <div class="hero-txt">
         <p class="eyebrow">Jordan Holt</p>
         <h1 class="meander"><img src="/images/logo-large.png" alt="Theseus" width="1600" height="384" /></h1>
-        <p class="lede">I’ve taken the narrative of his life directly from the ancient writings of Plutarch and spun it into a colorful, fully-illustrated, coming-of-age adventure both sincere and humorous.</p>
+        <p class="lede">The life of Theseus as told by the ancient writings of Plutarch, spun into a colorful, fully-illustrated coming-of-age adventure.</p>
         <div class="ctas">
           <a href="/read/1/" class="btn flame" data-continue>Start reading</a>
           <a href="#buy" class="btn">Get the books</a>
@@ -23,8 +23,7 @@ const options = ['theseus-the-full-collection', 'theseus-vol-3-hardcover', 'thes
   <section class="band" id="story">
     <div class="wrap story">
       <div class="story-head">
-        <p class="eyebrow">More About Theseus</p>
-        <h2>This is most definitely not it.</h2>
+        <h2 class="red">The definitely inaccurate story behind the myth.</h2>
       </div>
       <div class="story-copy">
         <p class="lede">Theseus is a well-known figure in mythology for defeating bandits, killing the minotaur, and ruling over Athens. While the story itself is a fable, there is likely a true story that undergirds the legend.</p>
@@ -89,22 +88,6 @@ const options = ['theseus-the-full-collection', 'theseus-vol-3-hardcover', 'thes
     </div>
   </section>
 
-  <section class="band" id="pages">
-    <div class="wrap">
-      <div class="head-row">
-        <h2>Here, have a couple of pages.</h2>
-        <p class="muted">I enjoy the humor, but I also love trying to inject visually striking illustration and vibrant color into every spread.</p>
-      </div>
-      <div class="samples" data-gal>
-        {samples.map((s, i) => (
-          <button class="frame sample" data-i={i} aria-label={`Enlarge ${s.alt}`}><img src={s.src} alt={s.alt} width={s.w} height={s.h} loading="lazy" /></button>
-        ))}
-      </div>
-      <div class="read-cta">
-        <a href="/read/1/" class="btn flame" data-continue>Start reading</a>
-      </div>
-    </div>
-  </section>
 
   <section class="band light buy" id="buy">
     <div class="wrap buy-grid">
@@ -141,7 +124,6 @@ const options = ['theseus-the-full-collection', 'theseus-vol-3-hardcover', 'thes
   <section class="band dark" id="creator">
     <div class="wrap creator">
       <div class="photos">
-        <figure class="frame"><img src="/images/shipping-truck.jpg" alt="Theseus books ready to ship" width="1241" height="931" loading="lazy" /></figure>
         <figure class="frame"><img src="/images/book-vol1-photo.jpg" alt="Theseus Volume 1 hardcover" width="1600" height="1600" loading="lazy" /></figure>
       </div>
       <div>
@@ -149,7 +131,7 @@ const options = ['theseus-the-full-collection', 'theseus-vol-3-hardcover', 'thes
         <h2>Jordan Holt</h2>
         <p class="lede">I draw primarily historical, mythological, religious, and literary works. I publish my own works and work with other publishers.</p>
         <p>I’ve worked in media, advertising, commercial illustration and held a faculty position at a university now for over 10 years.</p>
-        <p>Theseus is a long-standing passion project for me. I started this project in 2020 at the start of the pandemic lockdown. These graphic novels are written, meticulously hand-drawn and colored by me, Jordan Holt. I don’t use AI in any form. I’ve spent about 1000 very pleasant hours writing and illustrating Volume 1.</p>
+        <p>Theseus is a long-standing passion project for me. I started this project in 2020 at the start of the pandemic lockdown. These graphic novels are written, meticulously hand-drawn and colored by me, Jordan Holt. I don’t use AI in any form. I spent very pleasant evenings for 6 years writing and illustrating this series.</p>
         <p>My little company, Carthage, is not big. It’s just me and the help my wife generously gives. We are truly an indie operation.</p>
         <p>My next book after Theseus will be an Anglo-Saxon penance fable called PetraCor.</p>
         <div class="ctas">
@@ -160,13 +142,6 @@ const options = ['theseus-the-full-collection', 'theseus-vol-3-hardcover', 'thes
     </div>
   </section>
 
-  <div class="lb" data-lb hidden role="dialog" aria-modal="true" aria-label="Page viewer">
-    <button class="lb-x" data-x>Close ✕</button>
-    <button class="lb-nav prev" data-p aria-label="Previous page">‹</button>
-    <img data-img alt="" />
-    <button class="lb-nav next" data-n aria-label="Next page">›</button>
-  </div>
-  <script type="application/json" data-samples set:html={JSON.stringify(samples)} />
 </T>
 
 <style>
@@ -181,7 +156,7 @@ const options = ['theseus-the-full-collection', 'theseus-vol-3-hardcover', 'thes
   .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 
   .story { display: grid; grid-template-columns: 1fr 1.5fr; gap: clamp(28px, 6vw, 96px); }
-  .story-head h2 { margin-top: 14px; }
+  .story-head h2.red { color: var(--flame); }
   .story-copy { max-width: 62ch; }
   .story-copy p:not(.lede) { font-size: 1.05rem; color: var(--on-night-muted); }
   .wide { margin: clamp(56px, 8vw, 112px) 0 0; }
@@ -211,11 +186,6 @@ const options = ['theseus-the-full-collection', 'theseus-vol-3-hardcover', 'thes
   .influences { margin-top: clamp(48px, 6vw, 80px); padding-top: 28px; border-top: 1px solid var(--line); }
   .influences p { font: 400 clamp(1.2rem, 1.8vw, 1.45rem)/1.55 var(--serif); max-width: 70ch; margin: 0; }
 
-  .samples { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 20px); }
-  .sample { aspect-ratio: 11 / 16; cursor: zoom-in; }
-  .sample img { transition: transform .8s var(--ease); }
-  .sample:hover img { transform: scale(1.03); }
-  .read-cta { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: clamp(40px, 5vw, 64px); padding: clamp(24px, 3vw, 40px); border-block: 1px solid var(--line); }
 
   .buy-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 6vw, 96px); align-items: center; }
   .buy-imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -234,18 +204,13 @@ const options = ['theseus-the-full-collection', 'theseus-vol-3-hardcover', 'thes
   .for-grid p:not(.lede) { font-size: 1.05rem; color: var(--on-night-muted); }
 
   .creator { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(28px, 6vw, 96px); align-items: center; }
-  .photos { display: grid; grid-template-columns: 1.33fr 1fr; gap: 12px; align-items: end; }
+  .photos { display: grid; }
   .photos .frame { margin: 0; }
-  .photos .frame:first-child { aspect-ratio: 4 / 3; }
-  .photos .frame:last-child { aspect-ratio: 3 / 4; }
+  .photos .frame { aspect-ratio: 4 / 5; }
   .creator h2 { margin: 14px 0 18px; }
   .creator .lede { color: var(--on-night); max-width: 38ch; margin-bottom: 22px; }
   .creator p:not(.eyebrow):not(.lede) { max-width: 60ch; color: var(--on-night-muted); }
 
-  .lb { position: fixed; inset: 0; z-index: 200; background: rgba(24, 22, 42, .97); display: grid; grid-template-columns: 64px 1fr 64px; align-items: center; justify-items: center; padding: max(56px, env(safe-area-inset-top)) 0 24px; }
-  .lb img { max-height: calc(100dvh - 96px); max-width: 100%; width: auto; object-fit: contain; }
-  .lb-x { position: absolute; top: calc(16px + env(safe-area-inset-top, 0px)); right: max(20px, env(safe-area-inset-right, 0px)); color: var(--on-night); font: 400 12px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; }
-  .lb-nav { color: var(--on-night); font-size: 44px; height: 100%; width: 100%; }
 
   @media (max-width: 960px) {
     .story, .hero2, .head-row, .tone, .buy-grid, .for-grid, .creator { grid-template-columns: 1fr; }
@@ -258,30 +223,14 @@ const options = ['theseus-the-full-collection', 'theseus-vol-3-hardcover', 'thes
     .hero h1 { margin-top: 12px; }
     .vols { grid-template-columns: 1fr; max-width: 560px; }
     .vol .cover { aspect-ratio: 4 / 3; }
-    .samples { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
   @media (max-width: 560px) {
     .spreads, .trio { grid-template-columns: 1fr 1fr; }
     .spreads figure:last-child, .trio .frame:last-child { display: none; }
-    .samples { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .lb { grid-template-columns: 1fr; } .lb-nav { position: absolute; bottom: 12px; width: 56px; height: 56px; } .prev { left: 8px; } .next { right: 8px; }
   }
 </style>
 
 <script>
-  // Sample-page lightbox
-  const data = JSON.parse(document.querySelector('[data-samples]')!.textContent!);
-  const lb = document.querySelector<HTMLElement>('[data-lb]')!, img = lb.querySelector<HTMLImageElement>('[data-img]')!;
-  let cur = 0;
-  const show = (i: number) => { cur = (i + data.length) % data.length; img.src = data[cur].src; img.alt = data[cur].alt; };
-  const close = () => { lb.hidden = true; document.body.style.overflow = ''; };
-  document.querySelector('[data-gal]')!.addEventListener('click', (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>('[data-i]'); if (!b) return; show(+b.dataset.i!); lb.hidden = false; document.body.style.overflow = 'hidden'; });
-  lb.querySelector('[data-x]')!.addEventListener('click', close);
-  lb.querySelector('[data-p]')!.addEventListener('click', () => show(cur - 1));
-  lb.querySelector('[data-n]')!.addEventListener('click', () => show(cur + 1));
-  lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
-  addEventListener('keydown', (e) => { if (lb.hidden) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
-
   // "Continue reading" when the visitor has read before
   try {
     const last = Number(localStorage.getItem('theseus-last-page'));

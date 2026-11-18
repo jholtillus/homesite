@@ -142,6 +142,7 @@ const art = (s: string) => artwork.find((x) => x.slug === s)!;
 const IDW = '/images/projects/in-desert-and-wilderness/';
 const THESEUS_PAGES = { src: '/images/projects/theseus/pages-vertical.jpg', alt: 'Theseus comic pages', w: 1000, h: 1500 };
 const THESEUS_POSEIDON = { src: '/images/projects/theseus/poseidon.jpg', alt: 'Poseidon, from Theseus', w: 1100, h: 1600 };
+const THESEUS_VOL2 = { src: '/images/projects/theseus/vol2-cover.jpg', alt: 'Theseus Vol. 2', w: 1035, h: 1600 };
 const THESEUS_SPREAD = { src: '/images/projects/theseus/pages-spread.jpg', alt: 'Theseus comic spread', w: 2000, h: 1333 };
 
 
@@ -155,7 +156,7 @@ export const projects: Project[] = [
       paras: [
         'Began in 2020, Theseus is a full and detailed retelling of the myth, novelized and worked into a coming-of-age tale full of comedy and adventure.',
         'This is more like what happens if someone loves Greek mythology very much, studies it in-depth along with the culture, language and history of that period, is fascinated by the idea of a true story behind the myth, but is simply not a serious person.',
-        'These graphic novels are written, meticulously hand-drawn and colored by me, Jordan Holt. I don’t use AI in any form. I’ve spent about 1000 very pleasant hours writing and illustrating Volume 1.',
+        'These graphic novels are written, meticulously hand-drawn and colored by me, Jordan Holt. I don’t use AI in any form. I spent very pleasant evenings for 6 years writing and illustrating this series.',
         'Readers have watched Theseus grow in confidence and strength over the course of Volume I & II, but his boyish absurdity still remains. This series is marked by its merger of mythology and comedy.',
       ],
       closing: 'Theseus is a long-standing passion project for me. I hope you enjoy reading it as much as I’ve enjoyed creating it. Immerse yourself in the world of myth.',
@@ -165,23 +166,24 @@ export const projects: Project[] = [
     kicker: 'Graphic novel',
     status: 'Available',
     // Theseus text is taken verbatim from the Kickstarter campaigns.
-    summary: 'I’ve taken the narrative of his life directly from the ancient writings of Plutarch and spun it into a colorful, fully-illustrated, coming-of-age adventure both sincere and humorous.',
+    summary: 'The life of Theseus as told by the ancient writings of Plutarch, spun into a colorful, fully-illustrated coming-of-age adventure.',
     cover: prod('theseus-the-full-collection-digital-1', 'Theseus Vol. 1'),
     hero: prod('theseus-vol-2-digital-1', 'Theseus Vol. 2'),
     heroDark: true,
     facts: [
       { label: 'Volume 1', value: '148 pages' },
-      { label: 'Volume 2', value: '172 pages' },
+      { label: 'Volume 2', value: '168 pages' },
       { label: 'Volume 3', value: '168 pages' },
     ],
     links: [],
     productTags: ['theseus'],
     blocks: [
       { kind: 'text', paras: [
-        'Theseus is a well-known figure in mythology for defeating bandits, killing the minotaur, and ruling over Athens. While the story itself is a fable, there is likely a true story that undergirds the legend. This is most definitely not it.',
+        'Theseus is a well-known figure in mythology for defeating bandits, killing the minotaur, and ruling over Athens. While the story itself is a fable, there is likely a true story that undergirds the legend.',
+        'This is the definitely inaccurate story behind the myth.',
         'This is a lovingly faithful retelling of the myth’s broader story according to Plutarch, but crafted into a compelling coming-of-age story garnished with ample humor and an unusually high number of interfering deities.',
       ] },
-      { kind: 'gallery', images: [prod('theseus-the-full-collection-digital-1', 'Theseus Vol. 1'), prod('theseus-vol-2-digital-1', 'Theseus Vol. 2'), prod('theseus-vol-3-digital-1', 'Theseus Vol. 3')] },
+      { kind: 'gallery', images: [prod('theseus-the-full-collection-digital-1', 'Theseus Vol. 1'), THESEUS_VOL2, prod('theseus-vol-3-digital-1', 'Theseus Vol. 3')] },
       { kind: 'text', paras: [
         'Young Theseus starts off like any teenager burdened with responsibility: he avoids it. But while encountering vicious bandits (each with their own brand of villainy) and mythological monsters, he begins the path towards a better and more capable version of himself...while still leaving room for humor.',
         'Each chapter behaves like an independent episode, containing its own story but leading us further down the path of the over-arching tale.',
@@ -248,9 +250,9 @@ export const projects: Project[] = [
     caseStudy: {
       images: [
         { src: '/images/projects/blood-and-water/book.jpg', alt: 'Blood & Water hardcover', w: 711, h: 947 },
-        { src: '/images/projects/blood-and-water/inks-page-24.jpg', alt: 'Blood & Water, inked page 24', w: 1200, h: 1600 },
+        { src: '/images/projects/blood-and-water/page-1.jpg', alt: 'Blood & Water, page 1', w: 1036, h: 1600, whole: true },
         { src: '/images/projects/blood-and-water/page.jpg', alt: 'Page from Blood & Water', w: 784, h: 1200, whole: true },
-        art('blood-and-water-page-1'),
+        { src: '/images/projects/blood-and-water/inks-page-24.jpg', alt: 'Blood & Water, inked page 24', w: 1200, h: 1600 },
       ],
       paras: [
         'In 2023 I was contacted by writer Matt Yocum about joining the project to create a graphic novel on the remarkable life of Shahbaz Bhatti, which was tragically cut short by assassination in 2011. The project was spearheaded by Knox Thames, who was a friend of Shahbaz and working with the Bhatti family to bring his inspiring story to life.',

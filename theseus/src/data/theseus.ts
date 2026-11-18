@@ -31,10 +31,10 @@ export const volumes = [
     extras: 'Volume 1 is a hardcover with a total of 148 pages. 129 full color comic pages, 4 pages of Letters from Readers (which aren’t real), a tutorial for drawing comic pages (which is thoroughly unhelpful) and behind the scenes and unpublished artwork from development (which is legitimate).',
   },
   {
-    title: 'Volume 2', pages: 172, cover: '/images/art-vol2.jpg', coverW: 1600, coverH: 1600,
+    title: 'Volume 2', pages: 168, cover: '/images/art-vol2.jpg', coverW: 1035, coverH: 1600,
     hook: 'Theseus: Volume 2 covers four of Theseus’ adventures from his storied tale.',
     text: 'The story immediately follows Volume 1 with Theseus accosting bandits, arriving in Athens, and dealing with a homecoming that much more complicated than he expected.',
-    extras: 'Theseus, Vol. 2 has 172 pages of full color comic goodness.',
+    extras: 'Theseus, Vol. 2 has 168 pages of full color comic goodness.',
   },
   {
     title: 'Volume 3', pages: 168, cover: '/images/cover-vol3.jpg', coverW: 1600, coverH: 1600,
@@ -57,7 +57,7 @@ export const samples = [
 // Pages read online. To add pages: put the scans in theseus/public/read/vol1/ named
 // 001.jpg, 002.jpg … and set EXT to 'jpg' and COUNT to the number of pages.
 const EXT = 'jpg';
-const COUNT = 10;
+const COUNT = 59;
 export const chapters = [
   { title: 'Chapter 1', volume: 'Volume 1', from: 1, to: COUNT },
 ];
