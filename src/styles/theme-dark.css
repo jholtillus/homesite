@@ -150,3 +150,4 @@ input, textarea, select { font-family: var(--text-serif); font-size: 18px; }
 .story .block:nth-child(4n+3) h2 { color: var(--teal); }
 .story .block:nth-child(4n+4) h2 { color: var(--terra); }
 .end h2 { color: var(--steel); }
+dl div, .facts dd { font-size: 16px !important; }
