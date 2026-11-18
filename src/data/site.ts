@@ -88,6 +88,9 @@ export type Block =
   | { kind: 'gallery'; images: Img[] }
   | { kind: 'list'; heading: string; items: string[] };
 
+// A book sold by its publisher: shown on the Projects page like the mini shop, linking out.
+export type External = { seller: string; url: string; title: string; price: string; format?: string; desc: string; image: Img };
+
 export type Project = {
   slug: string;
   title: string;
@@ -108,7 +111,7 @@ export type Project = {
   site?: { url: string; name: string };
   // Projects page case study. Paragraphs default to placeholders until written.
   // images pair with paras 1–4 (alternating sides); closing is the full-width final paragraph.
-  caseStudy?: { images?: Img[]; paras?: string[]; closing?: string; feature?: Img; featureCaption?: string; shop?: string }; // shop: Shopify handle shown as a mini shop in place of the feature image
+  caseStudy?: { images?: Img[]; paras?: string[]; closing?: string; feature?: Img; featureCaption?: string; shop?: string; external?: External }; // shop: Shopify handle shown as a mini shop in place of the feature image
 };
 
 export const THESEUS_URL = (import.meta.env.PUBLIC_THESEUS_URL || 'https://theseus.jordanholt.art').replace(/\/$/, '');
@@ -223,7 +226,15 @@ export const projects: Project[] = [
   },
   {
     slug: 'blood-and-water',
-    caseStudy: { feature: art('blood-and-water-page-2'), featureCaption: 'Page from Blood & Water.' },
+    caseStudy: {
+      feature: art('blood-and-water-page-2'), featureCaption: 'Page from Blood & Water.',
+      external: {
+        seller: 'Ignatius Press', url: 'https://ignatius.com/blood-and-water-6bwh/',
+        title: 'Blood and Water', price: '$17.99', format: 'Paperback',
+        desc: 'This graphic biography vividly chronicles Shahbaz Bhatti’s extraordinary life (1968–2011). His convictions were shaped by his Catholic faith and illuminated by courage, service, and sacrifice. Through powerful artwork woven with Gospel episodes that mirrored his mission, Blood and Water offers an unforgettable portrait of a servant-leader who refused to be silent in the face of injustice.',
+        image: { src: '/images/projects/external/blood-and-water.jpg', alt: 'Blood and Water cover', w: 842, h: 1280 },
+      },
+    },
     title: 'Blood & Water',
     kicker: 'YA graphic novel',
     partner: 'Ignatius Press',
@@ -241,7 +252,15 @@ export const projects: Project[] = [
   },
   {
     slug: 'in-desert-and-wilderness',
-    caseStudy: { feature: art('in-desert-wilderness-7'), featureCaption: 'In Desert & Wilderness #7.' },
+    caseStudy: {
+      feature: art('in-desert-wilderness-7'), featureCaption: 'In Desert & Wilderness #7.',
+      external: {
+        seller: 'Old Sovereign Publishing', url: 'https://oldsovereignpublishing.com/products/in-desert-and-wilderness',
+        title: 'In Desert And Wilderness', price: '£70.00',
+        desc: 'The adventure of a lifetime awaits. Follow Stas and Nel as they are taken on a journey from civilisation in Port Said down through the deserts of upper Egypt and the Sudan, to the wide open and undiscovered wildernesses of central and eastern Africa.',
+        image: { src: '/images/projects/external/in-desert-and-wilderness.jpg', alt: 'In Desert And Wilderness hardcover', w: 1050, h: 1400 },
+      },
+    },
     title: 'In Desert & Wilderness',
     kicker: 'Illustrated novel',
     partner: 'Old Sovereign Publishing',
