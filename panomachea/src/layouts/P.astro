@@ -9,7 +9,7 @@ const nav = [
   { label: 'The Game', href: '/#game' },
   { label: 'The Cards', href: '/#cards' },
   { label: 'The Art', href: '/#art' },
-  { label: 'How to Play', href: '/#play' },
+  { label: 'Try the game', href: '/#try' },
   { label: 'The Creator', href: '/#creator' },
 ];
 ---
@@ -81,6 +81,10 @@ const nav = [
     const set = (o: boolean) => { t.setAttribute('aria-expanded', String(o)); t.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); m.hidden = !o; document.body.style.overflow = o ? 'hidden' : ''; };
     t.addEventListener('click', () => set(t.getAttribute('aria-expanded') !== 'true'));
     m.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) set(false); });
+    // Discourage saving images: no right-click menu, dragging or long-press save on pictures.
+    const isImg = (e: Event) => (e.target as HTMLElement).closest?.('img, picture, .frame, figure');
+    document.addEventListener('contextmenu', (e) => { if (isImg(e)) e.preventDefault(); });
+    document.addEventListener('dragstart', (e) => { if (isImg(e)) e.preventDefault(); });
   </script>
 </body>
 </html>
@@ -102,7 +106,7 @@ const nav = [
   .burger span:first-child { top: 9px; } .burger span:last-child { top: 16px; }
   .burger[aria-expanded='true'] span:first-child { top: 12.5px; transform: rotate(45deg); }
   .burger[aria-expanded='true'] span:last-child { top: 12.5px; transform: rotate(-45deg); }
-  .mmenu { position: fixed; inset: calc(var(--header) + env(safe-area-inset-top, 0px)) 0 0 0; background: var(--night); overflow-y: auto; }
+  .mmenu { position: fixed; inset: var(--header) 0 auto 0; height: calc(100dvh - var(--header) - env(safe-area-inset-top, 0px)); background: var(--night); overflow-y: auto; }
   .mmenu nav { display: flex; flex-direction: column; padding-top: 16px; padding-bottom: 48px; }
   .mmenu a { font: 400 2rem/1.2 var(--serif); padding: 12px 0; border-bottom: 1px solid var(--line); }
   .mmenu a.home { font: 400 13px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--sky); border: 0; padding-top: 28px; }

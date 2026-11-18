@@ -21,9 +21,18 @@ export const site = {
   twitterHandle: import.meta.env.PUBLIC_TWITTER_HANDLE || 'jholtillus',
 };
 
-export const nav = [
+// Project sites (subdomains)
+export const THESEUS_URL = (import.meta.env.PUBLIC_THESEUS_URL || 'https://theseus.jordanholt.art').replace(/\/$/, '');
+export const PANOMACHEA_URL = (import.meta.env.PUBLIC_PANOMACHEA_URL || 'https://panomachea.jordanholt.art').replace(/\/$/, '');
+
+type NavItem = { label: string; href: string; children?: { label: string; href: string }[] };
+export const nav: NavItem[] = [
   { label: 'Work', href: '/work/' },
-  { label: 'Projects', href: '/projects/' },
+  { label: 'Projects', href: '/projects/', children: [
+    { label: 'Panomachea', href: PANOMACHEA_URL },
+    { label: 'Theseus', href: THESEUS_URL },
+    { label: 'Other Projects', href: '/projects/' },
+  ] },
   { label: 'Shop', href: '/shop/' },
   { label: 'News', href: '/news/' },
   { label: 'About', href: '/about/' },
@@ -114,8 +123,6 @@ export type Project = {
   caseStudy?: { images?: Img[]; paras?: string[]; closing?: string; feature?: Img; featureCaption?: string; shop?: string; external?: External }; // shop: Shopify handle shown as a mini shop in place of the feature image
 };
 
-export const THESEUS_URL = (import.meta.env.PUBLIC_THESEUS_URL || 'https://theseus.jordanholt.art').replace(/\/$/, '');
-export const PANOMACHEA_URL = (import.meta.env.PUBLIC_PANOMACHEA_URL || 'https://panomachea.jordanholt.art').replace(/\/$/, '');
 
 export const caseStudyPlaceholders = (title: string) => [
   `PLACEHOLDER — Origin. How ${title} began: the idea, the source material, and who it was made for.`,

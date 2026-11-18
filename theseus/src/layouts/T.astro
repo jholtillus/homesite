@@ -104,7 +104,7 @@ const nav = [
   .burger span:first-child { top: 9px; } .burger span:last-child { top: 16px; }
   .burger[aria-expanded='true'] span:first-child { top: 12.5px; transform: rotate(45deg); }
   .burger[aria-expanded='true'] span:last-child { top: 12.5px; transform: rotate(-45deg); }
-  .mmenu { position: fixed; inset: calc(var(--header) + env(safe-area-inset-top, 0px)) 0 0 0; background: var(--night); overflow-y: auto; }
+  .mmenu { position: fixed; inset: var(--header) 0 auto 0; height: calc(100dvh - var(--header) - env(safe-area-inset-top, 0px)); background: var(--night); overflow-y: auto; }
   .mmenu nav { display: flex; flex-direction: column; padding-top: 16px; padding-bottom: 48px; }
   .mmenu a { font: 400 2rem/1.2 var(--serif); padding: 12px 0; border-bottom: 1px solid var(--line); }
   .mmenu a.home { font: 400 13px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--sky); border: 0; padding-top: 28px; }
