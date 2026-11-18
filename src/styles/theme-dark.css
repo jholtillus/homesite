@@ -1,3 +1,7 @@
+@import '@fontsource/eb-garamond/400.css';
+@import '@fontsource/eb-garamond/400-italic.css';
+@import '@fontsource/eb-garamond/500.css';
+
 /* Dark theme test: TerraRossa's dark mode (src/dark.css on the terrarossa repo's
    claude/changelog-implementation-plan-geBka branch): near-black, muted ochre, sienna and cream,
    mapped onto the site's existing variables. Loaded after global.css; remove the import in
@@ -79,7 +83,6 @@ main > section:nth-of-type(4n+1) h2 { color: var(--ochre); }
 main > section:nth-of-type(4n+2) h2 { color: var(--terra); }
 main > section:nth-of-type(4n+3) h2 { color: var(--sage); }
 main > section:nth-of-type(4n+4) h2 { color: var(--teal); }
-.page h1 { color: var(--cream); }
 .page h1 + .lede, .page .lede { color: var(--steel); }
 h3 { color: var(--cream); }
 
@@ -130,3 +133,20 @@ a.u:hover { color: var(--terra); }
 .ftr div:nth-child(3) > .eyebrow { color: var(--terra); }
 .ftr div:nth-child(4) > .eyebrow { color: var(--teal); }
 .ftr a:hover { color: var(--teal); }
+
+/* Body text in a serif (EB Garamond, a book face that pairs with the Cormorant headings).
+   Small interface text (labels, buttons, menus, prices) stays in Inter. */
+:root { --text-serif: 'EB Garamond', Georgia, 'Times New Roman', serif; }
+body { font: 400 18px/1.62 var(--text-serif); letter-spacing: 0; }
+p, li, dd, figcaption, blockquote { font-family: var(--text-serif); }
+input, textarea, select { font-family: var(--text-serif); font-size: 18px; }
+.eyebrow, .btn, label, .desk a, .cart-btn, .link, .link-arrow, .act, .count, .tabs button, .filter button, .opt span, .pill span, dt, .crumbs, .legal, .m-social a { font-family: var(--sans); }
+.txt p, .closing, .lede, .sub { font-family: var(--serif); }
+
+/* About page headings */
+.page h1 { color: var(--terra); }
+.story .block:nth-child(4n+1) h2 { color: var(--ochre); }
+.story .block:nth-child(4n+2) h2 { color: var(--sage); }
+.story .block:nth-child(4n+3) h2 { color: var(--teal); }
+.story .block:nth-child(4n+4) h2 { color: var(--terra); }
+.end h2 { color: var(--steel); }
