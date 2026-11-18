@@ -136,6 +136,8 @@ export const caseStudyClosing = (title: string) =>
 const P = '/images/projects/panomachea/';
 const prod = (f: string, alt: string) => img(`/images/products/${f}.jpg`, alt);
 const art = (s: string) => artwork.find((x) => x.slug === s)!;
+const IDW = '/images/projects/in-desert-and-wilderness/';
+
 
 export const projects: Project[] = [
   {
@@ -261,6 +263,19 @@ export const projects: Project[] = [
   {
     slug: 'in-desert-and-wilderness',
     caseStudy: {
+      images: [
+        { src: IDW + 'book-open.jpg', alt: 'In Desert & Wilderness, open to an illustration', w: 1500, h: 1500 },
+        { src: IDW + 'lion-watercolor.jpg', alt: 'Lion illustration in progress, watercolor and ink', w: 1202, h: 1600 },
+        { src: IDW + 'elephant-inks.jpg', alt: 'Elephant illustration, inks in progress', w: 1202, h: 1600 },
+        art('in-desert-wilderness-7'),
+      ],
+      paras: [
+        '<i>In Desert & Wilderness</i> is a classic Polish novel written in 1911 by Henryk Sienkiewicz. Although still broadly read in Poland, its English translation has never gotten the same traction in the Anglosphere, and <a href="https://oldsovereignpublishing.com" target="_blank" rel="noopener">Old Sovereign Publishing</a> in the UK was determined to change that.',
+        'I was contracted to complete 12 illustrations for the book, and in late 2024 I began the work with watercolor and ink. George (the publisher) and I agreed on a style that merged my own tendencies with Art Nouveau, and particularly the work of Alphonse Mucha.',
+        'The story is set in Egypt and Sudan, and the tale of wilderness survival, the clash of culture and religion, and the fictional characters grounded in a setting of true history makes it memorable and challenging for young readers. Exactly the sort of thing that much contemporary literature for children seems to have lost.',
+        'The artwork was all created with A. Gallo watercolors and Kuretake ink, fitting to the quality of the final printed book.',
+      ],
+      closing: 'I had a great experience working with Old Sovereign, and you can look forward to our next collaborations.',
       feature: art('in-desert-wilderness-7'), featureCaption: 'In Desert & Wilderness #7.',
       external: {
         seller: 'Old Sovereign Publishing', url: 'https://oldsovereignpublishing.com/products/in-desert-and-wilderness',
@@ -273,15 +288,28 @@ export const projects: Project[] = [
     kicker: 'Illustrated novel',
     partner: 'Old Sovereign Publishing',
     status: 'Published',
-    summary: 'Illustrations for In Desert & Wilderness, published with Old Sovereign Publishing.',
+    summary: 'In Desert & Wilderness is a classic Polish novel written in 1911 by Henryk Sienkiewicz.',
     cover: art('in-desert-wilderness-1'),
     hero: art('in-desert-wilderness-5'),
-    facts: [{ label: 'Publisher', value: 'Old Sovereign Publishing' }],
+    facts: [{ label: 'Author', value: 'Henryk Sienkiewicz' }, { label: 'Publisher', value: 'Old Sovereign Publishing' }, { label: 'Illustrations', value: '12' }, { label: 'Medium', value: 'Watercolor and ink' }],
     links: [{ label: 'Old Sovereign Publishing', href: 'https://oldsovereignpublishing.com/products/in-desert-and-wilderness' }],
     productTags: [],
     blocks: [
-      { kind: 'text', paras: ['Illustrations for In Desert & Wilderness, published by Old Sovereign Publishing.'] },
+      { kind: 'text', paras: [
+        '<i>In Desert & Wilderness</i> is a classic Polish novel written in 1911 by Henryk Sienkiewicz. Although still broadly read in Poland, its English translation has never gotten the same traction in the Anglosphere, and <a href="https://oldsovereignpublishing.com" target="_blank" rel="noopener">Old Sovereign Publishing</a> in the UK was determined to change that.',
+        'I was contracted to complete 12 illustrations for the book, and in late 2024 I began the work with watercolor and ink. George (the publisher) and I agreed on a style that merged my own tendencies with Art Nouveau, and particularly the work of Alphonse Mucha.',
+      ] },
       { kind: 'gallery', images: [art('in-desert-wilderness-1'), art('in-desert-wilderness-2'), art('in-desert-wilderness-5'), art('in-desert-wilderness-7')] },
+      { kind: 'text', paras: [
+        'The story is set in Egypt and Sudan, and the tale of wilderness survival, the clash of culture and religion, and the fictional characters grounded in a setting of true history makes it memorable and challenging for young readers. Exactly the sort of thing that much contemporary literature for children seems to have lost.',
+        'The artwork was all created with A. Gallo watercolors and Kuretake ink, fitting to the quality of the final printed book.',
+      ] },
+      { kind: 'gallery', images: [
+        { src: IDW + 'book-open.jpg', alt: 'In Desert & Wilderness, open to an illustration', w: 1500, h: 1500 },
+        { src: IDW + 'lion-watercolor.jpg', alt: 'Lion illustration in progress, watercolor and ink', w: 1202, h: 1600 },
+        { src: IDW + 'elephant-inks.jpg', alt: 'Elephant illustration, inks in progress', w: 1202, h: 1600 },
+      ] },
+      { kind: 'text', paras: ['I had a great experience working with Old Sovereign, and you can look forward to our next collaborations.'] },
     ],
   },
   {
