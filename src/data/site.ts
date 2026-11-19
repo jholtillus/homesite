@@ -14,7 +14,7 @@ export const site = {
   tagline: 'Art professor & Illustrator of books, games, comics & graphic novels.',
   intro: 'Also known by the monicker J. Holt the Illustrator. I draw primarily historical, mythological, religious, and literary works. I publish my own works and work with other publishers.',
   email: '', // Optional public address shown on the contact page. The form works without it.
-  shopDomain: import.meta.env.PUBLIC_SHOPIFY_DOMAIN || 'carthageworkshop.com',
+  shopDomain: (import.meta.env.PUBLIC_SHOPIFY_DOMAIN || 'carthageworkshop.com').replace(/^https?:\/\//i, '').replace(/\/+$/, ''), // with or without https://
   apiUrl: import.meta.env.PUBLIC_API_URL || '',
   youtubeHandle: 'jholtillus',
   youtubeChannelId: import.meta.env.PUBLIC_YOUTUBE_CHANNEL_ID || '',

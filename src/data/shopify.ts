@@ -6,7 +6,7 @@ import { fallbackProducts as placeholderProducts, type Product } from './site';
 const pulled = Object.values(import.meta.glob<{ default: Product[] }>('./products.json', { eager: true }))[0]?.default;
 const fallbackProducts: Product[] = pulled?.length ? pulled : placeholderProducts;
 
-const domain = import.meta.env.PUBLIC_SHOPIFY_DOMAIN;
+const domain = (import.meta.env.PUBLIC_SHOPIFY_DOMAIN || '').replace(/^https?:\/\//i, '').replace(/\/+$/, '');
 const token = import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_TOKEN;
 const API_VERSION = '2025-01';
 
