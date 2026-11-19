@@ -6,7 +6,8 @@
 export type Line = { variantId: string; qty: number; title: string; variantTitle: string; price: string; currency: string; image: string; handle: string };
 
 const KEY = 'jh-cart-v1';
-const domain = import.meta.env.PUBLIC_SHOPIFY_DOMAIN || 'carthageworkshop.com';
+// Accepts the domain with or without https:// and a trailing slash.
+const domain = (import.meta.env.PUBLIC_SHOPIFY_DOMAIN || 'carthageworkshop.com').replace(/^https?:\/\//i, '').replace(/\/+$/, '');
 const token = import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_TOKEN;
 
 function read(): Line[] {
