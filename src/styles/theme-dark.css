@@ -2,7 +2,7 @@
 @import '@fontsource/eb-garamond/400-italic.css';
 @import '@fontsource/eb-garamond/500.css';
 
-/* Dark theme test: TerraRossa's dark mode (src/dark.css on the terrarossa repo's
+/* Site theme (dark): TerraRossa's dark mode (src/dark.css on the terrarossa repo's
    claude/changelog-implementation-plan-geBka branch): near-black, muted ochre, sienna and cream,
    mapped onto the site's existing variables. Loaded after global.css; remove the import in
    src/layouts/Base.astro to return to the light theme. */
