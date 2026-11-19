@@ -425,7 +425,7 @@ export const heroSlides: HeroSlide[] = [
   {
     label: 'Commissions',
     image: img('/images/art/all-hallows.jpg', 'All Hallows’, watercolor'),
-    eyebrow: 'Commissions open',
+    eyebrow: 'The artwork of Jordan Holt',
     text: 'Illustration for books, games, comics and graphic novels — historical, mythological, religious and literary work.',
     caption: 'All Hallows’',
     primary: { label: 'Commission', href: '/contact/' },
