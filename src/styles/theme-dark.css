@@ -66,9 +66,8 @@ a.act:hover { background: var(--ochre) !important; color: var(--slate-darker) !i
   --rainbow: linear-gradient(90deg, var(--ochre), var(--terra) 30%, var(--sage) 62%, var(--teal));
 }
 
-/* Header: a thin four-colour rule under the bar, coloured nav hovers */
+/* Header: no rule under the bar (as on the light version); coloured nav hovers */
 .hdr { border-bottom: 0 !important; }
-.hdr::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--rainbow); opacity: .85; }
 .desk a:nth-child(6n+1):hover, .desk a.on:nth-child(6n+1) { color: var(--ochre); }
 .desk > :nth-child(6n+2) > a:hover, .desk > :nth-child(6n+2) > a.on { color: var(--terra); }
 .desk a:nth-child(6n+3):hover, .desk a.on:nth-child(6n+3) { color: var(--sage); }
