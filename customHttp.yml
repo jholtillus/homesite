@@ -14,3 +14,12 @@ customHeaders:
         value: 'application/octet-stream'
       - key: 'Cache-Control'
         value: 'public, max-age=86400'
+  # Old theseuscomic.com reader addresses on the Theseus site: small pages that forward to /read/.
+  - pattern: '/comic.php'
+    headers:
+      - key: 'Content-Type'
+        value: 'text/html; charset=utf-8'
+  - pattern: '/index.php'
+    headers:
+      - key: 'Content-Type'
+        value: 'text/html; charset=utf-8'
