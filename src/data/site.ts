@@ -24,6 +24,7 @@ export const site = {
 // Project sites (subdomains)
 export const THESEUS_URL = (import.meta.env.PUBLIC_THESEUS_URL || 'https://theseus.jordanholt.art').replace(/\/$/, '');
 export const PANOMACHEA_URL = (import.meta.env.PUBLIC_PANOMACHEA_URL || 'https://panomachea.jordanholt.art').replace(/\/$/, '');
+export const PETRACOR_URL = 'https://petracor.studio';
 
 type NavItem = { label: string; href: string; children?: { label: string; href: string }[] };
 export const nav: NavItem[] = [
@@ -31,6 +32,7 @@ export const nav: NavItem[] = [
   { label: 'Projects', href: '/projects/', children: [
     { label: 'Panomachea', href: PANOMACHEA_URL },
     { label: 'Theseus', href: THESEUS_URL },
+    { label: 'PetraCor', href: PETRACOR_URL },
     { label: 'Other Projects', href: '/projects/' },
   ] },
   { label: 'Shop', href: '/shop/' },
@@ -397,7 +399,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'petracor',
-    site: { url: 'https://petracor.studio', name: 'PetraCor' },
+    site: { url: PETRACOR_URL, name: 'PetraCor' },
     // Text and images from the About pages of petracor.studio.
     caseStudy: {
       images: [
