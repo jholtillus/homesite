@@ -397,16 +397,37 @@ export const projects: Project[] = [
   },
   {
     slug: 'petracor',
-    site: { url: '', name: 'PetraCor' },
-    caseStudy: { feature: art('petracor-page-section'), featureCaption: 'PetraCor page section.' },
+    site: { url: 'https://petracor.studio', name: 'PetraCor' },
+    // Text and images from the About pages of petracor.studio.
+    caseStudy: {
+      images: [
+        { src: '/images/projects/petracor/793ad.jpg', alt: 'PetraCor: fiery lights over Northumbria, 793 AD', w: 1260, h: 1600 },
+        { src: '/images/projects/petracor/thunor.jpg', alt: 'Thunor, the last iteration before page art began', w: 1259, h: 1600 },
+        { src: '/images/projects/petracor/thunor-and-giro.jpg', alt: 'Early concept art of Thunor and Giro', w: 1177, h: 1600 },
+        { src: '/images/projects/petracor/forest-page.jpg', alt: 'PetraCor page art', w: 1262, h: 1600 },
+      ],
+      paras: [
+        '793AD, when our story is set, is the tail end of the pagan and druid era of England. At this point, the old and the new religions coexist. The old and new cultures coexist, but do so within a heavy tension. A land of layers.',
+        'Thunor: the Thegn. A warrior who has come to doubt his own bloodlust. And a curiosity that sends him searching for meaning, and the resolution to his own saga, even if it means venturing into the spiritual world new to the island his people inhabits, and foreign to his family and ancestry.',
+        'Girolamo: the Lombard. His family fled to France, but circumstances pushed Giro further from home, and alone. Eventually landing in Wintanceastre, a city on the southern coast of England, the two meet by chance. Youthful, impulsive, passionate and jaded, Giro is as lost as Thunor, though perhaps less convinced there’s purpose to be found.',
+        'The title draws from the passage in Ezekiel which states “I will give you a new heart and put a new spirit in you; I will remove from you your heart of stone and give you a heart of flesh.” The human heart, as it softens becomes receptive to beauty.',
+      ],
+      closing: 'PetraCor is planned as a 9-12 issue graphic novel. All 9-12 issues will be crowdfunded and released as standalone books. These books will run 50-60 pages each.',
+      feature: { src: '/images/projects/petracor/thunor-giro-panel.jpg', alt: 'Thunor and Giro', w: 1160, h: 657 }, featureCaption: 'Thunor and Giro.',
+    },
     title: 'PetraCor',
     kicker: 'Anglo-Saxon graphic novel',
     status: 'Upcoming',
-    summary: 'An upcoming graphic novel set in Anglo-Saxon England. The protagonist wanders through the forests and fens of Mercia.',
+    summary: 'An Anglo-Saxon fable. In 793AD, England was a land of many layers.',
     cover: art('petracor-concept-1'),
     hero: art('petracor-opening-page'),
     heroDark: true,
-    facts: [{ label: 'Status', value: 'In development' }],
+    facts: [
+      { label: 'Setting', value: 'England, 793AD' },
+      { label: 'Format', value: '9–12 issue graphic novel' },
+      { label: 'Issues', value: '50–60 pages each' },
+      { label: 'Issue #1', value: 'Crowdfunding planned for Q1 2027' },
+    ],
     links: [],
     productTags: ['petracor'],
     blocks: [
